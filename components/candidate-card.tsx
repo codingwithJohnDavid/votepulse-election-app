@@ -34,7 +34,7 @@ export default function CandidateCard({
         }
       }}
       className={cn(
-        'relative bg-card rounded-3xl overflow-hidden cursor-pointer transition-all duration-250 focus-visible:outline-none',
+        'relative bg-card rounded-3xl overflow-hidden cursor-pointer transition-all duration-200 focus-visible:outline-none',
         selected ? 'shadow-lg scale-[1.015]' : 'shadow-sm hover:shadow-md',
         disabled && 'opacity-50 cursor-not-allowed',
       )}
@@ -44,80 +44,68 @@ export default function CandidateCard({
           : { boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }
       }
     >
-      {/* ── Banner zone: contains both the colored banner AND the avatar overlap ── */}
-      {/* The banner is tall enough so the avatar sits fully within it */}
-      <div className="relative w-full" style={{ paddingBottom: '28px' }}>
-        {/* Colored banner background */}
+      {/* ── Header row: avatar + name + party badge ── */}
+      <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+        {/* Avatar */}
         <div
-          className="w-full"
-          style={{ height: '80px', backgroundColor: bg }}
-          aria-hidden="true"
-        >
-          {/* Party stripe */}
-          <div
-            className="absolute inset-x-0"
-            style={{ top: '77px', height: '3px', backgroundColor: ring, opacity: 0.7 }}
-          />
-
-          {/* Incumbent badge */}
-          {candidate.incumbent && (
-            <span className="absolute top-3 left-3 flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/80 backdrop-blur-sm text-gray-700 shadow-sm z-10">
-              <Award size={10} aria-hidden="true" />
-              Incumbent
-            </span>
-          )}
-
-          {/* Selected check */}
-          {selected && (
-            <span
-              className="absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center shadow-md z-10"
-              style={{ backgroundColor: ring }}
-              aria-hidden="true"
-            >
-              <Check size={13} className="text-white" strokeWidth={3} />
-            </span>
-          )}
-        </div>
-
-        {/* Avatar — absolutely positioned to straddle the banner bottom edge */}
-        <div
-          className="absolute left-4 bottom-0 w-[56px] h-[56px] rounded-2xl border-[3px] border-card overflow-hidden bg-muted z-20"
-          style={{ boxShadow: `0 0 0 2px ${ring}55` }}
+          className="w-[52px] h-[52px] rounded-2xl overflow-hidden shrink-0 bg-muted"
+          style={{ boxShadow: `0 0 0 2.5px ${ring}` }}
         >
           <Image
             src={candidate.imageUrl}
             alt={`Photo of ${candidate.name}`}
-            width={56}
-            height={56}
+            width={52}
+            height={52}
             className="w-full h-full object-cover"
             unoptimized
           />
         </div>
 
-        {/* Name + party badge — sits next to the avatar, in the banner-overlap zone */}
-        <div className="absolute right-4 bottom-0 left-[80px] flex items-center justify-between gap-2 pb-0.5">
-          <div className="min-w-0">
-            <h3 className="font-black text-[15px] text-foreground leading-tight truncate">
+        {/* Name + office */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-black text-[15px] text-foreground leading-tight">
               {candidate.name}
             </h3>
-            <p className="text-[11px] text-muted-foreground font-medium truncate">
-              {candidate.office}
-              {candidate.district ? ` · ${candidate.district}` : ''}
-            </p>
-          </div>
-          <span
-            className={cn(
-              'shrink-0 text-[10px] font-black px-2 py-0.5 rounded-full whitespace-nowrap tracking-wide',
-              badge,
+            {/* Selected check */}
+            {selected && (
+              <span
+                className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5"
+                style={{ backgroundColor: ring }}
+                aria-hidden="true"
+              >
+                <Check size={11} className="text-white" strokeWidth={3} />
+              </span>
             )}
-          >
-            {candidate.party.slice(0, 3).toUpperCase()}
-          </span>
+          </div>
+          <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+            <span
+              className={cn(
+                'text-[10px] font-black px-2 py-0.5 rounded-full whitespace-nowrap tracking-wide',
+                badge,
+              )}
+            >
+              {candidate.party.slice(0, 3).toUpperCase()}
+            </span>
+            {candidate.incumbent && (
+              <span className="flex items-center gap-0.5 text-[10px] font-semibold text-muted-foreground">
+                <Award size={9} aria-hidden="true" />
+                Incumbent
+              </span>
+            )}
+          </div>
+          <p className="text-[11px] text-muted-foreground font-medium mt-0.5 truncate">
+            {candidate.office}
+            {candidate.district ? ` · ${candidate.district}` : ''}
+          </p>
         </div>
       </div>
 
+      {/* ── Thin party accent line ── */}
+      <div className="mx-4 h-[2px] rounded-full mb-3" style={{ backgroundColor: `${ring}30` }} />
+
       {/* ── Body ── */}
-      <div className="px-4 pb-4 pt-2">
+      <div className="px-4 pb-4">
         {/* Bio */}
         <p className="text-[12px] text-muted-foreground leading-relaxed mb-3 line-clamp-2">
           {candidate.bio}
