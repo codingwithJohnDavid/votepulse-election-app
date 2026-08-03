@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { CheckCircle2, Award, ExternalLink } from 'lucide-react'
+import { Check, Award, ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type Candidate, partyColor } from '@/lib/mock-data'
 
@@ -34,92 +34,92 @@ export default function CandidateCard({
         }
       }}
       className={cn(
-        'relative bg-card rounded-3xl overflow-hidden cursor-pointer transition-all duration-300',
-        'shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-        selected && 'ring-2 shadow-lg scale-[1.01]',
+        'relative bg-card rounded-3xl overflow-hidden cursor-pointer transition-all duration-250 focus-visible:outline-none',
+        selected
+          ? 'shadow-lg scale-[1.015]'
+          : 'shadow-sm hover:shadow-md',
         disabled && 'opacity-50 cursor-not-allowed',
       )}
-      style={selected ? { outline: `2px solid ${ring}`, outlineOffset: '2px' } : undefined}
+      style={
+        selected
+          ? { boxShadow: `0 0 0 2.5px ${ring}, 0 8px 24px ${ring}22` }
+          : { boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }
+      }
     >
       {/* ── Banner ── */}
-      <div
-        className="h-20 w-full relative"
-        style={{ backgroundColor: bg }}
-        aria-hidden="true"
-      >
-        {/* Party accent stripe */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-1 opacity-60"
-          style={{ backgroundColor: ring }}
-        />
+      <div className="h-[72px] w-full relative" style={{ backgroundColor: bg }} aria-hidden="true">
+        {/* Party bottom stripe */}
+        <div className="absolute inset-x-0 bottom-0 h-[3px]" style={{ backgroundColor: ring, opacity: 0.7 }} />
+
         {/* Incumbent badge */}
         {candidate.incumbent && (
-          <span className="absolute top-2.5 left-3 flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/80 text-gray-700">
+          <span className="absolute top-2.5 left-3 flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/80 backdrop-blur-sm text-gray-700 shadow-sm">
             <Award size={10} aria-hidden="true" />
             Incumbent
           </span>
         )}
+
         {/* Selected check */}
         {selected && (
           <span
-            className="absolute top-2.5 right-3 rounded-full bg-white/90 p-0.5"
+            className="absolute top-2.5 right-3 w-6 h-6 rounded-full flex items-center justify-center shadow-md"
+            style={{ backgroundColor: ring }}
             aria-hidden="true"
           >
-            <CheckCircle2 size={18} style={{ color: ring }} />
+            <Check size={13} className="text-white" strokeWidth={3} />
           </span>
         )}
       </div>
 
-      {/* ── Avatar ring ── */}
+      {/* ── Body ── */}
       <div className="px-4 pb-4">
-        <div className="relative -mt-9 mb-3 w-16 h-16">
+        {/* Avatar + name row */}
+        <div className="flex items-end gap-3 -mt-7 mb-3">
           <div
-            className="w-16 h-16 rounded-full border-4 border-card overflow-hidden bg-muted"
-            style={{ boxShadow: `0 0 0 3px ${ring}40` }}
+            className="w-14 h-14 rounded-2xl border-[3px] border-card overflow-hidden shrink-0 bg-muted"
+            style={{ boxShadow: `0 0 0 2.5px ${ring}45` }}
           >
             <Image
               src={candidate.imageUrl}
               alt={`Photo of ${candidate.name}`}
-              width={64}
-              height={64}
+              width={56}
+              height={56}
               className="w-full h-full object-cover"
               unoptimized
             />
           </div>
+          <div className="flex-1 min-w-0 pb-0.5">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-black text-[15px] text-foreground leading-tight text-balance">
+                {candidate.name}
+              </h3>
+              <span
+                className={cn(
+                  'shrink-0 text-[10px] font-black px-2 py-0.5 rounded-full whitespace-nowrap tracking-wide',
+                  badge,
+                )}
+              >
+                {candidate.party.slice(0, 3).toUpperCase()}
+              </span>
+            </div>
+            <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">
+              {candidate.office}
+              {candidate.district ? ` · ${candidate.district}` : ''}
+            </p>
+          </div>
         </div>
 
-        {/* ── Name + party ── */}
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h3 className="font-bold text-base text-foreground leading-tight text-balance">
-            {candidate.name}
-          </h3>
-          <span
-            className={cn(
-              'shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap',
-              badge,
-            )}
-          >
-            {candidate.party.slice(0, 3).toUpperCase()}
-          </span>
-        </div>
-
-        {/* ── Office ── */}
-        <p className="text-xs text-muted-foreground mb-2 font-medium">
-          {candidate.office}
-          {candidate.district ? ` · ${candidate.district}` : ''}
-        </p>
-
-        {/* ── Bio ── */}
-        <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-3">
+        {/* Bio */}
+        <p className="text-[12px] text-muted-foreground leading-relaxed mb-3 line-clamp-2">
           {candidate.bio}
         </p>
 
-        {/* ── Key issues ── */}
+        {/* Key issues */}
         <div className="flex flex-wrap gap-1.5 mb-3">
           {candidate.keyIssues.slice(0, 3).map((issue) => (
             <span
               key={issue}
-              className="text-[10px] font-medium px-2 py-0.5 rounded-full"
+              className="text-[10px] font-semibold px-2.5 py-1 rounded-full"
               style={{ backgroundColor: `${ring}18`, color: text }}
             >
               {issue}
@@ -127,23 +127,18 @@ export default function CandidateCard({
           ))}
         </div>
 
-        {/* ── Stats row ── */}
-        <div className="flex items-center justify-between pt-3 border-t border-border">
-          <div className="text-center">
-            <p className="text-sm font-bold text-foreground">{candidate.yearsExperience}+</p>
+        {/* Stats row */}
+        <div className="flex items-center justify-between pt-3 border-t border-border mb-3">
+          <div>
+            <p className="text-sm font-black text-foreground">{candidate.yearsExperience}+</p>
             <p className="text-[10px] text-muted-foreground">Years Exp.</p>
           </div>
-          <div
-            className="flex-1 mx-4 h-px"
-            style={{ backgroundColor: `${ring}30` }}
-            aria-hidden="true"
-          />
           <a
             href={candidate.website}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-1 text-xs font-medium hover:underline"
+            className="flex items-center gap-1 text-xs font-semibold hover:underline"
             style={{ color: text }}
             aria-label={`Visit ${candidate.name}'s website`}
           >
@@ -152,7 +147,7 @@ export default function CandidateCard({
           </a>
         </div>
 
-        {/* ── Select button ── */}
+        {/* Select button */}
         <button
           type="button"
           onClick={(e) => {
@@ -161,19 +156,23 @@ export default function CandidateCard({
           }}
           disabled={disabled}
           className={cn(
-            'mt-3 w-full py-2.5 rounded-2xl text-sm font-semibold transition-all duration-200',
-            selected
-              ? 'text-white'
-              : 'bg-brand-subtle text-primary hover:opacity-90',
+            'w-full py-3 rounded-2xl text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
           )}
           style={
             selected
-              ? { backgroundColor: ring }
-              : undefined
+              ? { backgroundColor: ring, color: '#fff' }
+              : { backgroundColor: `${ring}15`, color: ring }
           }
           aria-pressed={selected}
         >
-          {selected ? 'Selected' : 'Select Candidate'}
+          {selected ? (
+            <span className="flex items-center justify-center gap-2">
+              <Check size={14} strokeWidth={3} aria-hidden="true" />
+              Selected
+            </span>
+          ) : (
+            'Select Candidate'
+          )}
         </button>
       </div>
     </article>
