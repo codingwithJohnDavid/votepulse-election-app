@@ -29,13 +29,36 @@ export interface Race {
   label: string           // short display label e.g. "Senate" or "House-7"
 }
 
-export interface DemographicBreakdown {
-  label: string
-  yesPercent: number
-  noPercent: number
+export interface CandidateResult {
+  candidateId: string
+  name: string
+  lastName: string
+  party: Party
   count: number
+  percent: number
 }
 
+export interface DemographicBreakdown {
+  label: string
+  count: number
+  candidates: { name: string; lastName: string; party: Party; percent: number }[]
+}
+
+export interface RaceResult {
+  raceId: string
+  raceLabel: string      // "Senate" or "House – District 7"
+  office: 'Senate' | 'House'
+  totalResponses: number
+  candidates: CandidateResult[]
+  byAge: DemographicBreakdown[]
+  byRace: DemographicBreakdown[]
+  byReligion: DemographicBreakdown[]
+  byGender: DemographicBreakdown[]
+  byIncome: DemographicBreakdown[]
+  byEducation: DemographicBreakdown[]
+}
+
+/** @deprecated use RACE_RESULTS instead */
 export interface ResultsData {
   questionId: string
   question: string
@@ -426,6 +449,114 @@ export const EDUCATION_OPTIONS = [
   "Master's Degree",
   'Doctoral / Professional Degree',
   'Prefer not to say',
+]
+
+// ─── Race results mock data ───────────────────────────────────────────────────
+
+export const RACE_RESULTS: RaceResult[] = [
+  // ── FL Senate ──
+  {
+    raceId: 'fl-sen',
+    raceLabel: 'Senate',
+    office: 'Senate',
+    totalResponses: 4620,
+    candidates: [
+      { candidateId: 'fl-sen-1', name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat',     count: 1983, percent: 43 },
+      { candidateId: 'fl-sen-2', name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', count: 2637, percent: 57 },
+    ],
+    byAge: [
+      { label: '18–24', count: 870,  candidates: [{ name: 'Maria E. Reyes',     lastName: 'Reyes',    party: 'Democrat',    percent: 59 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 41 }] },
+      { label: '25–34', count: 940,  candidates: [{ name: 'Maria E. Reyes',     lastName: 'Reyes',    party: 'Democrat',    percent: 54 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 46 }] },
+      { label: '35–44', count: 810,  candidates: [{ name: 'Maria E. Reyes',     lastName: 'Reyes',    party: 'Democrat',    percent: 48 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 52 }] },
+      { label: '45–54', count: 750,  candidates: [{ name: 'Maria E. Reyes',     lastName: 'Reyes',    party: 'Democrat',    percent: 41 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 59 }] },
+      { label: '55–64', count: 620,  candidates: [{ name: 'Maria E. Reyes',     lastName: 'Reyes',    party: 'Democrat',    percent: 35 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 65 }] },
+      { label: '65+',   count: 630,  candidates: [{ name: 'Maria E. Reyes',     lastName: 'Reyes',    party: 'Democrat',    percent: 31 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 69 }] },
+    ],
+    byRace: [
+      { label: 'White',               count: 1820, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 37 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 63 }] },
+      { label: 'Black / African Am.', count: 980,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 74 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 26 }] },
+      { label: 'Hispanic / Latino',   count: 1100, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 52 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 48 }] },
+      { label: 'Asian / Pacific Is.', count: 420,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 61 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 39 }] },
+      { label: 'Multiracial',         count: 300,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 55 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 45 }] },
+    ],
+    byReligion: [
+      { label: 'Christian',     count: 1680, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 34 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 66 }] },
+      { label: 'Catholic',      count: 880,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 46 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 54 }] },
+      { label: 'Jewish',        count: 310,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 62 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 38 }] },
+      { label: 'Muslim',        count: 250,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 68 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 32 }] },
+      { label: 'Non-religious', count: 1500, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 58 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 42 }] },
+    ],
+    byGender: [
+      { label: 'Female',             count: 2300, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 52 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 48 }] },
+      { label: 'Male',               count: 2100, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 34 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 66 }] },
+      { label: 'Non-binary / Other', count: 220,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 71 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 29 }] },
+    ],
+    byIncome: [
+      { label: 'Under $30K',   count: 780,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 58 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 42 }] },
+      { label: '$30K–$60K',    count: 1100, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 49 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 51 }] },
+      { label: '$60K–$100K',   count: 1300, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 44 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 56 }] },
+      { label: '$100K–$150K',  count: 880,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 38 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 62 }] },
+      { label: '$150K+',       count: 560,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 35 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 65 }] },
+    ],
+    byEducation: [
+      { label: 'High School',   count: 880,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 38 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 62 }] },
+      { label: 'Some College',  count: 1200, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 43 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 57 }] },
+      { label: "Bachelor's",    count: 1560, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 50 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 50 }] },
+      { label: "Master's+",     count: 980,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 57 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 43 }] },
+    ],
+  },
+
+  // ── FL House District 7 ──
+  {
+    raceId: 'fl-house-7',
+    raceLabel: 'House – District 7',
+    office: 'House',
+    totalResponses: 2140,
+    candidates: [
+      { candidateId: 'fl-house-7-1', name: 'Sandra Wiley',  lastName: 'Wiley',  party: 'Democrat',    count: 1113, percent: 52 },
+      { candidateId: 'fl-house-7-2', name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican',  count: 1027, percent: 48 },
+    ],
+    byAge: [
+      { label: '18–24', count: 410, candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 61 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 39 }] },
+      { label: '25–34', count: 480, candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 57 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 43 }] },
+      { label: '35–44', count: 390, candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 52 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 48 }] },
+      { label: '45–54', count: 340, candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 46 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 54 }] },
+      { label: '55–64', count: 290, candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 42 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 58 }] },
+      { label: '65+',   count: 230, candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 38 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 62 }] },
+    ],
+    byRace: [
+      { label: 'White',               count: 890,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 44 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 56 }] },
+      { label: 'Black / African Am.', count: 510,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 72 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 28 }] },
+      { label: 'Hispanic / Latino',   count: 490,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 55 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 45 }] },
+      { label: 'Asian / Pacific Is.', count: 180,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 59 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 41 }] },
+      { label: 'Multiracial',         count: 70,   candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 53 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 47 }] },
+    ],
+    byReligion: [
+      { label: 'Christian',     count: 780,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 41 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 59 }] },
+      { label: 'Catholic',      count: 390,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 49 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 51 }] },
+      { label: 'Non-religious', count: 640,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 65 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 35 }] },
+      { label: 'Jewish',        count: 180,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 60 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 40 }] },
+      { label: 'Muslim',        count: 150,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 67 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 33 }] },
+    ],
+    byGender: [
+      { label: 'Female',             count: 1100, candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 58 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 42 }] },
+      { label: 'Male',               count: 980,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 45 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 55 }] },
+      { label: 'Non-binary / Other', count: 60,   candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 73 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 27 }] },
+    ],
+    byIncome: [
+      { label: 'Under $30K',  count: 380,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 60 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 40 }] },
+      { label: '$30K–$60K',   count: 560,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 54 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 46 }] },
+      { label: '$60K–$100K',  count: 620,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 50 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 50 }] },
+      { label: '$100K–$150K', count: 380,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 44 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 56 }] },
+      { label: '$150K+',      count: 200,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 39 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 61 }] },
+    ],
+    byEducation: [
+      { label: 'High School',  count: 390,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 44 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 56 }] },
+      { label: 'Some College', count: 560,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 49 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 51 }] },
+      { label: "Bachelor's",   count: 730,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 55 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 45 }] },
+      { label: "Master's+",    count: 460,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 61 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 39 }] },
+    ],
+  },
 ]
 
 // ─── Party helpers ────────────────────────────────────────────────────────────
