@@ -187,7 +187,7 @@ function VoteInner() {
       </div>
 
       {/* ── Submit footer ── */}
-      <div className="px-5 py-4 bg-card border-t border-border">
+      <div className="px-5 py-4 bg-card border-t border-border" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 4.5rem)' }}>
         <AnimatePresence>
           {submitted ? (
             <motion.div
