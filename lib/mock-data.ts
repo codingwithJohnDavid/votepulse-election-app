@@ -1,0 +1,448 @@
+// ─── Types ─────────────────────────────────────────────────────────────────
+
+export type Party = 'Democrat' | 'Republican' | 'Independent' | 'Green' | 'Libertarian'
+
+export interface Candidate {
+  id: string
+  name: string
+  party: Party
+  office: string          // e.g. "U.S. Senate"
+  state: string           // full state name
+  stateCode: string       // 2-letter code
+  district?: string       // e.g. "District 7" (House) or null (Senate/Gov)
+  imageUrl: string
+  bannerColor: string     // Tailwind background class used for card banner
+  bio: string
+  incumbent: boolean
+  yearsExperience: number
+  website: string
+  twitter?: string
+  instagram?: string
+  keyIssues: string[]
+}
+
+export interface Race {
+  id: string
+  office: string
+  stateCode: string
+  district?: string
+  label: string           // short display label e.g. "Senate" or "House-7"
+}
+
+export interface DemographicBreakdown {
+  label: string
+  yesPercent: number
+  noPercent: number
+  count: number
+}
+
+export interface ResultsData {
+  questionId: string
+  question: string
+  yesCount: number
+  noCount: number
+  totalResponses: number
+  byAge: DemographicBreakdown[]
+  byRace: DemographicBreakdown[]
+  byReligion: DemographicBreakdown[]
+  byGender: DemographicBreakdown[]
+  byIncome: DemographicBreakdown[]
+  byEducation: DemographicBreakdown[]
+}
+
+// ─── States ────────────────────────────────────────────────────────────────
+
+export const US_STATES = [
+  { code: 'AL', name: 'Alabama' },
+  { code: 'AK', name: 'Alaska' },
+  { code: 'AZ', name: 'Arizona' },
+  { code: 'AR', name: 'Arkansas' },
+  { code: 'CA', name: 'California' },
+  { code: 'CO', name: 'Colorado' },
+  { code: 'CT', name: 'Connecticut' },
+  { code: 'DE', name: 'Delaware' },
+  { code: 'FL', name: 'Florida' },
+  { code: 'GA', name: 'Georgia' },
+  { code: 'HI', name: 'Hawaii' },
+  { code: 'ID', name: 'Idaho' },
+  { code: 'IL', name: 'Illinois' },
+  { code: 'IN', name: 'Indiana' },
+  { code: 'IA', name: 'Iowa' },
+  { code: 'KS', name: 'Kansas' },
+  { code: 'KY', name: 'Kentucky' },
+  { code: 'LA', name: 'Louisiana' },
+  { code: 'ME', name: 'Maine' },
+  { code: 'MD', name: 'Maryland' },
+  { code: 'MA', name: 'Massachusetts' },
+  { code: 'MI', name: 'Michigan' },
+  { code: 'MN', name: 'Minnesota' },
+  { code: 'MS', name: 'Mississippi' },
+  { code: 'MO', name: 'Missouri' },
+  { code: 'MT', name: 'Montana' },
+  { code: 'NE', name: 'Nebraska' },
+  { code: 'NV', name: 'Nevada' },
+  { code: 'NH', name: 'New Hampshire' },
+  { code: 'NJ', name: 'New Jersey' },
+  { code: 'NM', name: 'New Mexico' },
+  { code: 'NY', name: 'New York' },
+  { code: 'NC', name: 'North Carolina' },
+  { code: 'ND', name: 'North Dakota' },
+  { code: 'OH', name: 'Ohio' },
+  { code: 'OK', name: 'Oklahoma' },
+  { code: 'OR', name: 'Oregon' },
+  { code: 'PA', name: 'Pennsylvania' },
+  { code: 'RI', name: 'Rhode Island' },
+  { code: 'SC', name: 'South Carolina' },
+  { code: 'SD', name: 'South Dakota' },
+  { code: 'TN', name: 'Tennessee' },
+  { code: 'TX', name: 'Texas' },
+  { code: 'UT', name: 'Utah' },
+  { code: 'VT', name: 'Vermont' },
+  { code: 'VA', name: 'Virginia' },
+  { code: 'WA', name: 'Washington' },
+  { code: 'WV', name: 'West Virginia' },
+  { code: 'WI', name: 'Wisconsin' },
+  { code: 'WY', name: 'Wyoming' },
+  { code: 'DC', name: 'Washington D.C.' },
+]
+
+// ─── Candidates ─────────────────────────────────────────────────────────────
+
+export const CANDIDATES: Candidate[] = [
+  // ── Florida ──
+  {
+    id: 'fl-sen-1',
+    name: 'Maria Elena Reyes',
+    party: 'Democrat',
+    office: 'U.S. Senate',
+    state: 'Florida',
+    stateCode: 'FL',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=MariaReyes&backgroundColor=b6e3f4',
+    bannerColor: '#dbeafe',
+    bio: 'Former Miami-Dade County Commissioner with 14 years of public service, focused on climate resilience and healthcare access.',
+    incumbent: false,
+    yearsExperience: 14,
+    website: 'https://example.com',
+    twitter: '@mariaforfl',
+    instagram: '@mariaforfl',
+    keyIssues: ['Climate Resilience', 'Healthcare Access', 'Housing Affordability'],
+  },
+  {
+    id: 'fl-sen-2',
+    name: 'James T. Holbrook',
+    party: 'Republican',
+    office: 'U.S. Senate',
+    state: 'Florida',
+    stateCode: 'FL',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=JamesHolbrook&backgroundColor=fee2e2',
+    bannerColor: '#fee2e2',
+    bio: 'Two-term Florida state senator and military veteran, championing border security and lower taxes for small businesses.',
+    incumbent: true,
+    yearsExperience: 10,
+    website: 'https://example.com',
+    twitter: '@holbrookfl',
+    keyIssues: ['Border Security', 'Tax Cuts', 'Veterans Affairs'],
+  },
+  {
+    id: 'fl-sen-3',
+    name: 'David Nguyen',
+    party: 'Independent',
+    office: 'U.S. Senate',
+    state: 'Florida',
+    stateCode: 'FL',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=DavidNguyen&backgroundColor=ede9fe',
+    bannerColor: '#ede9fe',
+    bio: 'Tech entrepreneur and civic activist pushing for electoral reform and bipartisan cooperation on infrastructure.',
+    incumbent: false,
+    yearsExperience: 5,
+    website: 'https://example.com',
+    keyIssues: ['Electoral Reform', 'Infrastructure', 'Tech Policy'],
+  },
+  {
+    id: 'fl-house-7-1',
+    name: 'Sandra Wiley',
+    party: 'Democrat',
+    office: 'U.S. House of Representatives',
+    state: 'Florida',
+    stateCode: 'FL',
+    district: 'District 7',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=SandraWiley&backgroundColor=b6e3f4',
+    bannerColor: '#dbeafe',
+    bio: 'Orlando educator and school board member with a 12-year track record on public education and youth mental health.',
+    incumbent: false,
+    yearsExperience: 12,
+    website: 'https://example.com',
+    keyIssues: ['Education Funding', 'Mental Health', 'Voting Rights'],
+  },
+  {
+    id: 'fl-house-7-2',
+    name: 'Carlos Mendez',
+    party: 'Republican',
+    office: 'U.S. House of Representatives',
+    state: 'Florida',
+    stateCode: 'FL',
+    district: 'District 7',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CarlosMendez&backgroundColor=fee2e2',
+    bannerColor: '#fee2e2',
+    bio: 'Business owner and former Orange County sheriff deputy focused on public safety and economic growth.',
+    incumbent: true,
+    yearsExperience: 6,
+    website: 'https://example.com',
+    keyIssues: ['Public Safety', 'Small Business', 'Energy Independence'],
+  },
+
+  // ── Texas ──
+  {
+    id: 'tx-sen-1',
+    name: 'Amanda Okafor',
+    party: 'Democrat',
+    office: 'U.S. Senate',
+    state: 'Texas',
+    stateCode: 'TX',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=AmandaOkafor&backgroundColor=b6e3f4',
+    bannerColor: '#dbeafe',
+    bio: 'Houston civil rights attorney and community organizer, championing criminal justice reform and immigrant rights.',
+    incumbent: false,
+    yearsExperience: 18,
+    website: 'https://example.com',
+    keyIssues: ['Criminal Justice Reform', 'Immigration', 'Gun Safety'],
+  },
+  {
+    id: 'tx-sen-2',
+    name: 'Robert "Bob" Crane',
+    party: 'Republican',
+    office: 'U.S. Senate',
+    state: 'Texas',
+    stateCode: 'TX',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=BobCrane&backgroundColor=fee2e2',
+    bannerColor: '#fee2e2',
+    bio: 'Three-term Texas congressman and rancher, fighting for energy independence and securing the southern border.',
+    incumbent: true,
+    yearsExperience: 16,
+    website: 'https://example.com',
+    keyIssues: ['Energy Independence', 'Border Security', '2nd Amendment'],
+  },
+
+  // ── California ──
+  {
+    id: 'ca-sen-1',
+    name: 'Priya Sharma',
+    party: 'Democrat',
+    office: 'U.S. Senate',
+    state: 'California',
+    stateCode: 'CA',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=PriyaSharma&backgroundColor=b6e3f4',
+    bannerColor: '#dbeafe',
+    bio: 'State senator and former tech executive focused on clean energy innovation, housing affordability, and universal broadband.',
+    incumbent: true,
+    yearsExperience: 9,
+    website: 'https://example.com',
+    keyIssues: ['Clean Energy', 'Housing', 'Tech Regulation'],
+  },
+  {
+    id: 'ca-sen-2',
+    name: 'Thomas Garrett',
+    party: 'Republican',
+    office: 'U.S. Senate',
+    state: 'California',
+    stateCode: 'CA',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ThomasGarrett&backgroundColor=fee2e2',
+    bannerColor: '#fee2e2',
+    bio: 'San Diego county supervisor and Navy veteran promoting fiscal responsibility and deregulation for economic growth.',
+    incumbent: false,
+    yearsExperience: 8,
+    website: 'https://example.com',
+    keyIssues: ['Fiscal Responsibility', 'Deregulation', 'National Defense'],
+  },
+  {
+    id: 'ca-sen-3',
+    name: 'Mei Lin Zhang',
+    party: 'Independent',
+    office: 'U.S. Senate',
+    state: 'California',
+    stateCode: 'CA',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=MeiLinZhang&backgroundColor=ede9fe',
+    bannerColor: '#ede9fe',
+    bio: 'Climate scientist and Stanford professor running on a platform of evidence-based policymaking and government transparency.',
+    incumbent: false,
+    yearsExperience: 3,
+    website: 'https://example.com',
+    keyIssues: ['Climate Science Policy', 'Government Transparency', 'STEM Education'],
+  },
+
+  // ── New York ──
+  {
+    id: 'ny-sen-1',
+    name: 'Marcus J. Washington',
+    party: 'Democrat',
+    office: 'U.S. Senate',
+    state: 'New York',
+    stateCode: 'NY',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=MarcusWashington&backgroundColor=b6e3f4',
+    bannerColor: '#dbeafe',
+    bio: 'Brooklyn congressman and union organizer with a strong record on workers rights, childcare, and affordable housing.',
+    incumbent: true,
+    yearsExperience: 11,
+    website: 'https://example.com',
+    keyIssues: ["Workers' Rights", 'Childcare', 'Affordable Housing'],
+  },
+  {
+    id: 'ny-sen-2',
+    name: 'Patricia Vance',
+    party: 'Republican',
+    office: 'U.S. Senate',
+    state: 'New York',
+    stateCode: 'NY',
+    imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=PatriciaVance&backgroundColor=fee2e2',
+    bannerColor: '#fee2e2',
+    bio: 'Former NYPD chief and crime policy advisor, running on public safety, tax relief, and cutting federal spending.',
+    incumbent: false,
+    yearsExperience: 7,
+    website: 'https://example.com',
+    keyIssues: ['Public Safety', 'Tax Relief', 'Reducing Federal Spending'],
+  },
+]
+
+// ─── Races per state ─────────────────────────────────────────────────────────
+
+export const RACES_BY_STATE: Record<string, Race[]> = {
+  FL: [
+    { id: 'fl-sen', office: 'U.S. Senate', stateCode: 'FL', label: 'Senate' },
+    { id: 'fl-house-7', office: 'U.S. House of Representatives', stateCode: 'FL', district: 'District 7', label: 'House-7' },
+  ],
+  TX: [
+    { id: 'tx-sen', office: 'U.S. Senate', stateCode: 'TX', label: 'Senate' },
+  ],
+  CA: [
+    { id: 'ca-sen', office: 'U.S. Senate', stateCode: 'CA', label: 'Senate' },
+  ],
+  NY: [
+    { id: 'ny-sen', office: 'U.S. Senate', stateCode: 'NY', label: 'Senate' },
+  ],
+}
+
+export function getCandidatesForRace(raceId: string): Candidate[] {
+  return CANDIDATES.filter((c) => {
+    const race = Object.values(RACES_BY_STATE)
+      .flat()
+      .find((r) => r.id === raceId)
+    if (!race) return false
+    return (
+      c.stateCode === race.stateCode &&
+      c.office === race.office &&
+      (race.district ? c.district === race.district : !c.district)
+    )
+  })
+}
+
+// ─── Results mock data ────────────────────────────────────────────────────────
+
+export const RESULTS_DATA: ResultsData = {
+  questionId: 'q-climate-2026',
+  question: 'Should Congress pass a federal climate action bill before the 2026 midterms?',
+  yesCount: 3847,
+  noCount: 2956,
+  totalResponses: 6803,
+  byAge: [
+    { label: '18–24', yesPercent: 72, noPercent: 28, count: 1102 },
+    { label: '25–34', yesPercent: 65, noPercent: 35, count: 1488 },
+    { label: '35–44', yesPercent: 58, noPercent: 42, count: 1344 },
+    { label: '45–54', yesPercent: 51, noPercent: 49, count: 1220 },
+    { label: '55–64', yesPercent: 44, noPercent: 56, count: 980 },
+    { label: '65+',   yesPercent: 38, noPercent: 62, count: 669 },
+  ],
+  byRace: [
+    { label: 'White',              yesPercent: 50, noPercent: 50, count: 2891 },
+    { label: 'Black / African Am.', yesPercent: 71, noPercent: 29, count: 1134 },
+    { label: 'Hispanic / Latino',  yesPercent: 67, noPercent: 33, count: 1022 },
+    { label: 'Asian / Pacific Is.', yesPercent: 69, noPercent: 31, count: 501 },
+    { label: 'Multiracial',        yesPercent: 63, noPercent: 37, count: 255 },
+  ],
+  byReligion: [
+    { label: 'Christian',        yesPercent: 47, noPercent: 53, count: 2720 },
+    { label: 'Catholic',         yesPercent: 54, noPercent: 46, count: 980 },
+    { label: 'Jewish',           yesPercent: 68, noPercent: 32, count: 410 },
+    { label: 'Muslim',           yesPercent: 70, noPercent: 30, count: 330 },
+    { label: 'Non-religious',    yesPercent: 74, noPercent: 26, count: 1363 },
+  ],
+  byGender: [
+    { label: 'Female',           yesPercent: 62, noPercent: 38, count: 3280 },
+    { label: 'Male',             yesPercent: 51, noPercent: 49, count: 3120 },
+    { label: 'Non-binary / Other', yesPercent: 76, noPercent: 24, count: 403 },
+  ],
+  byIncome: [
+    { label: 'Under $30K',       yesPercent: 64, noPercent: 36, count: 890 },
+    { label: '$30K–$60K',        yesPercent: 60, noPercent: 40, count: 1450 },
+    { label: '$60K–$100K',       yesPercent: 57, noPercent: 43, count: 1890 },
+    { label: '$100K–$150K',      yesPercent: 52, noPercent: 48, count: 1340 },
+    { label: '$150K+',           yesPercent: 48, noPercent: 52, count: 1233 },
+  ],
+  byEducation: [
+    { label: 'High School',      yesPercent: 48, noPercent: 52, count: 1210 },
+    { label: 'Some College',     yesPercent: 54, noPercent: 46, count: 1660 },
+    { label: "Bachelor's",       yesPercent: 62, noPercent: 38, count: 2180 },
+    { label: "Master's+",        yesPercent: 70, noPercent: 30, count: 1753 },
+  ],
+}
+
+// ─── Demographic options ──────────────────────────────────────────────────────
+
+export const AGE_OPTIONS = ['Under 18', '18–24', '25–34', '35–44', '45–54', '55–64', '65+']
+export const RACE_OPTIONS = [
+  'White',
+  'Black / African American',
+  'Hispanic / Latino',
+  'Asian / Pacific Islander',
+  'Native American',
+  'Multiracial',
+  'Prefer not to say',
+]
+export const RELIGION_OPTIONS = [
+  'Christian (Protestant)',
+  'Catholic',
+  'Jewish',
+  'Muslim',
+  'Hindu',
+  'Buddhist',
+  'Non-religious / Atheist',
+  'Other',
+  'Prefer not to say',
+]
+export const GENDER_OPTIONS = ['Male', 'Female', 'Non-binary', 'Prefer not to say']
+export const INCOME_OPTIONS = [
+  'Under $30,000',
+  '$30,000–$60,000',
+  '$60,000–$100,000',
+  '$100,000–$150,000',
+  '$150,000+',
+  'Prefer not to say',
+]
+export const EDUCATION_OPTIONS = [
+  'Some High School',
+  'High School Diploma / GED',
+  'Some College',
+  "Associate's Degree",
+  "Bachelor's Degree",
+  "Master's Degree",
+  'Doctoral / Professional Degree',
+  'Prefer not to say',
+]
+
+// ─── Party helpers ────────────────────────────────────────────────────────────
+
+export function partyColor(party: Party): { ring: string; bg: string; text: string; badge: string } {
+  switch (party) {
+    case 'Democrat':
+      return { ring: '#3b82f6', bg: '#dbeafe', text: '#1e40af', badge: 'bg-blue-100 text-blue-800' }
+    case 'Republican':
+      return { ring: '#ef4444', bg: '#fee2e2', text: '#991b1b', badge: 'bg-red-100 text-red-800' }
+    case 'Independent':
+      return { ring: '#8b5cf6', bg: '#ede9fe', text: '#5b21b6', badge: 'bg-violet-100 text-violet-800' }
+    case 'Green':
+      return { ring: '#22c55e', bg: '#dcfce7', text: '#166534', badge: 'bg-green-100 text-green-800' }
+    case 'Libertarian':
+      return { ring: '#f59e0b', bg: '#fef3c7', text: '#92400e', badge: 'bg-amber-100 text-amber-800' }
+    default:
+      return { ring: '#6b7280', bg: '#f3f4f6', text: '#374151', badge: 'bg-gray-100 text-gray-800' }
+  }
+}
