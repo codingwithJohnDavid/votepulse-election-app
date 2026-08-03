@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, CheckCircle2, Info, MapPin } from 'lucide-react'
+import { ChevronRight, CheckCircle2, Info, MapPin, ChevronLeft } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import CandidateCard from '@/components/candidate-card'
 import PageShell from '@/components/page-shell'
@@ -87,19 +87,28 @@ function VoteInner() {
     <>
       {/* ── Header ── */}
       <header className="bg-card px-5 pt-14 pb-4 border-b border-border">
-        <div className="flex items-center justify-between mb-1">
+        {/* Top row: back to states + race progress */}
+        <div className="flex items-center justify-between mb-3">
+          <button
+            onClick={() => router.push('/onboarding/state')}
+            className="flex items-center gap-1 text-primary font-semibold text-sm -ml-1 px-1 py-0.5 rounded-xl hover:bg-brand-subtle transition-colors"
+            aria-label="Back to state selection"
+          >
+            <ChevronLeft size={16} aria-hidden="true" />
+            States
+          </button>
           <div className="flex items-center gap-1.5">
-            <MapPin size={13} className="text-primary" aria-hidden="true" />
-            <span className="text-xs font-semibold text-primary">{stateName}</span>
+            <MapPin size={12} className="text-muted-foreground" aria-hidden="true" />
+            <span className="text-xs text-muted-foreground font-medium">{stateName}</span>
+            <span className="text-xs text-muted-foreground">·</span>
+            <span className="text-xs text-muted-foreground">
+              {completedCount}/{races.length} completed
+            </span>
           </div>
-          <span className="text-xs text-muted-foreground">
-            {completedCount}/{races.length} races completed
-          </span>
         </div>
-        <h1 className="text-xl font-black text-foreground leading-tight">Your Ballot</h1>
 
         {/* Progress bar */}
-        <div className="mt-3 h-1.5 rounded-full bg-border overflow-hidden">
+        <div className="h-1.5 rounded-full bg-border overflow-hidden">
           <motion.div
             className="h-full rounded-full bg-primary"
             initial={{ width: 0 }}
