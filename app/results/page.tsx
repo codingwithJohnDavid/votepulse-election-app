@@ -138,10 +138,11 @@ export default function ResultsPage() {
   const [activeRace, setActiveRace] = useState<RaceResult | undefined>(senateResult)
   const hasHouse = !!houseResult
 
-  // Reset to the first available race when the active state changes
+  // Reset to the first race for the new state whenever activeState.code changes
   useEffect(() => {
-    setActiveRace(senateResult)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    const races = RACE_RESULTS.filter((r) => r.stateCode === activeState.code)
+    const first = races.find((r) => r.office === 'Senate') ?? races[0]
+    setActiveRace(first)
   }, [activeState.code])
 
   const race = activeRace
@@ -191,36 +192,25 @@ export default function ResultsPage() {
             </div>
           )}
 
-          {/* ── Senate / House toggle ── */}
+          {/* ── Race toggle — dynamic for all races in active state ── */}
           {stateRaces.length > 0 && race && (<>
           <div className="px-5 pt-5 pb-3">
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setActiveRace(senateResult)}
-                className={cn(
-                  'px-5 py-2 rounded-full text-sm font-bold transition-all duration-200',
-                  activeRace.office === 'Senate'
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'bg-card text-muted-foreground border border-border hover:border-primary/40'
-                )}
-              >
-                Senate
-              </button>
-              {hasHouse && (
+            <div className="flex gap-2 overflow-x-auto scrollbar-none">
+              {stateRaces.map((r) => (
                 <button
+                  key={r.raceId}
                   type="button"
-                  onClick={() => setActiveRace(houseResult!)}
+                  onClick={() => setActiveRace(r)}
                   className={cn(
-                    'px-5 py-2 rounded-full text-sm font-bold transition-all duration-200',
-                    activeRace.office === 'House'
+                    'shrink-0 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200',
+                    activeRace?.raceId === r.raceId
                       ? 'bg-primary text-primary-foreground shadow-sm'
                       : 'bg-card text-muted-foreground border border-border hover:border-primary/40'
                   )}
                 >
-                  House
+                  {r.raceLabel}
                 </button>
-              )}
+              ))}
             </div>
           </div>
 
