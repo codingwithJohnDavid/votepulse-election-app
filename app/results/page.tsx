@@ -49,29 +49,33 @@ function DemoGroup({ item, index }: { item: DemographicBreakdown; index: number 
       {masked ? (
         <div className="h-2 rounded-full bg-muted" aria-label="Data hidden for privacy" />
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {item.candidates.map((c, ci) => {
             const colors = partyColor(c.party)
             return (
-              <div key={ci}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[12px] font-semibold text-foreground">{c.lastName}</span>
-                  <span
-                    className="text-[12px] font-black tabular-nums"
-                    style={{ color: colors.ring }}
-                  >
-                    {c.percent}%
+              <div key={ci} className="flex items-center gap-3">
+                {/* Bar + name column */}
+                <div className="flex-1 min-w-0">
+                  <span className="text-[12px] font-semibold text-foreground block mb-1 truncate">
+                    {c.lastName}
                   </span>
+                  <div className="h-[6px] rounded-full bg-muted overflow-hidden">
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{ backgroundColor: colors.ring }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${c.percent}%` }}
+                      transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.03 + ci * 0.06 }}
+                    />
+                  </div>
                 </div>
-                <div className="h-[6px] rounded-full bg-muted overflow-hidden">
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ backgroundColor: colors.ring }}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${c.percent}%` }}
-                    transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.03 + ci * 0.06 }}
-                  />
-                </div>
+                {/* Percentage — fixed width so bar never clips it */}
+                <span
+                  className="text-[13px] font-black tabular-nums shrink-0 w-9 text-right"
+                  style={{ color: colors.ring }}
+                >
+                  {c.percent}%
+                </span>
               </div>
             )
           })}
@@ -225,19 +229,19 @@ export default function ResultsPage() {
               className="mx-5 mb-3 bg-card rounded-3xl px-4 py-6 shadow-sm"
             >
               {/* Flanking stats + donut */}
-              <div className="flex items-center justify-between gap-1">
+              <div className="flex items-center justify-between gap-2">
 
                 {/* Candidate 0 — left */}
-                {c0 && col0 && <div className="flex flex-col items-center min-w-[76px] gap-0.5">
+                {c0 && col0 && <div className="flex flex-col items-center w-[88px] shrink-0 gap-0.5">
                   <p
-                    className="text-[38px] font-black leading-none"
+                    className="text-[36px] font-black leading-none"
                     style={{ color: col0.ring }}
                   >
                     {c0.percent}%
                   </p>
                   <div className="flex items-center gap-1 mt-1">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: col0.ring }} aria-hidden="true" />
-                    <span className="text-[13px] font-bold text-foreground">{c0.lastName}</span>
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: col0.ring }} aria-hidden="true" />
+                    <span className="text-[12px] font-bold text-foreground truncate">{c0.lastName}</span>
                   </div>
                   <span className="text-[11px] text-muted-foreground font-medium">
                     {c0.party === 'Democrat' ? 'DEM' : c0.party === 'Republican' ? 'REP' : 'IND'}
@@ -283,16 +287,16 @@ export default function ResultsPage() {
 
                 {/* Candidate 1 — right */}
                 {c1 && col1 && (
-                  <div className="flex flex-col items-center min-w-[76px] gap-0.5">
+                  <div className="flex flex-col items-center w-[88px] shrink-0 gap-0.5">
                     <p
-                      className="text-[38px] font-black leading-none"
+                      className="text-[36px] font-black leading-none"
                       style={{ color: col1.ring }}
                     >
                       {c1.percent}%
                     </p>
                     <div className="flex items-center gap-1 mt-1">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: col1.ring }} aria-hidden="true" />
-                      <span className="text-[13px] font-bold text-foreground">{c1.lastName}</span>
+                      <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: col1.ring }} aria-hidden="true" />
+                      <span className="text-[12px] font-bold text-foreground truncate">{c1.lastName}</span>
                     </div>
                     <span className="text-[11px] text-muted-foreground font-medium">
                       {c1.party === 'Democrat' ? 'DEM' : c1.party === 'Republican' ? 'REP' : 'IND'}
