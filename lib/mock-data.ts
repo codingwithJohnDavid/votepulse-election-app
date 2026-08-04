@@ -2,6 +2,12 @@
 
 export type Party = 'Democrat' | 'Republican' | 'Independent' | 'Green' | 'Libertarian'
 
+export interface CandidateFunder {
+  name: string          // donor name or PAC name
+  amount: string        // formatted e.g. "$2.4M"
+  type: 'PAC' | 'Individual' | 'Small Donors' | 'Party Committee' | 'Corporate'
+}
+
 export interface Candidate {
   id: string
   name: string
@@ -19,6 +25,7 @@ export interface Candidate {
   twitter?: string
   instagram?: string
   keyIssues: string[]
+  funders?: CandidateFunder[]
 }
 
 export interface Race {
@@ -148,7 +155,13 @@ export const CANDIDATES: Candidate[] = [
     website: 'https://example.com',
     twitter: '@mariaforfl',
     instagram: '@mariaforfl',
-    keyIssues: ['Climate Resilience', 'Healthcare Access', 'Housing Affordability'],
+    keyIssues: ['Climate Resilience', 'Healthcare Access', 'Housing Affordability', 'Clean Energy Jobs', 'Public Education'],
+    funders: [
+      { name: 'Florida Democratic Party', amount: '$1.8M', type: 'Party Committee' },
+      { name: 'EMILY\'s List PAC', amount: '$940K', type: 'PAC' },
+      { name: 'Climate Action Now', amount: '$620K', type: 'PAC' },
+      { name: 'Small-dollar donors (under $200)', amount: '$1.1M', type: 'Small Donors' },
+    ],
   },
   {
     id: 'fl-sen-2',
@@ -164,7 +177,13 @@ export const CANDIDATES: Candidate[] = [
     yearsExperience: 10,
     website: 'https://example.com',
     twitter: '@holbrookfl',
-    keyIssues: ['Border Security', 'Tax Cuts', 'Veterans Affairs'],
+    keyIssues: ['Border Security', 'Tax Cuts', 'Veterans Affairs', '2nd Amendment', 'Energy Independence'],
+    funders: [
+      { name: 'National Rifle Association PAC', amount: '$850K', type: 'PAC' },
+      { name: 'Florida Business Council', amount: '$1.2M', type: 'Corporate' },
+      { name: 'Republican Senate Campaign Cmte', amount: '$2.1M', type: 'Party Committee' },
+      { name: 'Oil & Gas Industry donors', amount: '$730K', type: 'Individual' },
+    ],
   },
   {
     id: 'fl-sen-3',
@@ -179,7 +198,12 @@ export const CANDIDATES: Candidate[] = [
     incumbent: false,
     yearsExperience: 5,
     website: 'https://example.com',
-    keyIssues: ['Electoral Reform', 'Infrastructure', 'Tech Policy'],
+    keyIssues: ['Electoral Reform', 'Infrastructure', 'Tech Policy', 'Government Transparency', 'Broadband Access'],
+    funders: [
+      { name: 'Self-funded', amount: '$1.4M', type: 'Individual' },
+      { name: 'Small-dollar donors (under $200)', amount: '$880K', type: 'Small Donors' },
+      { name: 'Tech industry individuals', amount: '$410K', type: 'Individual' },
+    ],
   },
   {
     id: 'fl-house-7-1',
@@ -195,7 +219,12 @@ export const CANDIDATES: Candidate[] = [
     incumbent: false,
     yearsExperience: 12,
     website: 'https://example.com',
-    keyIssues: ['Education Funding', 'Mental Health', 'Voting Rights'],
+    keyIssues: ['Education Funding', 'Mental Health', 'Voting Rights', 'Childcare Access', 'Medicaid Expansion'],
+    funders: [
+      { name: 'National Education Association PAC', amount: '$620K', type: 'PAC' },
+      { name: 'Florida Democratic Party', amount: '$480K', type: 'Party Committee' },
+      { name: 'Small-dollar donors (under $200)', amount: '$590K', type: 'Small Donors' },
+    ],
   },
   {
     id: 'fl-house-7-2',
@@ -211,7 +240,13 @@ export const CANDIDATES: Candidate[] = [
     incumbent: true,
     yearsExperience: 6,
     website: 'https://example.com',
-    keyIssues: ['Public Safety', 'Small Business', 'Energy Independence'],
+    keyIssues: ['Public Safety', 'Small Business', 'Energy Independence', 'Immigration Enforcement', 'Lower Taxes'],
+    funders: [
+      { name: 'Florida Chamber of Commerce PAC', amount: '$510K', type: 'PAC' },
+      { name: 'Law Enforcement Alliance PAC', amount: '$290K', type: 'PAC' },
+      { name: 'Republican National Committee', amount: '$660K', type: 'Party Committee' },
+      { name: 'Real estate industry donors', amount: '$340K', type: 'Individual' },
+    ],
   },
 
   // ── Texas ──
@@ -228,7 +263,13 @@ export const CANDIDATES: Candidate[] = [
     incumbent: false,
     yearsExperience: 18,
     website: 'https://example.com',
-    keyIssues: ['Criminal Justice Reform', 'Immigration', 'Gun Safety'],
+    keyIssues: ['Criminal Justice Reform', 'Immigration', 'Gun Safety', 'Voting Rights', 'Affordable Healthcare'],
+    funders: [
+      { name: 'ACLU Voters Alliance PAC', amount: '$720K', type: 'PAC' },
+      { name: 'Texas Democratic Party', amount: '$1.1M', type: 'Party Committee' },
+      { name: 'Small-dollar donors (under $200)', amount: '$1.4M', type: 'Small Donors' },
+      { name: 'Trial lawyers association', amount: '$510K', type: 'Individual' },
+    ],
   },
   {
     id: 'tx-sen-2',
@@ -243,7 +284,13 @@ export const CANDIDATES: Candidate[] = [
     incumbent: true,
     yearsExperience: 16,
     website: 'https://example.com',
-    keyIssues: ['Energy Independence', 'Border Security', '2nd Amendment'],
+    keyIssues: ['Energy Independence', 'Border Security', '2nd Amendment', 'Deregulation', 'Agricultural Policy'],
+    funders: [
+      { name: 'Texas Oil & Gas Association PAC', amount: '$2.3M', type: 'PAC' },
+      { name: 'Republican Senate Campaign Cmte', amount: '$1.9M', type: 'Party Committee' },
+      { name: 'Americans for Prosperity PAC', amount: '$1.1M', type: 'PAC' },
+      { name: 'Agricultural industry donors', amount: '$680K', type: 'Individual' },
+    ],
   },
 
   // ── California ──
@@ -260,7 +307,13 @@ export const CANDIDATES: Candidate[] = [
     incumbent: true,
     yearsExperience: 9,
     website: 'https://example.com',
-    keyIssues: ['Clean Energy', 'Housing', 'Tech Regulation'],
+    keyIssues: ['Clean Energy', 'Housing Affordability', 'Tech Regulation', 'Universal Broadband', 'Homelessness'],
+    funders: [
+      { name: 'California Democratic Party', amount: '$2.2M', type: 'Party Committee' },
+      { name: 'Sierra Club PAC', amount: '$780K', type: 'PAC' },
+      { name: 'Tech industry individuals', amount: '$1.6M', type: 'Individual' },
+      { name: 'Small-dollar donors (under $200)', amount: '$920K', type: 'Small Donors' },
+    ],
   },
   {
     id: 'ca-sen-2',
@@ -275,7 +328,13 @@ export const CANDIDATES: Candidate[] = [
     incumbent: false,
     yearsExperience: 8,
     website: 'https://example.com',
-    keyIssues: ['Fiscal Responsibility', 'Deregulation', 'National Defense'],
+    keyIssues: ['Fiscal Responsibility', 'Deregulation', 'National Defense', 'Border Security', 'Crime Reduction'],
+    funders: [
+      { name: 'California Republican Party', amount: '$1.1M', type: 'Party Committee' },
+      { name: 'National Association of Realtors PAC', amount: '$640K', type: 'PAC' },
+      { name: 'Defense contractor executives', amount: '$520K', type: 'Individual' },
+      { name: 'Small-dollar donors (under $200)', amount: '$430K', type: 'Small Donors' },
+    ],
   },
   {
     id: 'ca-sen-3',
@@ -290,7 +349,12 @@ export const CANDIDATES: Candidate[] = [
     incumbent: false,
     yearsExperience: 3,
     website: 'https://example.com',
-    keyIssues: ['Climate Science Policy', 'Government Transparency', 'STEM Education'],
+    keyIssues: ['Climate Science Policy', 'Government Transparency', 'STEM Education', 'Campaign Finance Reform', 'Public Health'],
+    funders: [
+      { name: 'Self-funded', amount: '$600K', type: 'Individual' },
+      { name: 'Small-dollar donors (under $200)', amount: '$1.1M', type: 'Small Donors' },
+      { name: 'Academic & research community', amount: '$310K', type: 'Individual' },
+    ],
   },
 
   // ── New York ──
@@ -307,7 +371,13 @@ export const CANDIDATES: Candidate[] = [
     incumbent: true,
     yearsExperience: 11,
     website: 'https://example.com',
-    keyIssues: ["Workers' Rights", 'Childcare', 'Affordable Housing'],
+    keyIssues: ["Workers' Rights", 'Childcare', 'Affordable Housing', 'Universal Healthcare', 'Tax Fairness'],
+    funders: [
+      { name: 'AFL-CIO COPE PAC', amount: '$1.5M', type: 'PAC' },
+      { name: 'New York Democratic Party', amount: '$1.8M', type: 'Party Committee' },
+      { name: 'Small-dollar donors (under $200)', amount: '$2.1M', type: 'Small Donors' },
+      { name: 'Healthcare workers union PAC', amount: '$710K', type: 'PAC' },
+    ],
   },
   {
     id: 'ny-sen-2',
@@ -322,7 +392,13 @@ export const CANDIDATES: Candidate[] = [
     incumbent: false,
     yearsExperience: 7,
     website: 'https://example.com',
-    keyIssues: ['Public Safety', 'Tax Relief', 'Reducing Federal Spending'],
+    keyIssues: ['Public Safety', 'Tax Relief', 'Reducing Federal Spending', 'School Choice', 'Anti-Crime Legislation'],
+    funders: [
+      { name: 'New York Republican Party', amount: '$980K', type: 'Party Committee' },
+      { name: 'Police Benevolent Association PAC', amount: '$560K', type: 'PAC' },
+      { name: 'Wall Street financial donors', amount: '$1.3M', type: 'Individual' },
+      { name: 'Small-dollar donors (under $200)', amount: '$410K', type: 'Small Donors' },
+    ],
   },
 ]
 
