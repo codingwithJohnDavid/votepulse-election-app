@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell } from 'recharts'
 import { ChevronDown, Lock, Share2, Info } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
@@ -251,29 +251,27 @@ export default function ResultsPage() {
                   </span>
                 </div>}
 
-                {/* Donut — center */}
-                <div className="relative flex-1 max-w-[190px]">
-                  <ResponsiveContainer width="100%" height={180}>
-                    <PieChart>
-                      <Pie
-                        data={chartData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={58}
-                        outerRadius={86}
-                        startAngle={90}
-                        endAngle={-270}
-                        paddingAngle={chartData.length > 1 ? 3 : 0}
-                        dataKey="value"
-                        animationDuration={800}
-                        aria-label={`${race.candidates.map((c) => `${c.lastName} ${c.percent}%`).join(', ')}`}
-                      >
-                        {chartData.map((entry, i) => (
-                          <Cell key={i} fill={entry.color} stroke="none" />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
+                {/* Donut — center, fixed 200×200 so the arcs never clip */}
+                <div className="relative shrink-0 w-[200px] h-[200px]">
+                  <PieChart width={200} height={200}>
+                    <Pie
+                      data={chartData}
+                      cx={100}
+                      cy={100}
+                      innerRadius={60}
+                      outerRadius={88}
+                      startAngle={90}
+                      endAngle={-270}
+                      paddingAngle={chartData.length > 1 ? 3 : 0}
+                      dataKey="value"
+                      animationDuration={800}
+                      aria-label={`${race.candidates.map((c) => `${c.lastName} ${c.percent}%`).join(', ')}`}
+                    >
+                      {chartData.map((entry, i) => (
+                        <Cell key={i} fill={entry.color} stroke="none" />
+                      ))}
+                    </Pie>
+                  </PieChart>
                   {/* Center label */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                     <span className="text-[22px] font-black text-foreground leading-none">
