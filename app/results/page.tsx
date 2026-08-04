@@ -226,40 +226,39 @@ export default function ResultsPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="mx-5 mb-3 bg-card rounded-3xl px-4 py-6 shadow-sm"
+              className="mx-5 mb-3 bg-card rounded-3xl px-3 py-4 shadow-sm"
             >
               {/* Flanking stats + donut */}
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center justify-between gap-1">
 
                 {/* Candidate 0 — left */}
-                {c0 && col0 && <div className="flex flex-col items-center w-[88px] shrink-0 gap-0.5">
-                  <p
-                    className="text-[36px] font-black leading-none"
-                    style={{ color: col0.ring }}
-                  >
-                    {c0.percent}%
-                  </p>
-                  <div className="flex items-center gap-1 mt-1">
-                    <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: col0.ring }} aria-hidden="true" />
-                    <span className="text-[12px] font-bold text-foreground truncate">{c0.lastName}</span>
+                {c0 && col0 && (
+                  <div className="flex flex-col items-center w-[76px] shrink-0 gap-0.5 text-center">
+                    <p
+                      className="text-2xl font-black leading-none tabular-nums"
+                      style={{ color: col0.ring }}
+                    >
+                      {c0.percent}%
+                    </p>
+                    <div className="flex items-center gap-1 mt-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: col0.ring }} aria-hidden="true" />
+                      <span className="text-[11px] font-bold text-foreground truncate leading-none">{c0.lastName}</span>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground font-medium leading-none mt-0.5">
+                      {c0.party === 'Democrat' ? 'DEM' : c0.party === 'Republican' ? 'REP' : 'IND'} · {c0.count.toLocaleString()}
+                    </span>
                   </div>
-                  <span className="text-[11px] text-muted-foreground font-medium">
-                    {c0.party === 'Democrat' ? 'DEM' : c0.party === 'Republican' ? 'REP' : 'IND'}
-                  </span>
-                  <span className="text-[11px] text-muted-foreground tabular-nums">
-                    {c0.count.toLocaleString()}
-                  </span>
-                </div>}
+                )}
 
-                {/* Donut — center, fixed 200×200 so the arcs never clip */}
-                <div className="relative shrink-0 w-[200px] h-[200px]">
-                  <PieChart width={200} height={200}>
+                {/* Donut — center, fixed 180×180 so the arcs never clip */}
+                <div className="relative shrink-0 w-[180px] h-[180px]">
+                  <PieChart width={180} height={180}>
                     <Pie
                       data={chartData}
-                      cx={100}
-                      cy={100}
-                      innerRadius={60}
-                      outerRadius={88}
+                      cx={90}
+                      cy={90}
+                      innerRadius={54}
+                      outerRadius={80}
                       startAngle={90}
                       endAngle={-270}
                       paddingAngle={chartData.length > 1 ? 3 : 0}
@@ -274,10 +273,10 @@ export default function ResultsPage() {
                   </PieChart>
                   {/* Center label */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <span className="text-[22px] font-black text-foreground leading-none">
+                    <span className="text-[19px] font-black text-foreground leading-none tabular-nums">
                       {race.totalResponses.toLocaleString()}
                     </span>
-                    <span className="text-[9px] font-semibold text-muted-foreground tracking-wider uppercase mt-0.5">
+                    <span className="text-[8px] font-semibold text-muted-foreground tracking-wider uppercase mt-0.5">
                       Responses
                     </span>
                   </div>
@@ -285,22 +284,19 @@ export default function ResultsPage() {
 
                 {/* Candidate 1 — right */}
                 {c1 && col1 && (
-                  <div className="flex flex-col items-center w-[88px] shrink-0 gap-0.5">
+                  <div className="flex flex-col items-center w-[76px] shrink-0 gap-0.5 text-center">
                     <p
-                      className="text-[36px] font-black leading-none"
+                      className="text-2xl font-black leading-none tabular-nums"
                       style={{ color: col1.ring }}
                     >
                       {c1.percent}%
                     </p>
-                    <div className="flex items-center gap-1 mt-1">
-                      <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: col1.ring }} aria-hidden="true" />
-                      <span className="text-[12px] font-bold text-foreground truncate">{c1.lastName}</span>
+                    <div className="flex items-center gap-1 mt-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: col1.ring }} aria-hidden="true" />
+                      <span className="text-[11px] font-bold text-foreground truncate leading-none">{c1.lastName}</span>
                     </div>
-                    <span className="text-[11px] text-muted-foreground font-medium">
-                      {c1.party === 'Democrat' ? 'DEM' : c1.party === 'Republican' ? 'REP' : 'IND'}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground tabular-nums">
-                      {c1.count.toLocaleString()}
+                    <span className="text-[10px] text-muted-foreground font-medium leading-none mt-0.5">
+                      {c1.party === 'Democrat' ? 'DEM' : c1.party === 'Republican' ? 'REP' : 'IND'} · {c1.count.toLocaleString()}
                     </span>
                   </div>
                 )}
