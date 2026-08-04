@@ -2,14 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, BarChart3, User, ScrollText } from 'lucide-react'
+import { Home, BarChart3, User, Vote } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
-  { href: '/home',         label: 'Home',     Icon: Home },
-  { href: '/candidates',   label: 'Candidates', Icon: ScrollText },
-  { href: '/results',      label: 'Results',  Icon: BarChart3 },
-  { href: '/profile',      label: 'Profile',  Icon: User },
+  { href: '/home',              label: 'Home',    Icon: Home },
+  { href: '/vote?state=FL',     label: 'Vote',    Icon: Vote,     match: '/vote' },
+  { href: '/results',           label: 'Results', Icon: BarChart3 },
+  { href: '/profile',           label: 'Profile', Icon: User },
 ]
 
 export default function BottomNav() {
@@ -22,8 +22,8 @@ export default function BottomNav() {
       aria-label="Main navigation"
     >
       <div className="flex items-center justify-around h-16 px-2">
-        {NAV_ITEMS.map(({ href, label, Icon }) => {
-          const active = pathname.startsWith(href)
+        {NAV_ITEMS.map(({ href, label, Icon, match }) => {
+          const active = pathname.startsWith(match ?? href)
           return (
             <Link
               key={href}
