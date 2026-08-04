@@ -543,66 +543,51 @@ export interface Proposition {
 }
 
 export const PROPOSITIONS: Proposition[] = [
+  // ── Florida — 3 Confirmed Constitutional Amendments, November 3, 2026 ──
+  // All three are legislatively referred and require 60% voter approval to pass.
   {
     id: 'fl-prop-1',
     stateCode: 'FL',
     state: 'Florida',
     number: 'Amendment 1',
-    title: 'Minimum Wage Increase to $15/hr',
-    summary: 'Raises the state minimum wage from $12 to $15 per hour by 2027, with annual cost-of-living adjustments tied to the Consumer Price Index thereafter.',
-    fiscalImpact: 'Estimated $340M annual increase in state payroll costs; projected $1.2B boost to consumer spending.',
-    proArgument: 'Lifts hundreds of thousands of workers out of poverty and reduces reliance on public assistance programs.',
-    conArgument: 'May lead to reduced hours or job cuts for small businesses already operating on thin margins.',
+    title: 'Budget Stabilization Fund Cap Increase',
+    summary: 'This legislatively referred constitutional amendment would increase the maximum cap on Florida\'s Budget Stabilization Fund — commonly called the rainy-day fund — from 10% to 25% of net general revenue collections. The amendment also mandates annual transfers into the fund of the lesser of $750 million or the amount required to reach the new 25% cap each year. The legislature would retain the ability to suspend required transfers under specific emergency circumstances defined in state law. Currently, Florida\'s rainy-day fund holds approximately $11 billion. If the cap were raised and fully funded over time, the fund could eventually hold upward of $27 billion based on current revenue projections. The measure is designed to better prepare the state for major economic downturns, natural disasters, or other financial emergencies that require rapid government spending.',
+    fiscalImpact: 'The direct fiscal impact on the state budget is considered indeterminate but likely insignificant on an annual basis, as the mandatory transfers of up to $750 million per year would redirect money that currently flows to discretionary spending. In the short term this reduces available funds for other state programs. Over the long term the larger reserve is intended to reduce the state\'s reliance on borrowing or emergency budget cuts during a financial crisis, potentially saving significant interest costs and avoiding disruptive mid-year spending reductions.',
+    proArgument: 'Supporters including Governor Ron DeSantis and the Republican majority in the Florida Legislature argue that a larger rainy-day fund is essential prudent fiscal management for a state that faces regular hurricane seasons, economic cycles, and growing federal funding uncertainty. They contend that having a well-funded reserve insulates Florida from the severe budget crises that hit states with thinner reserves during the 2008 financial crisis and COVID-19 pandemic. Proponents also argue that a stronger reserve improves Florida\'s credit rating, which lowers borrowing costs on state bonds and ultimately saves taxpayers money over time.',
+    conArgument: 'Opponents including the Florida Policy Institute and various public employee unions argue that mandating $750 million per year into savings during times when the state faces pressing needs in education, healthcare, and social services amounts to hoarding money that could be put to immediate productive use. Critics contend that the current 10% cap is already a generous reserve by national standards and that increasing it to 25% prioritizes a financial cushion over services that low-income Floridians depend on today. Some budget analysts warn that locking up a larger share of general revenue could force cuts to programs or result in pressure to raise fees elsewhere to compensate for the diverted funds.',
     category: 'Economy',
   },
   {
     id: 'fl-prop-2',
     stateCode: 'FL',
     state: 'Florida',
-    number: 'Amendment 3',
-    title: 'Coastal Resilience Infrastructure Bond',
-    summary: 'Authorizes $4 billion in general obligation bonds to fund seawall repairs, beach restoration, and storm-surge barriers along Florida\'s coastline.',
-    fiscalImpact: 'Estimated $280M per year in debt service over 20 years; protects $890B in coastal property value.',
-    proArgument: 'Protects lives, property, and tourism from increasingly severe hurricanes and sea-level rise.',
-    conArgument: 'Adds significant long-term debt burden without guaranteeing effectiveness against future storm events.',
-    category: 'Environment',
+    number: 'Amendment 2',
+    title: 'Farm Equipment and Agritourism Property Tax Exemption',
+    summary: 'This legislatively referred constitutional amendment would exempt certain tangible personal property — primarily farm equipment, tools, and machinery — from local ad valorem (property) taxes, provided the property meets three conditions: it is habitually located on agricultural land, it is used for agricultural production or agritourism activities, and it is owned by the landowner or leaseholder of that agricultural land. Currently, Florida\'s constitution allows the legislature to exempt certain personal property from taxation but does not specifically address farm equipment on agricultural land. If passed, the exemption would take effect for tax years beginning January 1, 2027. Agritourism includes activities such as farm tours, U-pick operations, hayrides, corn mazes, and other events that bring the public onto agricultural land for entertainment, education, or recreation. The measure is intended to reduce the operating costs of Florida farmers and encourage the growth of the agritourism industry, which contributes significantly to rural economies.',
+    fiscalImpact: 'The Revenue Estimating Conference projects a recurring negative fiscal impact on local government revenues of approximately $31 million annually beginning in fiscal year 2027-2028. This represents the property tax revenue that local governments and school districts would no longer collect from qualifying farm equipment. The impact would vary by county — agricultural counties with large farming operations such as Hendry, Glades, and Okeechobee would experience proportionally larger revenue reductions than urban counties. Local governments may need to adjust their budgets to account for the lost revenue, though the relatively small statewide total suggests the impact on any single government entity would be modest.',
+    proArgument: 'Supporters including the Florida Farm Bureau and agricultural industry groups argue that farm equipment is a working tool of production, not wealth sitting idle, and that taxing it creates an ongoing financial burden on farmers that discourages investment in modern machinery and equipment. They contend that reducing the tax load on Florida\'s $8 billion agricultural industry helps keep farming economically viable in a state where farmland faces increasing pressure from residential and commercial development. Proponents also argue the agritourism component supports rural communities and small farms that depend on visitor revenue to supplement traditional crop income.',
+    conArgument: 'Opponents raise concerns that the exemption primarily benefits large agricultural operations and wealthy landowners rather than small subsistence farmers, since larger farms have more equipment and therefore receive a proportionally larger tax break. Some local government officials and county commissioners argue that even a $31 million annual reduction in property tax revenue statewide adds up over time and could require cuts to local road maintenance, emergency services, or school funding in agricultural counties that are already operating with limited budgets. Critics also question whether including agritourism — which can be a significant commercial enterprise — is an appropriate expansion of an agricultural exemption that was originally intended to support food production.',
+    category: 'Economy',
   },
   {
     id: 'fl-prop-3',
     stateCode: 'FL',
     state: 'Florida',
-    number: 'Prop 7',
-    title: 'Universal Pre-K Expansion',
-    summary: 'Expands voluntary universal pre-kindergarten from half-day to full-day programs for all 4-year-olds, funded through a 0.5% increase in the documentary stamp tax.',
-    fiscalImpact: 'Raises approximately $620M annually; expands program to an estimated 180,000 additional children.',
-    proArgument: 'Early childhood education dramatically improves graduation rates and lifetime earnings outcomes.',
-    conArgument: 'Tax increase disproportionately affects real estate transactions during an already challenging housing market.',
-    category: 'Education',
-  },
-  {
-    id: 'tx-prop-1',
-    stateCode: 'TX',
-    state: 'Texas',
-    number: 'Prop 2',
-    title: 'Property Tax Relief for Homesteads',
-    summary: 'Increases the homestead exemption from $40,000 to $100,000 for school district property taxes, providing direct relief to primary-residence homeowners.',
-    fiscalImpact: 'Reduces school district revenue by approximately $5.6B annually, offset by increased state funding.',
-    proArgument: 'Provides meaningful relief to middle-class homeowners struggling with rapidly rising property valuations.',
-    conArgument: 'Primarily benefits higher-value properties and shifts tax burden to renters and commercial property owners.',
+    number: 'Amendment 3',
+    title: 'Save Our Homes From Excessive Property Taxes',
+    summary: 'This legislatively referred constitutional amendment — titled "Save Our Homes From Excessive Property Taxes" by its sponsors — makes several significant changes to Florida\'s property tax system. First, it increases the homestead exemption for non-school levies to $150,000 in 2027 and $250,000 in 2028, with adjustments tied to inflation starting in 2029. Residents who become Florida homesteaders after 2026 would receive a smaller initial exemption of $50,000 for their first five years of residency before receiving the full exemption. Second, the amendment reduces the annual assessment increase cap for non-homestead properties — such as rental housing, commercial property, and second homes — from 10% to 5% per year. Third, it restricts how local governments may spend ad valorem (property tax) revenue, limiting expenditures to core services including public safety, transportation infrastructure, and public education. These restrictions are intended to prevent local governments from using property tax revenue for what supporters characterize as nonessential spending.',
+    fiscalImpact: 'The measure carries one of the largest fiscal impacts of any Florida constitutional amendment in recent history. The Revenue Estimating Conference estimates a recurring annual reduction of approximately $11.86 billion in local non-school property tax revenues once fully phased in. This represents revenue that would no longer be collected from homeowners and non-homestead property owners under the expanded exemptions and lower assessment cap. Local governments, special districts, and county services funded by property taxes would face significant budget pressure. To maintain current service levels, local governments would likely need to cut services, raise other fees and non-property taxes, or seek additional state funding — impacts that would vary significantly by county and municipality.',
+    proArgument: 'Supporters including Governor Ron DeSantis and Republican legislators who placed the measure on the ballot argue that Florida homeowners are being crushed by rapidly rising property tax bills driven by soaring home valuations, and that the state\'s existing "Save Our Homes" cap on assessment increases has not been sufficient to protect families from sticker shock on their annual tax bills. They argue that the expanded exemptions provide meaningful, direct relief to middle-class homeowners — particularly seniors on fixed incomes and working families — who risk being taxed out of their homes. Proponents also argue that restricting local government spending to core services forces governments to prioritize essential functions rather than expanding government programs funded by rising property values.',
+    conArgument: 'Opponents including the Florida Policy Institute, the Florida League of Cities, and county governments across the state argue that a nearly $12 billion annual reduction in local government revenues would devastate funding for public services that communities depend on, including libraries, parks, fire departments, public transit, and affordable housing programs. Critics point out that the measure disproportionately benefits owners of expensive homes and that the spending restrictions on local governments constitute an unprecedented state takeover of local decision-making that ignores the different needs of Florida\'s 67 counties. Economists warn the measure could also worsen housing affordability by reducing property taxes on rental properties without any requirement that landlords pass the savings on to tenants, while simultaneously cutting the local services and infrastructure investments that make communities livable.',
     category: 'Economy',
   },
-  {
-    id: 'tx-prop-2',
-    stateCode: 'TX',
-    state: 'Texas',
-    number: 'Prop 6',
-    title: 'Statewide Water Infrastructure Fund',
-    summary: 'Creates a $3B revolving loan fund for municipalities and water districts to upgrade aging water infrastructure, prioritizing rural communities.',
-    fiscalImpact: 'Initial $3B allocation from general revenue; self-sustaining through loan repayments within 15 years.',
-    proArgument: 'Addresses a critical infrastructure gap, especially for rural Texas communities with aging or failing water systems.',
-    conArgument: 'Represents a large upfront expenditure that could crowd out other state funding priorities.',
-    category: 'Infrastructure',
-  },
+  // ── Texas — No Statewide Ballot Measures on the November 3, 2026 Ballot ──
+  // Texas held its constitutional amendment election in November 2025 (17 measures approved).
+  // The 89th Legislature's next regular session begins January 2027, so no new amendments
+  // have been referred for the November 2026 general election.
+  // ── New York — No Statewide Ballot Measures on the November 3, 2026 Ballot ──
+  // New York's constitutional amendment process requires passage by two successive legislative
+  // sessions before referral to voters. No measures have completed that process for 2026.
   // ── California — Officially Qualified for November 3, 2026 Ballot ──
   {
     id: 'ca-prop-1',
@@ -689,18 +674,6 @@ export const PROPOSITIONS: Proposition[] = [
     proArgument: 'Supporters including the California Chamber of Commerce and major technology and finance industry groups argue that prohibiting taxes on personal property and retroactive taxes are fundamental protections that provide certainty and predictability for residents, businesses, and investors. They contend that the ability to retroactively tax existing wealth is a dangerous precedent that undermines property rights and could be expanded in the future to affect ordinary Californians, not just billionaires. Proponents argue the measure simply codifies longstanding constitutional principles that already exist in federal law and in many state constitutions.',
     conArgument: 'Opponents argue that Proposition 42, like Proposition 41, is a special-interest measure funded by California\'s wealthiest residents to protect their own fortunes from taxation. Critics point out that the retroactivity argument against Proposition 40 is legally contested — courts have upheld some retroactive taxes in the past — and that this measure preemptively resolves a legal question in favor of billionaires before any court has ruled. Opponents also warn that broadly prohibiting taxes on personal property could unintentionally limit future tax options during economic emergencies when the state may need new revenue sources to fund public services.',
     category: 'Taxes',
-  },
-  {
-    id: 'ny-prop-1',
-    stateCode: 'NY',
-    state: 'New York',
-    number: 'Prop 1',
-    title: 'Equal Rights Amendment',
-    summary: 'Amends the state constitution to explicitly prohibit discrimination based on ethnicity, national origin, age, disability, and sex, including gender identity and sexual orientation.',
-    fiscalImpact: 'Minimal direct fiscal impact; potential litigation costs estimated at $10M–$50M over 5 years.',
-    proArgument: 'Enshrines robust civil rights protections in the state constitution, insulating them from future legislative rollback.',
-    conArgument: 'Broad language could create unintended legal consequences, particularly around parental rights and religious exemptions.',
-    category: 'Healthcare',
   },
 ]
 

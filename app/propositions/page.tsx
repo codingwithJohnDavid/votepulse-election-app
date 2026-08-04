@@ -114,10 +114,22 @@ export default function PropositionsPage() {
           style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 5rem)' }}
         >
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <FileText size={32} className="text-muted-foreground mb-3" />
-              <p className="text-muted-foreground font-medium text-sm">No propositions available</p>
-              <p className="text-muted-foreground text-xs mt-1">Select a different state</p>
+            <div className="flex flex-col items-center justify-center py-16 text-center px-4">
+              <FileText size={32} className="text-muted-foreground mb-3" aria-hidden="true" />
+              <p className="font-bold text-sm text-foreground mb-1">No statewide measures on the 2026 ballot</p>
+              {stateFilter === 'TX' && (
+                <p className="text-muted-foreground text-xs leading-relaxed max-w-xs">
+                  Texas held its constitutional amendment election in November 2025, approving 17 measures. The 89th Legislature&apos;s next regular session begins January 2027, so no new amendments have been referred for November 2026.
+                </p>
+              )}
+              {stateFilter === 'NY' && (
+                <p className="text-muted-foreground text-xs leading-relaxed max-w-xs">
+                  New York&apos;s amendment process requires passage by two successive legislative sessions before referral to voters. No measures have completed that process for 2026.
+                </p>
+              )}
+              {stateFilter !== 'TX' && stateFilter !== 'NY' && (
+                <p className="text-muted-foreground text-xs mt-1">Select a different state to see ballot measures.</p>
+              )}
             </div>
           ) : (
             filtered.map((prop, i) => {
