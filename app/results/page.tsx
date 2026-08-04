@@ -271,8 +271,11 @@ export default function ResultsPage() {
                       ))}
                     </Pie>
                   </PieChart>
-                  {/* Center label */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  {/* Center label — anchored to the arc's cx/cy pixel coords */}
+                  <div
+                    className="absolute flex flex-col items-center pointer-events-none"
+                    style={{ top: 90, left: 90, transform: 'translate(-50%, -50%)' }}
+                  >
                     <span className="text-[19px] font-black text-foreground leading-none tabular-nums">
                       {race.totalResponses.toLocaleString()}
                     </span>
