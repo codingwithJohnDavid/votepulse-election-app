@@ -28,8 +28,9 @@ export async function updateSession(request: NextRequest) {
   // Refresh session — do not add logic between createServerClient and getUser
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Protect routes that require authentication
-  const protectedPaths = ['/profile', '/results', '/vote', '/propositions']
+  // All pages are accessible to guests — auth is optional.
+  // Add paths here only when a route truly requires a signed-in user.
+  const protectedPaths: string[] = []
   const isProtected = protectedPaths.some((p) =>
     request.nextUrl.pathname.startsWith(p)
   )
