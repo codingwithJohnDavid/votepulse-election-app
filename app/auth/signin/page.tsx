@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
+import { createClient } from '@/lib/supabase/client'
 
 export default function SignInPage() {
   const router = useRouter()
@@ -25,9 +26,18 @@ export default function SignInPage() {
       return
     }
     setLoading(true)
-    await new Promise((r) => setTimeout(r, 700))
-    // Simulate success – replace with real auth
+    const supabase = createClient()
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    })
+    if (authError) {
+      setError(authError.message)
+      setLoading(false)
+      return
+    }
     router.push('/home')
+    router.refresh()
   }
 
   return (
@@ -122,7 +132,7 @@ export default function SignInPage() {
             <div className="flex-1 h-px bg-border" aria-hidden="true" />
           </div>
 
-          {/* Demo shortcut */}
+          {/* Guest shortcut */}
           <button
             type="button"
             onClick={() => router.push('/home')}
@@ -131,7 +141,7 @@ export default function SignInPage() {
               'transition-colors hover:bg-muted active:scale-95',
             )}
           >
-            Continue as Guest (Demo)
+            Continue as Guest
           </button>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">

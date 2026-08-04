@@ -45,10 +45,11 @@ function EditSheet({
   open: boolean
   onClose: () => void
   profile: UserProfile
-  onSave: (patch: Partial<UserProfile>) => void
+  onSave: (patch: Partial<UserProfile>) => Promise<void>
 }) {
   const [draft, setDraft] = useState<UserProfile>({ ...profile })
   const [activeField, setActiveField] = useState<keyof UserProfile | null>(null)
+  const [saving, setSaving] = useState(false)
 
   function toggleField(key: keyof UserProfile) {
     setActiveField((prev) => (prev === key ? null : key))
@@ -59,8 +60,10 @@ function EditSheet({
     setActiveField(null)
   }
 
-  function handleSave() {
-    onSave(draft)
+  async function handleSave() {
+    setSaving(true)
+    await onSave(draft)
+    setSaving(false)
     onClose()
   }
 
@@ -194,9 +197,10 @@ function EditSheet({
               <button
                 type="button"
                 onClick={handleSave}
-                className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-[15px] hover:opacity-90 active:scale-95 transition-all"
+                disabled={saving}
+                className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-[15px] hover:opacity-90 active:scale-95 transition-all disabled:opacity-60"
               >
-                Save Changes
+                {saving ? 'Saving…' : 'Save Changes'}
               </button>
             </div>
           </motion.div>
@@ -371,7 +375,7 @@ export default function ProfilePage() {
         open={editOpen}
         onClose={() => setEditOpen(false)}
         profile={profile}
-        onSave={(patch) => setProfile(patch)}
+        onSave={(patch) => setProfile(patch)as Promise<void>}
       />
     </PageShell>
   )

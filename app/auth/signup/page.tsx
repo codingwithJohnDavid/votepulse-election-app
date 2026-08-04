@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
+import { createClient } from '@/lib/supabase/client'
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -46,8 +47,22 @@ export default function SignUpPage() {
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
     setLoading(true)
-    // Simulate async – replace with real auth call
-    await new Promise((r) => setTimeout(r, 800))
+    const supabase = createClient()
+    const { error: authError } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: {
+        data: {
+          first_name: form.firstName,
+          last_name: form.lastName,
+        },
+      },
+    })
+    if (authError) {
+      setErrors({ email: authError.message })
+      setLoading(false)
+      return
+    }
     router.push('/onboarding/demographics')
   }
 

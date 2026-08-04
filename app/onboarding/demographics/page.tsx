@@ -82,13 +82,12 @@ export default function DemographicsPage() {
     setForm((f) => ({ ...f, [currentStep.key]: val }))
   }
 
-  function persistAndNavigate(updatedForm: DemoForm) {
-    // Persist whatever has been filled in so far (null for skipped fields)
-    setProfile({
-      ageRange:            updatedForm.ageRange || null,
-      race:                updatedForm.race || null,
-      religion:            updatedForm.religion || null,
-      gender:              updatedForm.gender || null,
+  async function persistAndNavigate(updatedForm: DemoForm) {
+    await setProfile({
+      ageRange:             updatedForm.ageRange || null,
+      race:                 updatedForm.race || null,
+      religion:             updatedForm.religion || null,
+      gender:               updatedForm.gender || null,
       politicalAffiliation: updatedForm.politicalAffiliation || null,
     })
     router.push('/onboarding/state')
@@ -99,7 +98,7 @@ export default function DemographicsPage() {
     if (step < TOTAL_STEPS - 1) {
       setStep((s) => s + 1)
     } else {
-      persistAndNavigate(form)
+      void persistAndNavigate(form)
     }
   }
 
@@ -112,7 +111,7 @@ export default function DemographicsPage() {
   function skipStep() {
     setDirection(1)
     if (step < TOTAL_STEPS - 1) setStep((s) => s + 1)
-    else persistAndNavigate(form)
+    else void persistAndNavigate(form)
   }
 
   const canProceed = !!form[currentStep.key]
