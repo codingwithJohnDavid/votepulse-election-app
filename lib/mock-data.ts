@@ -685,6 +685,7 @@ export const RACE_RESULTS: RaceResult[] = [
     raceId: 'fl-sen',
     raceLabel: 'Senate',
     office: 'Senate',
+    stateCode: 'FL',
     totalResponses: 4620,
     candidates: [
       { candidateId: 'fl-sen-1', name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat',     count: 1983, percent: 43 },
@@ -736,6 +737,7 @@ export const RACE_RESULTS: RaceResult[] = [
   {
     raceId: 'fl-house-7',
     raceLabel: 'House – District 7',
+    stateCode: 'FL',
     office: 'House',
     totalResponses: 2140,
     candidates: [

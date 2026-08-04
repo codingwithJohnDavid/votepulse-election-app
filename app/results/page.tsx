@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 import { ChevronDown, Lock, Share2, Info } from 'lucide-react'
@@ -8,6 +8,7 @@ import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
 import { RACE_RESULTS, partyColor, type RaceResult, type DemographicBreakdown } from '@/lib/mock-data'
+import { useActiveState } from '@/lib/state-context'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -127,31 +128,42 @@ function AccordionSection({ title, items }: { title: string; items: DemographicB
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function ResultsPage() {
-  // FL has both Senate and House — default to Senate
-  const senateResult = RACE_RESULTS.find((r) => r.office === 'Senate') ?? RACE_RESULTS[0]
-  const houseResult  = RACE_RESULTS.find((r) => r.office === 'House')
+  const { activeState } = useActiveState()
 
-  const [activeRace, setActiveRace] = useState<RaceResult>(senateResult)
+  // Filter races to the active state
+  const stateRaces = RACE_RESULTS.filter((r) => r.stateCode === activeState.code)
+  const senateResult = stateRaces.find((r) => r.office === 'Senate') ?? stateRaces[0]
+  const houseResult  = stateRaces.find((r) => r.office === 'House')
+
+  const [activeRace, setActiveRace] = useState<RaceResult | undefined>(senateResult)
   const hasHouse = !!houseResult
 
+  // Reset to the first available race when the active state changes
+  useEffect(() => {
+    setActiveRace(senateResult)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeState.code])
+
   const race = activeRace
-  const chartData = race.candidates.map((c) => ({
+
+  // All derived values are guarded — only computed when a race exists
+  const chartData = race ? race.candidates.map((c) => ({
     name: c.lastName,
     value: c.count,
     color: partyColor(c.party).ring,
-  }))
+  })) : []
 
-  const DEMOGRAPHICS = [
-    { title: 'Age Range',            items: race.byAge },
-    { title: 'Race or Ethnicity',    items: race.byRace },
-    { title: 'Religious Affiliation',items: race.byReligion },
-    { title: 'Gender',               items: race.byGender },
-    { title: 'Household Income',     items: race.byIncome },
-    { title: 'Education Level',      items: race.byEducation },
-  ]
+  const DEMOGRAPHICS = race ? [
+    { title: 'Age Range',             items: race.byAge },
+    { title: 'Race or Ethnicity',     items: race.byRace },
+    { title: 'Religious Affiliation', items: race.byReligion },
+    { title: 'Gender',                items: race.byGender },
+    { title: 'Household Income',      items: race.byIncome },
+    { title: 'Education Level',       items: race.byEducation },
+  ] : []
 
-  const [c0, c1] = race.candidates
-  const col0 = partyColor(c0.party)
+  const [c0, c1] = race ? race.candidates : []
+  const col0 = c0 ? partyColor(c0.party) : null
   const col1 = c1 ? partyColor(c1.party) : null
 
   return (
@@ -161,12 +173,26 @@ export default function ResultsPage() {
         {/* ── Header ── */}
         <header className="bg-card px-5 pt-14 pb-4 border-b border-border">
           <h1 className="text-2xl font-black text-foreground mb-1">Results</h1>
-          <p className="text-sm text-muted-foreground">Florida · 2026 Midterms</p>
+          <p className="text-sm text-muted-foreground">{activeState.name} · 2026 Midterms</p>
         </header>
 
         <div className="flex-1 overflow-y-auto pb-24">
 
+          {/* ── Empty state for states with no results data yet ── */}
+          {stateRaces.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 px-8 text-center">
+              <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
+                <PieChart size={24} className="text-muted-foreground" aria-hidden="true" />
+              </div>
+              <p className="font-bold text-foreground text-sm mb-1">No results available yet</p>
+              <p className="text-muted-foreground text-xs leading-relaxed max-w-xs">
+                Results for {activeState.name} will appear here once participants in this state cast their selections.
+              </p>
+            </div>
+          )}
+
           {/* ── Senate / House toggle ── */}
+          {stateRaces.length > 0 && race && (<>
           <div className="px-5 pt-5 pb-3">
             <div className="flex gap-2">
               <button
@@ -212,7 +238,7 @@ export default function ResultsPage() {
               <div className="flex items-center justify-between gap-1">
 
                 {/* Candidate 0 — left */}
-                <div className="flex flex-col items-center min-w-[76px] gap-0.5">
+                {c0 && col0 && <div className="flex flex-col items-center min-w-[76px] gap-0.5">
                   <p
                     className="text-[38px] font-black leading-none"
                     style={{ color: col0.ring }}
@@ -229,7 +255,7 @@ export default function ResultsPage() {
                   <span className="text-[11px] text-muted-foreground tabular-nums">
                     {c0.count.toLocaleString()}
                   </span>
-                </div>
+                </div>}
 
                 {/* Donut — center */}
                 <div className="relative flex-1 max-w-[190px]">
@@ -390,6 +416,9 @@ export default function ResultsPage() {
               Share VotePulse
             </button>
           </div>
+          {/* end stateRaces.length > 0 */}
+          </>)}
+
         </div>
 
         <BottomNav />
