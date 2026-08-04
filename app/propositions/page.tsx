@@ -29,6 +29,9 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
   'Election Administration': { bg: 'bg-indigo-100',  text: 'text-indigo-700' },
   'Government Reform':       { bg: 'bg-teal-100',    text: 'text-teal-700' },
   Taxes:                     { bg: 'bg-orange-100',  text: 'text-orange-700' },
+  'Public Health':           { bg: 'bg-pink-100',    text: 'text-pink-700' },
+  'Campaign Finance':        { bg: 'bg-purple-100',  text: 'text-purple-700' },
+  'Local Government':        { bg: 'bg-sky-100',     text: 'text-sky-700' },
 }
 
 export default function PropositionsPage() {
@@ -133,6 +136,11 @@ export default function PropositionsPage() {
                         <span className="text-[11px] font-black text-muted-foreground uppercase tracking-wide">
                           {prop.number}
                         </span>
+                        {prop.ballotType && (
+                          <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-mono tracking-tight">
+                            {prop.ballotType}
+                          </span>
+                        )}
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${colors.bg} ${colors.text}`}>
                           {prop.category}
                         </span>
