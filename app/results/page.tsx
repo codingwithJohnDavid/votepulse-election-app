@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PieChart, Pie, Cell } from 'recharts'
-import { ChevronDown, Lock, Share2, Info } from 'lucide-react'
+import { ChevronDown, Lock, Share2, Info, User, BarChart3 } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
 import { RACE_RESULTS, partyColor, type RaceResult, type DemographicBreakdown } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
+import { useProfile } from '@/lib/profile-context'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -17,6 +18,125 @@ function getInitials(name: string) {
   return parts.length >= 2
     ? `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase()
     : name.slice(0, 2).toUpperCase()
+}
+
+// ─── Map profile field → breakdown array label ────────────────────────────────
+
+/** Some profile option labels differ slightly from the mock-data breakdown labels. */
+function normalizeRaceLabel(race: string | null): string | null {
+  if (!race) return null
+  // Profile stores 'Black / African American', mock-data uses 'Black / African Am.'
+  if (race === 'Black / African American') return 'Black / African Am.'
+  // Profile stores 'Asian / Pacific Islander', mock-data uses 'Asian / Pacific Is.'
+  if (race === 'Asian / Pacific Islander') return 'Asian / Pacific Is.'
+  return race
+}
+
+function normalizeReligionLabel(religion: string | null): string | null {
+  if (!religion) return null
+  // Profile stores 'Christian (Protestant)', mock-data uses 'Christian'
+  if (religion === 'Christian (Protestant)') return 'Christian'
+  // Profile stores 'Buddhist', mock-data uses 'Buddhist' — same
+  return religion
+}
+
+function normalizeGenderLabel(gender: string | null): string | null {
+  if (!gender) return null
+  // Profile stores 'Non-binary', mock-data uses 'Non-binary / Other'
+  if (gender === 'Non-binary') return 'Non-binary / Other'
+  return gender
+}
+
+// ─── "Your Group" highlight card ──────────────────────────────────────────────
+
+interface MatchedGroup {
+  sectionTitle: string
+  item: DemographicBreakdown
+}
+
+function YourGroupCard({ matches }: { matches: MatchedGroup[] }) {
+  if (matches.length === 0) return null
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="mx-5 mb-3 bg-card rounded-3xl overflow-hidden shadow-sm border border-primary/20"
+    >
+      {/* Header */}
+      <div
+        className="flex items-center gap-2.5 px-5 py-3.5"
+        style={{ background: 'linear-gradient(135deg, oklch(0.40 0.19 285) 0%, oklch(0.55 0.16 265) 100%)' }}
+      >
+        <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+          <User size={14} className="text-white" aria-hidden="true" />
+        </div>
+        <p className="text-sm font-black text-white">Your Group&apos;s Results</p>
+      </div>
+
+      {/* Rows */}
+      <div className="divide-y divide-border">
+        {matches.map(({ sectionTitle, item }, idx) => {
+          const masked = item.count < 30
+          return (
+            <div key={idx} className="px-5 py-3.5">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <span className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">{sectionTitle}</span>
+                  <p className="text-sm font-bold text-foreground leading-tight">{item.label}</p>
+                </div>
+                {masked ? (
+                  <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                    <Lock size={10} aria-hidden="true" />
+                    <span>{'<'}30 resp.</span>
+                  </div>
+                ) : (
+                  <span className="text-[11px] text-muted-foreground tabular-nums">
+                    {item.count.toLocaleString()} resp.
+                  </span>
+                )}
+              </div>
+
+              {masked ? (
+                <div className="h-2 rounded-full bg-muted" aria-label="Data hidden for privacy" />
+              ) : (
+                <div className="space-y-2">
+                  {item.candidates.map((c, ci) => {
+                    const colors = partyColor(c.party)
+                    return (
+                      <div key={ci} className="flex items-center gap-3">
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[12px] font-semibold text-foreground block mb-1 truncate">
+                            {c.lastName}
+                          </span>
+                          <div className="h-[6px] rounded-full bg-muted overflow-hidden">
+                            <motion.div
+                              className="h-full rounded-full"
+                              style={{ backgroundColor: colors.ring }}
+                              initial={{ width: 0 }}
+                              animate={{ width: `${c.percent}%` }}
+                              transition={{ duration: 0.6, ease: 'easeOut', delay: idx * 0.04 + ci * 0.06 }}
+                            />
+                          </div>
+                        </div>
+                        <span
+                          className="text-[13px] font-black tabular-nums shrink-0 w-9 text-right"
+                          style={{ color: colors.ring }}
+                        >
+                          {c.percent}%
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </motion.div>
+  )
 }
 
 // ─── Demographic candidate row ────────────────────────────────────────────────
@@ -133,14 +253,13 @@ function AccordionSection({ title, items }: { title: string; items: DemographicB
 
 export default function ResultsPage() {
   const { activeState } = useActiveState()
+  const { profile } = useProfile()
 
   // Filter races to the active state
   const stateRaces = RACE_RESULTS.filter((r) => r.stateCode === activeState.code)
   const senateResult = stateRaces.find((r) => r.office === 'Senate') ?? stateRaces[0]
-  const houseResult  = stateRaces.find((r) => r.office === 'House')
 
   const [activeRace, setActiveRace] = useState<RaceResult | undefined>(senateResult)
-  const hasHouse = !!houseResult
 
   // Reset to the first race for the new state whenever activeState.code changes
   useEffect(() => {
@@ -163,9 +282,33 @@ export default function ResultsPage() {
     { title: 'Race or Ethnicity',     items: race.byRace },
     { title: 'Religious Affiliation', items: race.byReligion },
     { title: 'Gender',                items: race.byGender },
-    { title: 'Household Income',      items: race.byIncome },
-    { title: 'Education Level',       items: race.byEducation },
+    { title: 'Political Affiliation', items: race.byPolitical },
   ] : []
+
+  // Build "Your Group" matches — find the item in each section that matches the profile
+  const yourGroupMatches: MatchedGroup[] = race ? (() => {
+    const matches: MatchedGroup[] = []
+
+    const tryMatch = (
+      title: string,
+      items: DemographicBreakdown[],
+      profileValue: string | null,
+      normalize?: (v: string | null) => string | null
+    ) => {
+      const resolved = normalize ? normalize(profileValue) : profileValue
+      if (!resolved) return
+      const found = items.find((it) => it.label === resolved)
+      if (found) matches.push({ sectionTitle: title, item: found })
+    }
+
+    tryMatch('Age Range',             race.byAge,       profile.ageRange)
+    tryMatch('Race or Ethnicity',     race.byRace,      profile.race,                normalizeRaceLabel)
+    tryMatch('Religious Affiliation', race.byReligion,  profile.religion,            normalizeReligionLabel)
+    tryMatch('Gender',                race.byGender,    profile.gender,              normalizeGenderLabel)
+    tryMatch('Political Affiliation', race.byPolitical, profile.politicalAffiliation)
+
+    return matches
+  })() : []
 
   const [c0, c1] = race ? race.candidates : []
   const col0 = c0 ? partyColor(c0.party) : null
@@ -187,7 +330,7 @@ export default function ResultsPage() {
           {stateRaces.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 px-8 text-center">
               <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-4">
-                <PieChart size={24} className="text-muted-foreground" aria-hidden="true" />
+                <BarChart3 size={24} className="text-muted-foreground" aria-hidden="true" />
               </div>
               <p className="font-bold text-foreground text-sm mb-1">No results available yet</p>
               <p className="text-muted-foreground text-xs leading-relaxed max-w-xs">
@@ -312,6 +455,11 @@ export default function ResultsPage() {
               </div>
             </motion.div>
           </AnimatePresence>
+
+          {/* ── Your Group's Results ── */}
+          {yourGroupMatches.length > 0 && (
+            <YourGroupCard matches={yourGroupMatches} />
+          )}
 
           {/* ── Results by Candidate ── */}
           <div className="mx-5 mb-3 bg-card rounded-3xl px-5 py-5 shadow-sm">

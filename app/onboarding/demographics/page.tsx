@@ -13,6 +13,7 @@ import {
   GENDER_OPTIONS,
   POLITICAL_OPTIONS,
 } from '@/lib/mock-data'
+import { useProfile } from '@/lib/profile-context'
 
 interface DemoForm {
   ageRange: string
@@ -64,6 +65,7 @@ const TOTAL_STEPS = STEPS.length
 
 export default function DemographicsPage() {
   const router = useRouter()
+  const { setProfile } = useProfile()
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [form, setForm] = useState<DemoForm>({
@@ -80,12 +82,24 @@ export default function DemographicsPage() {
     setForm((f) => ({ ...f, [currentStep.key]: val }))
   }
 
+  function persistAndNavigate(updatedForm: DemoForm) {
+    // Persist whatever has been filled in so far (null for skipped fields)
+    setProfile({
+      ageRange:            updatedForm.ageRange || null,
+      race:                updatedForm.race || null,
+      religion:            updatedForm.religion || null,
+      gender:              updatedForm.gender || null,
+      politicalAffiliation: updatedForm.politicalAffiliation || null,
+    })
+    router.push('/onboarding/state')
+  }
+
   function goNext() {
     setDirection(1)
     if (step < TOTAL_STEPS - 1) {
       setStep((s) => s + 1)
     } else {
-      router.push('/onboarding/state')
+      persistAndNavigate(form)
     }
   }
 
@@ -98,7 +112,7 @@ export default function DemographicsPage() {
   function skipStep() {
     setDirection(1)
     if (step < TOTAL_STEPS - 1) setStep((s) => s + 1)
-    else router.push('/onboarding/state')
+    else persistAndNavigate(form)
   }
 
   const canProceed = !!form[currentStep.key]

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { StateProvider } from '@/lib/state-context'
+import { ProfileProvider } from '@/lib/profile-context'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <StateProvider>{children}</StateProvider>
+        <StateProvider>
+          <ProfileProvider>{children}</ProfileProvider>
+        </StateProvider>
       </body>
     </html>
   )
