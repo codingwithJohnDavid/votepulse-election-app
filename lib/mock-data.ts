@@ -539,7 +539,7 @@ export interface Proposition {
   fiscalImpact: string
   proArgument: string
   conArgument: string
-  category: 'Education' | 'Environment' | 'Healthcare' | 'Economy' | 'Criminal Justice' | 'Infrastructure' | 'Housing'
+  category: 'Education' | 'Environment' | 'Healthcare' | 'Economy' | 'Criminal Justice' | 'Infrastructure' | 'Housing' | 'Election Administration' | 'Government Reform'
 }
 
 export const PROPOSITIONS: Proposition[] = [
@@ -603,29 +603,55 @@ export const PROPOSITIONS: Proposition[] = [
     conArgument: 'Represents a large upfront expenditure that could crowd out other state funding priorities.',
     category: 'Infrastructure',
   },
+  // ── California — Officially Qualified for November 3, 2026 Ballot ──
   {
     id: 'ca-prop-1',
     stateCode: 'CA',
     state: 'California',
-    number: 'Prop 33',
-    title: 'Rent Control Expansion',
-    summary: 'Repeals the Costa-Hawkins Act, allowing cities and counties to apply rent control to any residential rental unit, including single-family homes built after 1978.',
-    fiscalImpact: 'Uncertain; potential reduction in property tax revenues as housing values stabilize; lower housing construction forecasted.',
-    proArgument: 'Protects long-term tenants from displacement and preserves affordable housing in expensive urban markets.',
-    conArgument: 'Economists broadly agree rent control reduces housing supply and quality over the long term.',
-    category: 'Housing',
+    number: 'CA Measure 1',
+    title: 'Allow Public Financing of Election Campaigns',
+    summary: 'This legislatively referred state statute would allow the California state government and local governments to create public campaign financing programs. Under such programs, candidates who agree to spending limits and meet certain eligibility requirements would receive public funds to pay for their campaigns instead of relying primarily on private donations. The measure would change current California law, which prohibits the use of public money to fund political campaigns. Supporters argue this would reduce the influence of wealthy donors and special interest groups on elections. The measure passed the state legislature with strong Democratic support and was referred to voters for final approval.',
+    fiscalImpact: 'Fiscal impact depends on how individual programs are designed by the state and local governments. A statewide program could cost tens of millions to hundreds of millions of dollars per election cycle depending on the number of participating candidates and the size of the public grants provided.',
+    proArgument: 'Supporters, including the League of Women Voters and California Common Cause, argue that public campaign financing reduces the outsized influence of wealthy special interest donors on elections and elected officials. They say it encourages more diverse candidates to run for office without needing personal wealth or connections to large donors. They contend that when politicians are funded by small contributions from ordinary citizens rather than large checks from corporations and PACs, they are more likely to represent the interests of their constituents.',
+    conArgument: 'Opponents argue that public financing uses taxpayer dollars to fund political campaigns for candidates that many taxpayers may strongly disagree with or oppose. Critics raise concerns about the cost to government budgets at a time when many public services are already underfunded. Some argue that existing campaign finance laws and disclosure requirements are sufficient and that public financing is an inefficient use of public resources.',
+    category: 'Election Administration',
   },
   {
     id: 'ca-prop-2',
     stateCode: 'CA',
     state: 'California',
-    number: 'Prop 36',
-    title: 'Drug and Theft Crime Penalties',
-    summary: 'Increases penalties for certain drug and theft crimes, allowing courts to charge repeat offenders with felonies for possessing hard drugs or stealing goods over $950.',
-    fiscalImpact: 'Estimated $300M–$500M annually in increased incarceration costs; potential savings from reduced retail losses.',
-    proArgument: 'Addresses rampant retail theft and fentanyl crisis by restoring meaningful consequences for repeat offenders.',
-    conArgument: 'Reverses criminal justice reforms and disproportionately impacts low-income communities and people of color.',
-    category: 'Criminal Justice',
+    number: 'CA Measure 2',
+    title: 'Eliminate Successor Election at Recall',
+    summary: 'This legislatively referred constitutional amendment would change California\'s recall election process by eliminating the simultaneous successor election that currently appears on the same ballot as the recall question. Under current California law, if voters choose to recall a state officer, a replacement candidate is chosen at the same election — meaning a recall can succeed and a new officer can be installed with as little as a small plurality of votes. This amendment would instead leave the office vacant after a successful recall and fill it according to state law and the constitution. For the governor specifically, the lieutenant governor would assume the role, with a special election triggered only if the recall occurs in the first two years of the term.',
+    fiscalImpact: 'Minimal direct fiscal impact. Eliminating the successor election portion of a recall ballot could reduce election administration costs modestly. Any savings would depend on whether a separate special election is subsequently required to fill the vacancy.',
+    proArgument: 'Supporters including the League of Women Voters, California Common Cause, and the amendment\'s legislative sponsors argue the current system is undemocratic because a replacement governor can be installed with a small plurality of votes — far less support than was required to win the original election. They say the reform closes a loophole that allows political opponents to use a recall as a way to replace a popular elected official with someone who would never win a regular majority-vote election.',
+    conArgument: 'Opponents including the Election Integrity Project California argue that the current system preserves the public\'s right not only to remove a failed elected official but also to immediately choose a replacement. They contend that allowing the lieutenant governor — who is almost always from the same party as the recalled officer — to automatically assume the governorship effectively defeats the purpose of a recall, turning it into a "frying pan vs. fire" situation where voters have no real choice about who governs them.',
+    category: 'Government Reform',
+  },
+  {
+    id: 'ca-prop-3',
+    stateCode: 'CA',
+    state: 'California',
+    number: 'CA Measure 3',
+    title: 'Supermajority Vote for Initiatives Raising Vote Thresholds',
+    summary: 'This legislatively referred constitutional amendment would require that any ballot initiative seeking to raise an existing vote threshold to a supermajority must itself pass by that same supermajority vote. Under current rules, a simple majority of voters can pass an initiative that then requires future measures to achieve a two-thirds or other supermajority vote. This measure closes what critics call a loophole that allows a simple majority to permanently raise the bar for future voters. For example, if an initiative proposes requiring a two-thirds vote to raise taxes, this amendment would require that the initiative itself receive a two-thirds vote before it can take effect.',
+    fiscalImpact: 'No direct fiscal impact. The measure changes procedural voting rules rather than spending, taxes, or government programs. Indirect effects are difficult to estimate and would depend on which future initiatives are affected by the new requirement.',
+    proArgument: 'Supporters argue this measure prevents a simple majority of voters from permanently restricting the ability of future majorities to govern. They contend it is fundamentally unfair for 50.1% of voters to impose a two-thirds requirement that then ties the hands of future voters, making certain policies nearly impossible to change. The reform ensures that any measure raising the bar for democracy itself must meet the same high standard it proposes to create.',
+    conArgument: 'Critics argue the measure limits the right of citizens to set the rules of their own government through the initiative process. Some fiscal conservatives argue that existing supermajority requirements for tax increases protect taxpayers from runaway government spending, and that this measure makes those protections harder to enact and easier to remove in the future.',
+    category: 'Government Reform',
+  },
+  // ── California — Citizen Initiative with 1.3M Signatures Submitted (Pending Qualification) ──
+  {
+    id: 'ca-prop-4',
+    stateCode: 'CA',
+    state: 'California',
+    number: 'CA Initiative #25-0007',
+    title: 'Voter Identification Requirements',
+    summary: 'This citizen-initiated constitutional amendment would require all California voters to present government-issued photo identification each time they vote in person. For voters casting mail-in ballots, it would require them to provide the last four digits of a government-issued identification number on their ballot envelope. The state would be required to provide free voter ID cards to any eligible voter who requests one. The measure would also require the secretary of state and county election officials to maintain accurate voter rolls, verify citizenship of registered voters using government data, and annually report the percentage of voters whose citizenship has been verified. As of March 2026, proponents submitted over 1.3 million signatures — well above the 874,641 required — and the measure is pending ballot qualification.',
+    fiscalImpact: 'The state would incur one-time and ongoing costs to issue free voter ID cards to eligible residents who do not currently have qualifying identification. County election officials would need to update their systems and train poll workers to verify identification at the polls. Analysts estimate implementation costs in the tens of millions of dollars initially, with smaller ongoing administrative costs each election cycle.',
+    proArgument: 'Supporters, led by State Assemblymember Carl DeMaio (R) and the Californians for Voter ID committee, argue that voter ID is a common-sense measure used in 36 states and nearly every major democracy in the world. They contend it adds a crucial layer of security against voter fraud and ensures that only eligible U.S. citizens cast ballots. Proponents point out that the measure includes a free voter ID card provision to ensure no eligible voter is disenfranchised by a lack of documentation.',
+    conArgument: 'Opponents including the ACLU, the League of Women Voters, and Disability Rights California argue that voter fraud in California is extremely rare and that voter ID requirements create unnecessary barriers that disproportionately burden low-income voters, elderly voters, voters with disabilities, and communities of color who are less likely to have current government-issued photo identification. They argue that adding an ID number to mail ballot envelopes exposes sensitive personal data and that the existing multi-step voter registration and signature verification process already provides strong election security.',
+    category: 'Election Administration',
   },
   {
     id: 'ny-prop-1',
