@@ -1,7 +1,7 @@
 import { generateText, gateway } from 'ai'
 import { NextRequest, NextResponse } from 'next/server'
 
-const MODEL = process.env.AI_MODEL ?? 'google/gemini-3.5-flash'
+const MODEL = process.env.AI_MODEL ?? 'google/gemini-3.6-flash'
 
 const SYSTEM_PROMPT = `You are a non-partisan civic education assistant. Your job is to help everyday voters understand ballot propositions clearly and fairly. You never express a personal opinion or favor either side.
 
