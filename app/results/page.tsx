@@ -250,8 +250,8 @@ export default function ResultsPage() {
                   </div>
                 )}
 
-                {/* Donut — center, fixed 180×180 so the arcs never clip */}
-                <div className="relative shrink-0 w-[180px] h-[180px]">
+                {/* Donut — center, fixed 180×180 */}
+                <div className="shrink-0 w-[180px] h-[180px]">
                   <PieChart width={180} height={180}>
                     <Pie
                       data={chartData}
@@ -261,7 +261,7 @@ export default function ResultsPage() {
                       outerRadius={80}
                       startAngle={90}
                       endAngle={-270}
-                      paddingAngle={chartData.length > 1 ? 3 : 0}
+                      paddingAngle={0}
                       dataKey="value"
                       animationDuration={800}
                       aria-label={`${race.candidates.map((c) => `${c.lastName} ${c.percent}%`).join(', ')}`}
@@ -271,18 +271,6 @@ export default function ResultsPage() {
                       ))}
                     </Pie>
                   </PieChart>
-                  {/* Center label — anchored to the arc's cx/cy pixel coords */}
-                  <div
-                    className="absolute flex flex-col items-center pointer-events-none"
-                    style={{ top: 90, left: 90, transform: 'translate(-50%, -50%)' }}
-                  >
-                    <span className="text-[19px] font-black text-foreground leading-none tabular-nums">
-                      {race.totalResponses.toLocaleString()}
-                    </span>
-                    <span className="text-[8px] font-semibold text-muted-foreground tracking-wider uppercase mt-0.5">
-                      Responses
-                    </span>
-                  </div>
                 </div>
 
                 {/* Candidate 1 — right */}
