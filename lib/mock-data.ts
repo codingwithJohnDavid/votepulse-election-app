@@ -558,9 +558,10 @@ export const RACE_OPTIONS = [
   'Black / African American',
   'Hispanic / Latino',
   'Asian / Pacific Islander',
+  'Middle Eastern / North African',
   'Native American',
   'Multiracial',
-  'Prefer not to say',
+  'Other',
 ]
 export const RELIGION_OPTIONS = [
   'Christian (Protestant)',
@@ -571,7 +572,6 @@ export const RELIGION_OPTIONS = [
   'Buddhist',
   'Non-religious / Atheist',
   'Other',
-  'Prefer not to say',
 ]
 export const GENDER_OPTIONS = ['Male', 'Female', 'Non-binary', 'Prefer not to say']
 export const INCOME_OPTIONS = [
@@ -580,7 +580,6 @@ export const INCOME_OPTIONS = [
   '$60,000–$100,000',
   '$100,000–$150,000',
   '$150,000+',
-  'Prefer not to say',
 ]
 export const EDUCATION_OPTIONS = [
   'Some High School',
@@ -590,15 +589,12 @@ export const EDUCATION_OPTIONS = [
   "Bachelor's Degree",
   "Master's Degree",
   'Doctoral / Professional Degree',
-  'Prefer not to say',
 ]
 export const POLITICAL_OPTIONS = [
-  'Strong Democrat',
-  'Lean Democrat',
+  'Democrat',
+  'Republican',
   'Independent',
-  'Lean Republican',
-  'Strong Republican',
-  'Prefer not to say',
+  'No Party Affiliation',
 ]
 
 // ─── Propositions ────────────────────────────────────────────────────────────
@@ -890,11 +886,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 220,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 71 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 29 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 1180, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 96 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 4  }] },
-      { label: 'Lean Democrat',     count: 980,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 81 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 19 }] },
-      { label: 'Independent',       count: 1040, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 44 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 56 }] },
-      { label: 'Lean Republican',   count: 860,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 18 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 82 }] },
-      { label: 'Strong Republican', count: 1140, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 3  }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 97 }] },
+      { label: 'Democrat',              count: 2160, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 90 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 10 }] },
+      { label: 'Republican',            count: 2000, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 10 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 90 }] },
+      { label: 'Independent',           count: 1040, candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 44 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 56 }] },
+      { label: 'No Party Affiliation',  count: 600,  candidates: [{ name: 'Maria E. Reyes', lastName: 'Reyes', party: 'Democrat', percent: 38 }, { name: 'James T. Holbrook', lastName: 'Holbrook', party: 'Republican', percent: 62 }] },
     ],
   },
 
@@ -938,11 +933,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 240,  candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 83 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 17 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 1640, candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 97 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 3  }] },
-      { label: 'Lean Democrat',     count: 1210, candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 84 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 16 }] },
-      { label: 'Independent',       count: 1380, candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 58 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 42 }] },
-      { label: 'Lean Republican',   count: 820,  candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 20 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 80 }] },
-      { label: 'Strong Republican', count: 790,  candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 4  }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 96 }] },
+      { label: 'Democrat',             count: 2850, candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 92 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 8  }] },
+      { label: 'Republican',           count: 1610, candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 11 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 89 }] },
+      { label: 'Independent',          count: 1380, candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 58 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 42 }] },
+      { label: 'No Party Affiliation', count: 710,  candidates: [{ name: 'Xavier Becerra', lastName: 'Becerra', party: 'Democrat', percent: 52 }, { name: 'Steve Hilton', lastName: 'Hilton', party: 'Republican', percent: 48 }] },
     ],
   },
 
@@ -986,15 +980,14 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 180,  candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 85 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 15 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 1320, candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 97 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 3  }] },
-      { label: 'Lean Democrat',     count: 1080, candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 85 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 15 }] },
-      { label: 'Independent',       count: 1100, candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 57 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 43 }] },
-      { label: 'Lean Republican',   count: 610,  candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 21 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 79 }] },
-      { label: 'Strong Republican', count: 500,  candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 5  }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 95 }] },
+      { label: 'Democrat',             count: 2400, candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 92 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 8  }] },
+      { label: 'Republican',           count: 1110, candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 12 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 88 }] },
+      { label: 'Independent',          count: 1100, candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 57 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 43 }] },
+      { label: 'No Party Affiliation', count: 500,  candidates: [{ name: 'Rob Bonta', lastName: 'Bonta', party: 'Democrat', percent: 50 }, { name: 'Michael Gates', lastName: 'Gates', party: 'Republican', percent: 50 }] },
     ],
   },
 
-  // ── CA House District 33 ──
+  // ─��� CA House District 33 ──
   {
     raceId: 'ca-house-33',
     raceLabel: 'House – District 33',
@@ -1033,11 +1026,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 110,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 87 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 13 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 870,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 97 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 3  }] },
-      { label: 'Lean Democrat',     count: 710,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 82 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 18 }] },
-      { label: 'Independent',       count: 740,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 61 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 39 }] },
-      { label: 'Lean Republican',   count: 380,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 22 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 78 }] },
-      { label: 'Strong Republican', count: 260,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 5  }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 95 }] },
+      { label: 'Democrat',             count: 1580, candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 91 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 9  }] },
+      { label: 'Republican',           count: 640,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 12 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 88 }] },
+      { label: 'Independent',          count: 740,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 61 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 39 }] },
+      { label: 'No Party Affiliation', count: 360,  candidates: [{ name: 'Michelle Park', lastName: 'Park', party: 'Democrat', percent: 55 }, { name: 'Tom Whitfield', lastName: 'Whitfield', party: 'Republican', percent: 45 }] },
     ],
   },
 
@@ -1080,11 +1072,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 130,  candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 31 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 69 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 900,  candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 4  }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 96 }] },
-      { label: 'Lean Democrat',     count: 840,  candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 17 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 83 }] },
-      { label: 'Independent',       count: 1100, candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 54 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 46 }] },
-      { label: 'Lean Republican',   count: 1080, candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 83 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 17 }] },
-      { label: 'Strong Republican', count: 1200, candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 97 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 3  }] },
+      { label: 'Democrat',             count: 1740, candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 9  }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 91 }] },
+      { label: 'Republican',           count: 2280, candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 91 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 9  }] },
+      { label: 'Independent',          count: 1100, candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 54 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 46 }] },
+      { label: 'No Party Affiliation', count: 540,  candidates: [{ name: 'Ken Paxton', lastName: 'Paxton', party: 'Republican', percent: 48 }, { name: 'James Talarico', lastName: 'Talarico', party: 'Democrat', percent: 52 }] },
     ],
   },
 
@@ -1127,11 +1118,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 110,  candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 28 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 72 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 820,  candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 3  }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 97 }] },
-      { label: 'Lean Democrat',     count: 760,  candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 15 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 85 }] },
-      { label: 'Independent',       count: 1020, candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 57 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 43 }] },
-      { label: 'Lean Republican',   count: 1040, candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 86 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 14 }] },
-      { label: 'Strong Republican', count: 1200, candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 98 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 2  }] },
+      { label: 'Democrat',             count: 1580, candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 8  }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 92 }] },
+      { label: 'Republican',           count: 2240, candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 93 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 7  }] },
+      { label: 'Independent',          count: 1020, candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 57 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 43 }] },
+      { label: 'No Party Affiliation', count: 480,  candidates: [{ name: 'Greg Abbott', lastName: 'Abbott', party: 'Republican', percent: 51 }, { name: 'Gina Hinojosa', lastName: 'Hinojosa', party: 'Democrat', percent: 49 }] },
     ],
   },
 
@@ -1174,11 +1164,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 50,   candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 34 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 66 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 420,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 4  }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 96 }] },
-      { label: 'Lean Democrat',     count: 380,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 18 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 82 }] },
-      { label: 'Independent',       count: 500,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 55 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 45 }] },
-      { label: 'Lean Republican',   count: 520,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 85 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 15 }] },
-      { label: 'Strong Republican', count: 560,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 97 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 3  }] },
+      { label: 'Democrat',             count: 800,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 9  }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 91 }] },
+      { label: 'Republican',           count: 1080, candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 92 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 8  }] },
+      { label: 'Independent',          count: 500,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 55 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 45 }] },
+      { label: 'No Party Affiliation', count: 240,  candidates: [{ name: 'Kyle Barnett', lastName: 'Barnett', party: 'Republican', percent: 52 }, { name: 'Rosa Gutierrez', lastName: 'Gutierrez', party: 'Democrat', percent: 48 }] },
     ],
   },
 
@@ -1222,11 +1211,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 190,  candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 85 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 15 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 1540, candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 97 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 3  }] },
-      { label: 'Lean Democrat',     count: 1100, candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 83 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 17 }] },
-      { label: 'Independent',       count: 1020, candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 56 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 44 }] },
-      { label: 'Lean Republican',   count: 640,  candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 19 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 81 }] },
-      { label: 'Strong Republican', count: 680,  candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 4  }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 96 }] },
+      { label: 'Democrat',             count: 2640, candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 91 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 9  }] },
+      { label: 'Republican',           count: 1320, candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 10 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 90 }] },
+      { label: 'Independent',          count: 1020, candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 56 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 44 }] },
+      { label: 'No Party Affiliation', count: 500,  candidates: [{ name: 'Priya Kapoor', lastName: 'Kapoor', party: 'Democrat', percent: 53 }, { name: 'Frank Deluca', lastName: 'Deluca', party: 'Republican', percent: 47 }] },
     ],
   },
 
@@ -1269,11 +1257,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 110,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 86 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 14 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 980,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 98 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 2  }] },
-      { label: 'Lean Democrat',     count: 760,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 84 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 16 }] },
-      { label: 'Independent',       count: 580,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 59 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 41 }] },
-      { label: 'Lean Republican',   count: 220,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 23 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 77 }] },
-      { label: 'Strong Republican', count: 170,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 6  }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 94 }] },
+      { label: 'Democrat',             count: 1740, candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 92 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 8  }] },
+      { label: 'Republican',           count: 390,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 13 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 87 }] },
+      { label: 'Independent',          count: 580,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 59 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 41 }] },
+      { label: 'No Party Affiliation', count: 200,  candidates: [{ name: 'Marcus Webb', lastName: 'Webb', party: 'Democrat', percent: 56 }, { name: 'Irene Kowalski', lastName: 'Kowalski', party: 'Republican', percent: 44 }] },
     ],
   },
 
@@ -1316,11 +1303,10 @@ export const RACE_RESULTS: RaceResult[] = [
       { label: 'Non-binary / Other', count: 60,   candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 73 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 27 }] },
     ],
     byPolitical: [
-      { label: 'Strong Democrat',   count: 510,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 96 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 4  }] },
-      { label: 'Lean Democrat',     count: 450,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 79 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 21 }] },
-      { label: 'Independent',       count: 580,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 50 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 50 }] },
-      { label: 'Lean Republican',   count: 340,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 20 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 80 }] },
-      { label: 'Strong Republican', count: 260,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 4  }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 96 }] },
+      { label: 'Democrat',             count: 960,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 89 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 11 }] },
+      { label: 'Republican',           count: 600,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 10 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 90 }] },
+      { label: 'Independent',          count: 580,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 50 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 50 }] },
+      { label: 'No Party Affiliation', count: 280,  candidates: [{ name: 'Sandra Wiley', lastName: 'Wiley', party: 'Democrat', percent: 46 }, { name: 'Carlos Mendez', lastName: 'Mendez', party: 'Republican', percent: 54 }] },
     ],
   },
 ]
