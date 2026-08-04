@@ -27,6 +27,7 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
   Housing:                 { bg: 'bg-cyan-100',    text: 'text-cyan-700' },
   'Election Administration': { bg: 'bg-indigo-100',  text: 'text-indigo-700' },
   'Government Reform':       { bg: 'bg-teal-100',    text: 'text-teal-700' },
+  Taxes:                     { bg: 'bg-orange-100',  text: 'text-orange-700' },
 }
 
 const AVAILABLE_STATES = ['All', 'FL', 'TX', 'CA', 'NY']
