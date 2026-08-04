@@ -1,12 +1,13 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, Bell } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
-import { CANDIDATES, partyColor } from '@/lib/mock-data'
+import { CANDIDATES, partyColor, type Candidate } from '@/lib/mock-data'
 
 // Simulated geo-detected state (would come from browser geolocation + reverse geocode in production)
 const GEO_STATE = { code: 'FL', name: 'Florida', district: 'District 7' }
@@ -46,10 +47,47 @@ const SHELL_CARDS = [
   },
 ]
 
-// Florida candidates for "Featured Candidates"
-const FEATURED = CANDIDATES.filter((c) => c.stateCode === GEO_STATE.code)
+// Fallback mock candidates for the geo state
+const MOCK_FEATURED = CANDIDATES.filter((c) => c.stateCode === GEO_STATE.code).slice(0, 4)
+
+// Skeleton for candidate rows
+function CandidateRowSkeleton() {
+  return (
+    <div className="flex items-center gap-3.5 px-4 py-3.5 bg-card rounded-3xl border border-border animate-pulse">
+      <div className="w-12 h-12 rounded-full bg-muted shrink-0" />
+      <div className="flex-1 min-w-0 flex flex-col gap-2">
+        <div className="h-3.5 bg-muted rounded-full w-2/3" />
+        <div className="h-3 bg-muted rounded-full w-1/2" />
+      </div>
+      <div className="w-10 h-6 rounded-full bg-muted shrink-0" />
+    </div>
+  )
+}
 
 export default function HomePage() {
+  const [featured, setFeatured] = useState<Candidate[]>(MOCK_FEATURED)
+  const [loadingCandidates, setLoadingCandidates] = useState(true)
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      try {
+        const res = await fetch(`/api/fec-candidates?state=${GEO_STATE.code}`)
+        const data = await res.json()
+        if (data.candidates?.length > 0) {
+          // Show top 4 Senate candidates first, then House
+          const senate = data.candidates.filter((c: Candidate) => c.office === 'U.S. Senate')
+          const house = data.candidates.filter((c: Candidate) => c.office === 'U.S. House of Representatives')
+          setFeatured([...senate, ...house].slice(0, 4))
+        }
+      } catch {
+        // silently keep mock data
+      } finally {
+        setLoadingCandidates(false)
+      }
+    }
+    fetchFeatured()
+  }, [])
+
   return (
     <PageShell>
       <div className="flex flex-col min-h-svh bg-background">
@@ -150,48 +188,51 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col gap-2.5">
-              {FEATURED.map((c, i) => {
-                const { ring, bg, badge } = partyColor(c.party)
-                return (
-                  <motion.div
-                    key={c.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.06 * i + 0.25 }}
-                  >
-                    <Link
-                      href={`/candidates/${c.id}`}
-                      className="flex items-center gap-3.5 px-4 py-3.5 bg-card rounded-3xl border border-border hover:border-primary/30 transition-all active:scale-[0.99]"
-                    >
-                      {/* Avatar */}
-                      <div
-                        className="w-12 h-12 rounded-full overflow-hidden shrink-0"
-                        style={{ backgroundColor: bg, boxShadow: `0 0 0 2.5px ${ring}40` }}
+              {loadingCandidates
+                ? Array.from({ length: 4 }).map((_, i) => <CandidateRowSkeleton key={i} />)
+                : featured.map((c, i) => {
+                    const { ring, bg, badge } = partyColor(c.party)
+                    return (
+                      <motion.div
+                        key={c.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.06 * i + 0.25 }}
                       >
-                        <Image
-                          src={c.imageUrl}
-                          alt={`Photo of ${c.name}`}
-                          width={48}
-                          height={48}
-                          className="w-full h-full object-cover"
-                          unoptimized
-                        />
-                      </div>
+                        <Link
+                          href={`/candidates/${c.id}`}
+                          className="flex items-center gap-3.5 px-4 py-3.5 bg-card rounded-3xl border border-border hover:border-primary/30 transition-all active:scale-[0.99]"
+                        >
+                          {/* Avatar */}
+                          <div
+                            className="w-12 h-12 rounded-full overflow-hidden shrink-0"
+                            style={{ backgroundColor: bg, boxShadow: `0 0 0 2.5px ${ring}40` }}
+                          >
+                            <Image
+                              src={c.imageUrl}
+                              alt={`Photo of ${c.name}`}
+                              width={48}
+                              height={48}
+                              className="w-full h-full object-cover"
+                              unoptimized
+                            />
+                          </div>
 
-                      {/* Name + office */}
-                      <div className="flex-1 min-w-0">
-                        <p className="font-bold text-[14px] text-foreground leading-tight truncate">{c.name}</p>
-                        <p className="text-[12px] text-muted-foreground mt-0.5 truncate">{c.office}</p>
-                      </div>
+                          {/* Name + office */}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-bold text-[14px] text-foreground leading-tight truncate">{c.name}</p>
+                            <p className="text-[12px] text-muted-foreground mt-0.5 truncate">{c.office}</p>
+                          </div>
 
-                      {/* Party badge */}
-                      <span className={`shrink-0 text-[11px] font-black px-2.5 py-1 rounded-full ${badge}`}>
-                        {c.party === 'Democrat' ? 'DEM' : c.party === 'Republican' ? 'REP' : 'IND'}
-                      </span>
-                    </Link>
-                  </motion.div>
-                )
-              })}
+                          {/* Party badge */}
+                          <span className={`shrink-0 text-[11px] font-black px-2.5 py-1 rounded-full ${badge}`}>
+                            {c.party === 'Democrat' ? 'DEM' : c.party === 'Republican' ? 'REP' : 'IND'}
+                          </span>
+                        </Link>
+                      </motion.div>
+                    )
+                  })
+              }
             </div>
           </div>
 
