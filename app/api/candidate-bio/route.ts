@@ -17,7 +17,8 @@ When given candidate information, respond ONLY with a valid JSON object using ex
     { "issue": "string", "detail": "string" },
     { "issue": "string", "detail": "string" }
   ],
-  "whyRunning": "string"
+  "whyRunning": "string",
+  "implementationPlan": "string"
 }
 
 Rules:
@@ -26,6 +27,7 @@ Rules:
 - "politicalCareer" must cover offices held, years of service, and key legislative accomplishments. Minimum 5 sentences.
 - "keyIssues" must contain exactly 4 to 5 objects. Each "issue" is a short label (3-5 words). Each "detail" explains that policy position in plain language with real-world impact — minimum 5 sentences, covering what the candidate wants to do, why they believe in it, and how it would affect everyday people.
 - "whyRunning" must explain their stated reason for seeking this office, their personal motivations, and the change they say they want to bring. Minimum 5 sentences.
+- "implementationPlan" must explain, in plain language, how the candidate plans to actually pass and implement their agenda if elected. Cover the specific legislative strategies, coalitions, or executive actions they intend to use, which proposals are realistic given the current political landscape, and what everyday people can expect to see change and on what timeline. Minimum 5 sentences.
 - Do not express an opinion or favor any party or candidate.
 - Do not add any text outside the JSON object.`
 

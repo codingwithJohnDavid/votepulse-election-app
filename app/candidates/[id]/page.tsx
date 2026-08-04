@@ -14,6 +14,7 @@ interface AIBio {
   politicalCareer: string
   keyIssues: { issue: string; detail: string }[]
   whyRunning: string
+  implementationPlan: string
 }
 
 const FUNDER_TYPE_COLORS: Record<CandidateFunder['type'], string> = {
@@ -183,7 +184,8 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
                 {[
                   { label: 'Background', value: aiBio.background, bg: 'bg-slate-50', border: 'border-slate-200', title: 'text-slate-600', body: 'text-slate-800' },
                   { label: 'Political Career', value: aiBio.politicalCareer, bg: 'bg-violet-50', border: 'border-violet-200', title: 'text-violet-700', body: 'text-violet-900' },
-                  { label: 'Why They Are Running', value: aiBio.whyRunning, bg: 'bg-blue-50', border: 'border-blue-200', title: 'text-blue-700', body: 'text-blue-900' },
+                  { label: 'Why They Are Running',     value: aiBio.whyRunning,          bg: 'bg-blue-50',   border: 'border-blue-200',   title: 'text-blue-700',   body: 'text-blue-900' },
+                  { label: 'How They Plan to Implement', value: aiBio.implementationPlan, bg: 'bg-emerald-50', border: 'border-emerald-200', title: 'text-emerald-700', body: 'text-emerald-900' },
                 ].map(({ label, value, bg: cardBg, border, title, body }) => (
                   <div key={label} className={`${cardBg} ${border} border rounded-2xl px-4 py-3`}>
                     <p className={`text-[11px] font-black uppercase tracking-wide mb-1.5 ${title}`}>{label}</p>
