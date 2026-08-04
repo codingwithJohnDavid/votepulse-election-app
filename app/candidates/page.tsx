@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, Search, SlidersHorizontal, RefreshCw } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { ChevronLeft, Search, SlidersHorizontal } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, US_STATES, partyColor, type Party, type Candidate } from '@/lib/mock-data'
@@ -108,19 +108,12 @@ export default function CandidatesPage() {
                 {!loading && ` · ${filtered.length} candidate${filtered.length !== 1 ? 's' : ''}`}
               </p>
             </div>
-            {/* Live / fallback badge */}
-            <div className="flex flex-col items-end gap-1 mt-0.5">
-              <span className={`text-[10px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full ${
-                isFallback
-                  ? 'bg-amber-100 text-amber-700'
-                  : 'bg-emerald-100 text-emerald-700'
-              }`}>
-                {isFallback ? 'Sample Data' : 'Live · FEC'}
+            {/* Only show Live badge when FEC data actually loaded */}
+            {!isFallback && lastUpdated && (
+              <span className="text-[10px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 mt-0.5">
+                Live · FEC
               </span>
-              {lastUpdated && !isFallback && (
-                <span className="text-[10px] text-muted-foreground">Updated {lastUpdated}</span>
-              )}
-            </div>
+            )}
           </div>
         </header>
 
@@ -175,32 +168,6 @@ export default function CandidatesPage() {
             })}
           </div>
         </div>
-
-        {/* ── Fallback notice ── */}
-        <AnimatePresence>
-          {isFallback && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mx-5 mt-3 px-4 py-3 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-2.5"
-            >
-              <div className="flex-1">
-                <p className="text-xs font-bold text-amber-800">FEC data unavailable</p>
-                <p className="text-[11px] text-amber-700 mt-0.5 leading-relaxed">
-                  Showing sample candidates. Live FEC data will appear once available for 2026 races.
-                </p>
-              </div>
-              <button
-                onClick={() => fetchLiveData(stateFilter)}
-                className="shrink-0 mt-0.5 text-amber-700 hover:text-amber-900 transition-colors"
-                aria-label="Retry FEC data fetch"
-              >
-                <RefreshCw size={14} />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* ── Candidate list ── */}
         <div
