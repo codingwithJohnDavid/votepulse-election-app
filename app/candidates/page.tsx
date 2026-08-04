@@ -8,6 +8,7 @@ import { ChevronLeft, Search, SlidersHorizontal } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, US_STATES, partyColor, type Party, type Candidate } from '@/lib/mock-data'
+import { useActiveState } from '@/lib/state-context'
 
 const PARTY_FILTERS: { label: string; value: Party | 'All' }[] = [
   { label: 'All', value: 'All' },
@@ -15,8 +16,6 @@ const PARTY_FILTERS: { label: string; value: Party | 'All' }[] = [
   { label: 'REP', value: 'Republican' },
   { label: 'IND', value: 'Independent' },
 ]
-
-const AVAILABLE_STATES = ['FL', 'TX', 'CA', 'NY']
 
 // Skeleton row component
 function CandidateSkeleton() {
@@ -33,9 +32,9 @@ function CandidateSkeleton() {
 }
 
 export default function CandidatesPage() {
+  const { activeState } = useActiveState()
   const [query, setQuery] = useState('')
   const [partyFilter, setPartyFilter] = useState<Party | 'All'>('All')
-  const [stateFilter, setStateFilter] = useState('FL')
 
   // Live FEC data state
   const [liveCandidates, setLiveCandidates] = useState<Candidate[] | null>(null)
@@ -43,18 +42,17 @@ export default function CandidatesPage() {
   const [isFallback, setIsFallback] = useState(false)
   const [lastUpdated, setLastUpdated] = useState<string | null>(null)
 
-  const fetchLiveData = useCallback(async (state: string) => {
+  const fetchLiveData = useCallback(async (stateCode: string) => {
     setLoading(true)
     setLiveCandidates(null)
     try {
-      const res = await fetch(`/api/fec-candidates?state=${state}`)
+      const res = await fetch(`/api/fec-candidates?state=${stateCode}`)
       const data = await res.json()
       if (data.candidates?.length > 0) {
         setLiveCandidates(data.candidates)
         setIsFallback(false)
         setLastUpdated(new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }))
       } else {
-        // FEC returned nothing — fall back to mock data
         setLiveCandidates(null)
         setIsFallback(true)
       }
@@ -67,14 +65,14 @@ export default function CandidatesPage() {
   }, [])
 
   useEffect(() => {
-    fetchLiveData(stateFilter)
-  }, [stateFilter, fetchLiveData])
+    fetchLiveData(activeState.code)
+  }, [activeState.code, fetchLiveData])
 
   // Use live data if available, otherwise mock
   const sourceData = liveCandidates ?? CANDIDATES
 
   const filtered = sourceData.filter((c) => {
-    const matchState = c.stateCode === stateFilter
+    const matchState = c.stateCode === activeState.code
     const matchParty = partyFilter === 'All' || c.party === partyFilter
     const matchQuery =
       query.trim() === '' ||
@@ -83,7 +81,7 @@ export default function CandidatesPage() {
     return matchState && matchParty && matchQuery
   })
 
-  const stateName = US_STATES.find((s) => s.code === stateFilter)?.name ?? stateFilter
+  const stateName = US_STATES.find((s) => s.code === activeState.code)?.name ?? activeState.code
 
   return (
     <PageShell>
@@ -130,26 +128,9 @@ export default function CandidatesPage() {
             />
           </div>
 
-          {/* State + party filter row */}
+          {/* Party filter row */}
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
             <SlidersHorizontal size={14} className="text-muted-foreground shrink-0" aria-hidden="true" />
-            {AVAILABLE_STATES.map((code) => {
-              const active = stateFilter === code
-              return (
-                <button
-                  key={code}
-                  onClick={() => setStateFilter(code)}
-                  className={`shrink-0 text-xs font-bold px-3 py-1.5 rounded-full transition-all ${
-                    active
-                      ? 'bg-primary text-white'
-                      : 'bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary'
-                  }`}
-                >
-                  {code}
-                </button>
-              )
-            })}
-            <div className="w-px h-4 bg-border shrink-0" />
             {PARTY_FILTERS.map(({ label, value }) => {
               const active = partyFilter === value
               return (

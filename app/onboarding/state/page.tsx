@@ -9,11 +9,13 @@ import PageShell from '@/components/page-shell'
 import BottomNav from '@/components/bottom-nav'
 import { cn } from '@/lib/utils'
 import { US_STATES, RACES_BY_STATE } from '@/lib/mock-data'
+import { useActiveState } from '@/lib/state-context'
 
 export default function StateSelectionPage() {
   const router = useRouter()
+  const { activeState, setActiveState } = useActiveState()
   const [query, setQuery] = useState('')
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(activeState.code)
 
   const filtered = US_STATES.filter(
     (s) =>
@@ -29,7 +31,8 @@ export default function StateSelectionPage() {
 
   function handleConfirm() {
     if (!selected) return
-    router.push(`/vote?state=${selected}`)
+    setActiveState(selected)
+    router.push('/home')
   }
 
   return (
@@ -185,7 +188,7 @@ export default function StateSelectionPage() {
             )}
           >
             {selected
-              ? `View ${US_STATES.find((s) => s.code === selected)?.name} Races`
+              ? `Go to ${US_STATES.find((s) => s.code === selected)?.name}`
               : 'Select a State to Continue'}
           </button>
         </div>

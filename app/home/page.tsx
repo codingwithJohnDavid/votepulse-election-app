@@ -8,9 +8,7 @@ import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, Bell } from 'lu
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, partyColor, type Candidate } from '@/lib/mock-data'
-
-// Simulated geo-detected state (would come from browser geolocation + reverse geocode in production)
-const GEO_STATE = { code: 'FL', name: 'Florida', district: 'District 7' }
+import { useActiveState } from '@/lib/state-context'
 
 const SHELL_CARDS = [
   {
@@ -47,9 +45,6 @@ const SHELL_CARDS = [
   },
 ]
 
-// Fallback mock candidates for the geo state
-const MOCK_FEATURED = CANDIDATES.filter((c) => c.stateCode === GEO_STATE.code).slice(0, 4)
-
 // Skeleton for candidate rows
 function CandidateRowSkeleton() {
   return (
@@ -65,16 +60,20 @@ function CandidateRowSkeleton() {
 }
 
 export default function HomePage() {
-  const [featured, setFeatured] = useState<Candidate[]>(MOCK_FEATURED)
+  const { activeState } = useActiveState()
+
+  const mockFeatured = CANDIDATES.filter((c) => c.stateCode === activeState.code).slice(0, 4)
+  const [featured, setFeatured] = useState<Candidate[]>(mockFeatured)
   const [loadingCandidates, setLoadingCandidates] = useState(true)
 
   useEffect(() => {
+    setFeatured(CANDIDATES.filter((c) => c.stateCode === activeState.code).slice(0, 4))
+    setLoadingCandidates(true)
     async function fetchFeatured() {
       try {
-        const res = await fetch(`/api/fec-candidates?state=${GEO_STATE.code}`)
+        const res = await fetch(`/api/fec-candidates?state=${activeState.code}`)
         const data = await res.json()
         if (data.candidates?.length > 0) {
-          // Show top 4 Senate candidates first, then House
           const senate = data.candidates.filter((c: Candidate) => c.office === 'U.S. Senate')
           const house = data.candidates.filter((c: Candidate) => c.office === 'U.S. House of Representatives')
           setFeatured([...senate, ...house].slice(0, 4))
@@ -86,7 +85,7 @@ export default function HomePage() {
       }
     }
     fetchFeatured()
-  }, [])
+  }, [activeState.code])
 
   return (
     <PageShell>
@@ -107,14 +106,14 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* Geo location chip */}
+          {/* Active state chip — tapping switches state */}
           <Link
             href="/onboarding/state"
             className="mt-3 inline-flex items-center gap-1.5 bg-brand-subtle border border-primary/20 rounded-2xl px-3 py-1.5"
           >
             <MapPin size={12} className="text-primary" aria-hidden="true" />
             <span className="text-primary text-xs font-semibold">
-              {GEO_STATE.name}, {GEO_STATE.district}
+              {activeState.name}
             </span>
             <ChevronRight size={11} className="text-primary/60" aria-hidden="true" />
           </Link>
@@ -138,7 +137,7 @@ export default function HomePage() {
                 Ready to make your voice heard?
               </h2>
               <Link
-                href={`/vote?state=${GEO_STATE.code}`}
+                href={`/vote?state=${activeState.code}`}
                 className="inline-flex items-center gap-2 bg-white text-primary font-bold text-sm px-5 py-2.5 rounded-2xl hover:opacity-90 transition-opacity"
               >
                 <Vote size={15} aria-hidden="true" />

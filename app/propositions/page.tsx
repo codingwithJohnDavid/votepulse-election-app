@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronDown, FileText, Sparkles, Loader2 } from 'lucide-re
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { PROPOSITIONS, US_STATES } from '@/lib/mock-data'
+import { useActiveState } from '@/lib/state-context'
 
 interface AISummary {
   whatItDoes: string
@@ -30,10 +31,8 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
   Taxes:                     { bg: 'bg-orange-100',  text: 'text-orange-700' },
 }
 
-const AVAILABLE_STATES = ['All', 'FL', 'TX', 'CA', 'NY']
-
 export default function PropositionsPage() {
-  const [stateFilter, setStateFilter] = useState('FL')
+  const { activeState } = useActiveState()
   const [expanded, setExpanded] = useState<string | null>(null)
   const [aiSummaries, setAiSummaries] = useState<Record<string, AISummary>>({})
   const [loadingId, setLoadingId] = useState<string | null>(null)
@@ -59,14 +58,9 @@ export default function PropositionsPage() {
     }
   }
 
-  const filtered = PROPOSITIONS.filter(
-    (p) => stateFilter === 'All' || p.stateCode === stateFilter,
-  )
+  const filtered = PROPOSITIONS.filter((p) => p.stateCode === activeState.code)
 
-  const stateName =
-    stateFilter === 'All'
-      ? 'All States'
-      : US_STATES.find((s) => s.code === stateFilter)?.name ?? stateFilter
+  const stateName = US_STATES.find((s) => s.code === activeState.code)?.name ?? activeState.code
 
   return (
     <PageShell>
@@ -88,26 +82,6 @@ export default function PropositionsPage() {
           </p>
         </header>
 
-        {/* ── State filter pills ── */}
-        <div className="bg-card px-5 py-3 border-b border-border flex items-center gap-2 overflow-x-auto scrollbar-none">
-          {AVAILABLE_STATES.map((code) => {
-            const active = stateFilter === code
-            return (
-              <button
-                key={code}
-                onClick={() => setStateFilter(code)}
-                className={`shrink-0 text-xs font-bold px-3.5 py-1.5 rounded-full transition-all ${
-                  active
-                    ? 'bg-primary text-white'
-                    : 'bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary'
-                }`}
-              >
-                {code}
-              </button>
-            )
-          })}
-        </div>
-
         {/* ── Proposition cards ── */}
         <div
           className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3"
@@ -117,18 +91,18 @@ export default function PropositionsPage() {
             <div className="flex flex-col items-center justify-center py-16 text-center px-4">
               <FileText size={32} className="text-muted-foreground mb-3" aria-hidden="true" />
               <p className="font-bold text-sm text-foreground mb-1">No statewide measures on the 2026 ballot</p>
-              {stateFilter === 'TX' && (
+              {activeState.code === 'TX' && (
                 <p className="text-muted-foreground text-xs leading-relaxed max-w-xs">
                   Texas held its constitutional amendment election in November 2025, approving 17 measures. The 89th Legislature&apos;s next regular session begins January 2027, so no new amendments have been referred for November 2026.
                 </p>
               )}
-              {stateFilter === 'NY' && (
+              {activeState.code === 'NY' && (
                 <p className="text-muted-foreground text-xs leading-relaxed max-w-xs">
                   New York&apos;s amendment process requires passage by two successive legislative sessions before referral to voters. No measures have completed that process for 2026.
                 </p>
               )}
-              {stateFilter !== 'TX' && stateFilter !== 'NY' && (
-                <p className="text-muted-foreground text-xs mt-1">Select a different state to see ballot measures.</p>
+              {activeState.code !== 'TX' && activeState.code !== 'NY' && (
+                <p className="text-muted-foreground text-xs mt-1">No statewide ballot measures have been certified for {activeState.name} yet. Check back as the election approaches.</p>
               )}
             </div>
           ) : (
