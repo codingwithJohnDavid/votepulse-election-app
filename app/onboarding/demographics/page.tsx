@@ -4,8 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, AlertCircle, Check } from 'lucide-react'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
 import {
@@ -13,87 +11,80 @@ import {
   RACE_OPTIONS,
   RELIGION_OPTIONS,
   GENDER_OPTIONS,
-  INCOME_OPTIONS,
-  EDUCATION_OPTIONS,
+  POLITICAL_OPTIONS,
 } from '@/lib/mock-data'
 
 interface DemoForm {
-  age: string
+  ageRange: string
   race: string
   religion: string
   gender: string
-  income: string
-  education: string
-  zip: string
+  politicalAffiliation: string
 }
 
-const STEPS = [
+const STEPS: {
+  key: keyof DemoForm
+  question: string
+  sub: string
+  options: string[]
+}[] = [
   {
-    key: 'age' as keyof DemoForm,
+    key: 'ageRange',
     question: 'How old are you?',
     sub: 'Used only for anonymized demographic breakdowns.',
     options: AGE_OPTIONS,
   },
   {
-    key: 'race' as keyof DemoForm,
+    key: 'race',
     question: 'How do you identify racially?',
     sub: 'This helps us show diversity across results.',
     options: RACE_OPTIONS,
   },
   {
-    key: 'religion' as keyof DemoForm,
+    key: 'religion',
     question: 'What is your religious affiliation?',
     sub: 'Never shared individually — only shown in aggregate.',
     options: RELIGION_OPTIONS,
   },
   {
-    key: 'gender' as keyof DemoForm,
+    key: 'gender',
     question: 'How do you identify?',
     sub: 'Helps break down results by gender.',
     options: GENDER_OPTIONS,
   },
   {
-    key: 'income' as keyof DemoForm,
-    question: 'What is your household income?',
-    sub: 'Grouped into broad ranges for anonymity.',
-    options: INCOME_OPTIONS,
-  },
-  {
-    key: 'education' as keyof DemoForm,
-    question: 'Highest level of education?',
-    sub: 'Helps show how education correlates with views.',
-    options: EDUCATION_OPTIONS,
+    key: 'politicalAffiliation',
+    question: 'How would you describe your political views?',
+    sub: 'Helps contextualize how different groups view candidates.',
+    options: POLITICAL_OPTIONS,
   },
 ]
 
-const TOTAL_STEPS = STEPS.length + 1 // +1 for ZIP
+const TOTAL_STEPS = STEPS.length
 
 export default function DemographicsPage() {
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [form, setForm] = useState<DemoForm>({
-    age: '', race: '', religion: '', gender: '', income: '', education: '', zip: '',
+    ageRange: '',
+    race: '',
+    religion: '',
+    gender: '',
+    politicalAffiliation: '',
   })
-  const [zipError, setZipError] = useState('')
 
-  const isZipStep = step === STEPS.length
-  const currentStep = isZipStep ? null : STEPS[step]
+  const currentStep = STEPS[step]
 
   function select(val: string) {
-    if (!currentStep) return
     setForm((f) => ({ ...f, [currentStep.key]: val }))
   }
 
   function goNext() {
     setDirection(1)
-    if (step < STEPS.length) {
+    if (step < TOTAL_STEPS - 1) {
       setStep((s) => s + 1)
     } else {
-      if (!/^\d{5}$/.test(form.zip)) {
-        setZipError('Please enter a valid 5-digit ZIP code.')
-        return
-      }
       router.push('/onboarding/state')
     }
   }
@@ -106,15 +97,12 @@ export default function DemographicsPage() {
 
   function skipStep() {
     setDirection(1)
-    if (step < STEPS.length) setStep((s) => s + 1)
+    if (step < TOTAL_STEPS - 1) setStep((s) => s + 1)
     else router.push('/onboarding/state')
   }
 
-  const canProceed = isZipStep
-    ? /^\d{5}$/.test(form.zip)
-    : !!form[STEPS[step]?.key]
-
-  const isUnder18 = form.age === 'Under 18' && step > 0
+  const canProceed = !!form[currentStep.key]
+  const isUnder18 = form.ageRange === 'Under 18' && step > 0
 
   const slideVariants = {
     enter:  (d: number) => ({ x: d * 56, opacity: 0 }),
@@ -163,7 +151,7 @@ export default function DemographicsPage() {
           </p>
         </div>
 
-        {/* Under-18 block */}
+        {/* Under-18 warning */}
         {isUnder18 && (
           <div className="mx-5 mb-4 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-start gap-3">
             <AlertCircle size={15} className="text-amber-600 mt-0.5 shrink-0" aria-hidden="true" />
@@ -188,81 +176,39 @@ export default function DemographicsPage() {
               exit="exit"
               transition={{ duration: 0.26, ease: 'easeOut' }}
             >
-              {!isZipStep && currentStep ? (
-                <>
-                  <h2 className="text-[22px] font-black text-foreground mb-1.5 text-balance leading-snug">
-                    {currentStep.question}
-                  </h2>
-                  <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
-                    {currentStep.sub}
-                  </p>
+              <h2 className="text-[22px] font-black text-foreground mb-1.5 text-balance leading-snug">
+                {currentStep.question}
+              </h2>
+              <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+                {currentStep.sub}
+              </p>
 
-                  {/* Option list */}
-                  <div className="flex flex-col gap-2.5">
-                    {currentStep.options.map((opt) => {
-                      const active = form[currentStep.key] === opt
-                      return (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => select(opt)}
-                          className={cn(
-                            'w-full flex items-center justify-between px-4 py-3.5 rounded-2xl border-2 text-sm font-semibold transition-all duration-180',
-                            active
-                              ? 'border-primary bg-brand-subtle text-primary shadow-sm'
-                              : 'border-border bg-card text-foreground hover:border-primary/35 hover:bg-muted/60',
-                          )}
-                          aria-pressed={active}
-                        >
-                          <span>{opt}</span>
-                          {active && (
-                            <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0" aria-hidden="true">
-                              <Check size={11} className="text-white" strokeWidth={3} />
-                            </span>
-                          )}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </>
-              ) : (
-                /* ZIP step */
-                <>
-                  <h2 className="text-[22px] font-black text-foreground mb-1.5 text-balance">
-                    What&apos;s your ZIP code?
-                  </h2>
-                  <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                    We use this to show you the races in your congressional district.
-                  </p>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="zip" className="sr-only">ZIP Code</Label>
-                    <Input
-                      id="zip"
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]{5}"
-                      maxLength={5}
-                      placeholder="e.g. 33101"
-                      value={form.zip}
-                      onChange={(e) => {
-                        setZipError('')
-                        setForm((f) => ({ ...f, zip: e.target.value.replace(/\D/g, '') }))
-                      }}
+              <div className="flex flex-col gap-2.5">
+                {currentStep.options.map((opt) => {
+                  const active = form[currentStep.key] === opt
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => select(opt)}
                       className={cn(
-                        'rounded-2xl h-14 text-xl font-black bg-card border-2 border-border focus-visible:ring-0 focus-visible:border-primary text-center tracking-[0.3em]',
-                        zipError && 'border-destructive',
+                        'w-full flex items-center justify-between px-4 py-3.5 rounded-2xl border-2 text-sm font-semibold transition-all duration-180',
+                        active
+                          ? 'border-primary bg-brand-subtle text-primary shadow-sm'
+                          : 'border-border bg-card text-foreground hover:border-primary/35 hover:bg-muted/60',
                       )}
-                      aria-describedby={zipError ? 'zip-error' : undefined}
-                      aria-invalid={!!zipError}
-                    />
-                    {zipError && (
-                      <p id="zip-error" className="text-xs text-destructive mt-1" role="alert">
-                        {zipError}
-                      </p>
-                    )}
-                  </div>
-                </>
-              )}
+                      aria-pressed={active}
+                    >
+                      <span>{opt}</span>
+                      {active && (
+                        <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0" aria-hidden="true">
+                          <Check size={11} className="text-white" strokeWidth={3} />
+                        </span>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -280,7 +226,7 @@ export default function DemographicsPage() {
                 : 'bg-muted text-muted-foreground cursor-not-allowed',
             )}
           >
-            {isZipStep ? 'Find My Races' : 'Continue'}
+            {step === TOTAL_STEPS - 1 ? 'Finish' : 'Continue'}
             <ArrowRight size={15} aria-hidden="true" />
           </button>
 

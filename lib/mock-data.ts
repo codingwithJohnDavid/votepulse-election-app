@@ -592,6 +592,14 @@ export const EDUCATION_OPTIONS = [
   'Doctoral / Professional Degree',
   'Prefer not to say',
 ]
+export const POLITICAL_OPTIONS = [
+  'Strong Democrat',
+  'Lean Democrat',
+  'Independent',
+  'Lean Republican',
+  'Strong Republican',
+  'Prefer not to say',
+]
 
 // ─── Propositions ────────────────────────────────────────────────────────────
 
@@ -1110,7 +1118,7 @@ export const RACE_RESULTS: RaceResult[] = [
     ],
   },
 
-  // ── TX Governor — Greg Abbott (R) vs. Gina Hinojosa (D) ──
+  // ── TX Governor — Greg Abbott (R) vs. Gina Hinojosa (D) ─���
   {
     raceId: 'tx-gov',
     raceLabel: 'Governor',
