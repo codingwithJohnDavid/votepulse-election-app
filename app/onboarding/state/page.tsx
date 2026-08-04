@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { Search, ArrowLeft, MapPin } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import PageShell from '@/components/page-shell'
+import BottomNav from '@/components/bottom-nav'
 import { cn } from '@/lib/utils'
 import { US_STATES, RACES_BY_STATE } from '@/lib/mock-data'
 
@@ -33,6 +34,7 @@ export default function StateSelectionPage() {
 
   return (
     <PageShell withNav={true}>
+      <BottomNav />
       <div className="flex flex-col min-h-svh bg-background">
         {/* Header */}
         <div className="px-5 pt-14 pb-4">
