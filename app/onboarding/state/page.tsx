@@ -32,7 +32,7 @@ export default function StateSelectionPage() {
   }
 
   return (
-    <PageShell withNav={false}>
+    <PageShell withNav={true}>
       <div className="flex flex-col min-h-svh bg-background">
         {/* Header */}
         <div className="px-5 pt-14 pb-4">
@@ -170,7 +170,7 @@ export default function StateSelectionPage() {
         </div>
 
         {/* Confirm button */}
-        <div className="px-5 py-6 bg-background border-t border-border">
+        <div className="px-5 pt-4 bg-background border-t border-border" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 5rem)' }}>
           <button
             type="button"
             onClick={handleConfirm}
