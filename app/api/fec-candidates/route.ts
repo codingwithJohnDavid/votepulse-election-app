@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
-import type { Candidate, Party } from '@/lib/mock-data'
+import { CANDIDATES, US_STATES, type Candidate, type Party } from '@/lib/mock-data'
 import { getEnrichment } from '@/lib/fec-enrichment'
 
-// Revalidate once every 24 hours
+// Cache for 24 hours at the edge
 export const revalidate = 86400
 
 const FEC_BASE = 'https://api.fec.gov/v1'
 const API_KEY = process.env.FEC_API_KEY ?? ''
 
-// Map FEC party codes → app Party type
+// ─── Party mapping ────────────────────────────────────────────────────────────
+
 const PARTY_MAP: Record<string, Party> = {
   DEM: 'Democrat',
   REP: 'Republican',
@@ -16,15 +17,44 @@ const PARTY_MAP: Record<string, Party> = {
   GRE: 'Green',
   LIB: 'Libertarian',
   NNE: 'Independent',
+  NPA: 'Independent',
   UNK: 'Independent',
+  OTH: 'Independent',
 }
 
-// Map FEC office codes → readable labels
-const OFFICE_MAP: Record<string, string> = {
+const OFFICE_LABEL: Record<string, string> = {
   S: 'U.S. Senate',
   H: 'U.S. House of Representatives',
-  P: 'President',
 }
+
+// ─── Name formatting ──────────────────────────────────────────────────────────
+// FEC returns names as "LASTNAME, FIRSTNAME MIDDLE" — invert to "First Last"
+
+function formatName(fecName: string): string {
+  if (!fecName) return 'Unknown Candidate'
+  const commaIdx = fecName.indexOf(',')
+  let first: string
+  let last: string
+  if (commaIdx === -1) {
+    first = ''
+    last = fecName.trim()
+  } else {
+    last = fecName.slice(0, commaIdx).trim()
+    first = fecName.slice(commaIdx + 1).trim()
+  }
+  const fullRaw = first ? `${first} ${last}` : last
+  return fullRaw
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) =>
+      word.includes('-')
+        ? word.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join('-')
+        : word.charAt(0).toUpperCase() + word.slice(1)
+    )
+    .join(' ')
+}
+
+// ─── FEC fetch ────────────────────────────────────────────────────────────────
 
 interface FECCandidate {
   candidate_id: string
@@ -34,12 +64,10 @@ interface FECCandidate {
   office_full: string
   state: string
   district?: string
-  incumbent_challenge?: string   // 'I' | 'C' | 'O'
-  election_years?: number[]
-  active_through?: number
+  incumbent_challenge?: string  // 'I' | 'C' | 'O'
 }
 
-async function fetchCandidates(state: string, office: string): Promise<FECCandidate[]> {
+async function fetchFECOffice(state: string, office: 'S' | 'H'): Promise<FECCandidate[]> {
   const params = new URLSearchParams({
     api_key: API_KEY,
     state,
@@ -48,50 +76,54 @@ async function fetchCandidates(state: string, office: string): Promise<FECCandid
     sort: 'name',
   })
 
-  // Try 2026 first, fall back to most recent if empty
-  for (const year of ['2026', '2024', '2022']) {
+  // Try 2026 first, fall back to 2024 if no results yet filed for 2026
+  for (const year of ['2026', '2024']) {
     params.set('election_year', year)
-    const url = `${FEC_BASE}/candidates/?${params}`
     try {
-      const res = await fetch(url, { next: { revalidate: 86400 } })
-      if (!res.ok) continue
-      const data = await res.json()
-      const results: FECCandidate[] = data?.results ?? []
+      const res = await fetch(`${FEC_BASE}/candidates/?${params}`, {
+        next: { revalidate: 86400 },
+      })
+      if (!res.ok) {
+        console.error(`[FEC] ${office}/${year} HTTP ${res.status} for ${state}`)
+        continue
+      }
+      const json = await res.json()
+      const results: FECCandidate[] = json?.results ?? []
       if (results.length > 0) return results
-    } catch {
-      continue
+    } catch (err) {
+      console.error(`[FEC] ${office}/${year} fetch error for ${state}:`, err)
     }
   }
   return []
 }
 
-function mapFECCandidate(fec: FECCandidate, stateFullName: string): Candidate {
-  const partyCode = fec.party?.toUpperCase() ?? 'IND'
+// ─── Map FEC → app Candidate ──────────────────────────────────────────────────
+
+function mapCandidate(fec: FECCandidate, stateName: string): Candidate {
+  const partyCode = (fec.party ?? 'UNK').toUpperCase()
   const party = PARTY_MAP[partyCode] ?? 'Independent'
-  const enrichment = getEnrichment(fec.candidate_id, partyCode, fec.name)
+  const fullName = formatName(fec.name)
+  const enrichment = getEnrichment(fullName, partyCode)
 
-  // FEC names are ALL CAPS — convert to Title Case
-  const name = fec.name
-    .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase())
+  const district =
+    fec.district && fec.district !== '00'
+      ? `District ${parseInt(fec.district, 10)}`
+      : undefined
 
-  const office = OFFICE_MAP[fec.office] ?? fec.office_full ?? fec.office
-  const district = fec.district && fec.district !== '00'
-    ? `District ${parseInt(fec.district, 10)}`
-    : undefined
+  const officeLabel = OFFICE_LABEL[fec.office] ?? fec.office_full ?? fec.office
 
   return {
     id: fec.candidate_id,
-    name,
+    name: fullName,
     party,
-    office,
-    state: stateFullName,
+    office: officeLabel,
+    state: stateName,
     stateCode: fec.state,
     district,
     imageUrl: enrichment.imageUrl,
     bannerColor: enrichment.bannerColor,
     bio: enrichment.bio,
-    incumbent: fec.incumbent_challenge === 'I',
+    incumbent: fec.incumbent_challenge === 'I' || enrichment.incumbent,
     yearsExperience: enrichment.yearsExperience,
     website: enrichment.website,
     twitter: enrichment.twitter,
@@ -100,52 +132,84 @@ function mapFECCandidate(fec: FECCandidate, stateFullName: string): Candidate {
   }
 }
 
-const STATE_NAMES: Record<string, string> = {
-  FL: 'Florida',
-  TX: 'Texas',
-  CA: 'California',
-  NY: 'New York',
-}
-
-// Supported states and offices for Phase 1
-const PHASE1_STATES = ['FL', 'TX', 'CA', 'NY']
-const OFFICES = ['S', 'H']  // Senate + House (federal races)
+// ─── Route Handler ────────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const stateParam = searchParams.get('state')?.toUpperCase() ?? 'FL'
-
-  // Validate state
-  const state = PHASE1_STATES.includes(stateParam) ? stateParam : 'FL'
-  const stateName = STATE_NAMES[state]
+  const { searchParams } = req.nextUrl
+  const stateCode = (searchParams.get('state') ?? 'FL').toUpperCase().slice(0, 2)
+  const stateName = US_STATES.find((s) => s.code === stateCode)?.name ?? stateCode
 
   if (!API_KEY) {
-    return NextResponse.json({ error: 'FEC_API_KEY not configured', candidates: [] }, { status: 500 })
+    console.error('[FEC] FEC_API_KEY is not set — returning mock data')
+    return NextResponse.json({
+      candidates: CANDIDATES.filter((c) => c.stateCode === stateCode),
+      source: 'mock-no-key',
+      state: stateCode,
+    })
   }
 
   try {
     // Fetch Senate + House in parallel
-    const [senateRaw, houseRaw] = await Promise.all(
-      OFFICES.map((office) => fetchCandidates(state, office))
-    )
+    const [senateRaw, houseRaw] = await Promise.all([
+      fetchFECOffice(stateCode, 'S'),
+      fetchFECOffice(stateCode, 'H'),
+    ])
 
-    const all = [...senateRaw, ...houseRaw]
+    const allFEC = [...senateRaw, ...houseRaw]
 
-    if (all.length === 0) {
-      return NextResponse.json({ candidates: [], source: 'fec', state, fallback: true })
+    // If FEC returned nothing, fall back to full mock data silently
+    if (allFEC.length === 0) {
+      console.log(`[FEC] No results for ${stateCode} — using mock fallback`)
+      return NextResponse.json(
+        {
+          candidates: CANDIDATES.filter((c) => c.stateCode === stateCode),
+          source: 'mock-empty',
+          state: stateCode,
+        },
+        { headers: { 'Cache-Control': 'no-store' } }
+      )
     }
 
-    const candidates: Candidate[] = all.map((fec) => mapFECCandidate(fec, stateName))
+    // Deduplicate by normalized name
+    const seen = new Set<string>()
+    const federal: Candidate[] = []
+    for (const fec of allFEC) {
+      const mapped = mapCandidate(fec, stateName)
+      const key = mapped.name.toLowerCase()
+      if (!seen.has(key)) {
+        seen.add(key)
+        federal.push(mapped)
+      }
+    }
 
-    return NextResponse.json({
-      candidates,
-      source: 'fec',
-      state,
-      count: candidates.length,
-      fallback: false,
-    })
+    // Merge state-level races (Governor etc.) from mock — FEC only covers federal
+    const stateLevelMock = CANDIDATES.filter(
+      (c) =>
+        c.stateCode === stateCode &&
+        c.office !== 'U.S. Senate' &&
+        c.office !== 'U.S. House of Representatives'
+    )
+
+    const candidates = [...federal, ...stateLevelMock]
+
+    return NextResponse.json(
+      { candidates, source: 'fec', state: stateCode, count: candidates.length },
+      {
+        headers: {
+          'Cache-Control': 's-maxage=86400, stale-while-revalidate=3600',
+        },
+      }
+    )
   } catch (err) {
-    console.error('[v0] FEC API error:', err)
-    return NextResponse.json({ error: 'FEC fetch failed', candidates: [], fallback: true }, { status: 500 })
+    console.error('[FEC] Unhandled route error:', err)
+    // Always return something — never a blank candidates page
+    return NextResponse.json(
+      {
+        candidates: CANDIDATES.filter((c) => c.stateCode === stateCode),
+        source: 'mock-error',
+        state: stateCode,
+      },
+      { headers: { 'Cache-Control': 'no-store' } }
+    )
   }
 }
