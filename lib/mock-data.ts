@@ -451,6 +451,120 @@ export const EDUCATION_OPTIONS = [
   'Prefer not to say',
 ]
 
+// ─── Propositions ────────────────────────────────────────────────────────────
+
+export interface Proposition {
+  id: string
+  stateCode: string
+  state: string
+  number: string          // e.g. "Prop 4" or "Amendment 2"
+  title: string
+  summary: string
+  fiscalImpact: string
+  proArgument: string
+  conArgument: string
+  category: 'Education' | 'Environment' | 'Healthcare' | 'Economy' | 'Criminal Justice' | 'Infrastructure' | 'Housing'
+}
+
+export const PROPOSITIONS: Proposition[] = [
+  {
+    id: 'fl-prop-1',
+    stateCode: 'FL',
+    state: 'Florida',
+    number: 'Amendment 1',
+    title: 'Minimum Wage Increase to $15/hr',
+    summary: 'Raises the state minimum wage from $12 to $15 per hour by 2027, with annual cost-of-living adjustments tied to the Consumer Price Index thereafter.',
+    fiscalImpact: 'Estimated $340M annual increase in state payroll costs; projected $1.2B boost to consumer spending.',
+    proArgument: 'Lifts hundreds of thousands of workers out of poverty and reduces reliance on public assistance programs.',
+    conArgument: 'May lead to reduced hours or job cuts for small businesses already operating on thin margins.',
+    category: 'Economy',
+  },
+  {
+    id: 'fl-prop-2',
+    stateCode: 'FL',
+    state: 'Florida',
+    number: 'Amendment 3',
+    title: 'Coastal Resilience Infrastructure Bond',
+    summary: 'Authorizes $4 billion in general obligation bonds to fund seawall repairs, beach restoration, and storm-surge barriers along Florida\'s coastline.',
+    fiscalImpact: 'Estimated $280M per year in debt service over 20 years; protects $890B in coastal property value.',
+    proArgument: 'Protects lives, property, and tourism from increasingly severe hurricanes and sea-level rise.',
+    conArgument: 'Adds significant long-term debt burden without guaranteeing effectiveness against future storm events.',
+    category: 'Environment',
+  },
+  {
+    id: 'fl-prop-3',
+    stateCode: 'FL',
+    state: 'Florida',
+    number: 'Prop 7',
+    title: 'Universal Pre-K Expansion',
+    summary: 'Expands voluntary universal pre-kindergarten from half-day to full-day programs for all 4-year-olds, funded through a 0.5% increase in the documentary stamp tax.',
+    fiscalImpact: 'Raises approximately $620M annually; expands program to an estimated 180,000 additional children.',
+    proArgument: 'Early childhood education dramatically improves graduation rates and lifetime earnings outcomes.',
+    conArgument: 'Tax increase disproportionately affects real estate transactions during an already challenging housing market.',
+    category: 'Education',
+  },
+  {
+    id: 'tx-prop-1',
+    stateCode: 'TX',
+    state: 'Texas',
+    number: 'Prop 2',
+    title: 'Property Tax Relief for Homesteads',
+    summary: 'Increases the homestead exemption from $40,000 to $100,000 for school district property taxes, providing direct relief to primary-residence homeowners.',
+    fiscalImpact: 'Reduces school district revenue by approximately $5.6B annually, offset by increased state funding.',
+    proArgument: 'Provides meaningful relief to middle-class homeowners struggling with rapidly rising property valuations.',
+    conArgument: 'Primarily benefits higher-value properties and shifts tax burden to renters and commercial property owners.',
+    category: 'Economy',
+  },
+  {
+    id: 'tx-prop-2',
+    stateCode: 'TX',
+    state: 'Texas',
+    number: 'Prop 6',
+    title: 'Statewide Water Infrastructure Fund',
+    summary: 'Creates a $3B revolving loan fund for municipalities and water districts to upgrade aging water infrastructure, prioritizing rural communities.',
+    fiscalImpact: 'Initial $3B allocation from general revenue; self-sustaining through loan repayments within 15 years.',
+    proArgument: 'Addresses a critical infrastructure gap, especially for rural Texas communities with aging or failing water systems.',
+    conArgument: 'Represents a large upfront expenditure that could crowd out other state funding priorities.',
+    category: 'Infrastructure',
+  },
+  {
+    id: 'ca-prop-1',
+    stateCode: 'CA',
+    state: 'California',
+    number: 'Prop 33',
+    title: 'Rent Control Expansion',
+    summary: 'Repeals the Costa-Hawkins Act, allowing cities and counties to apply rent control to any residential rental unit, including single-family homes built after 1978.',
+    fiscalImpact: 'Uncertain; potential reduction in property tax revenues as housing values stabilize; lower housing construction forecasted.',
+    proArgument: 'Protects long-term tenants from displacement and preserves affordable housing in expensive urban markets.',
+    conArgument: 'Economists broadly agree rent control reduces housing supply and quality over the long term.',
+    category: 'Housing',
+  },
+  {
+    id: 'ca-prop-2',
+    stateCode: 'CA',
+    state: 'California',
+    number: 'Prop 36',
+    title: 'Drug and Theft Crime Penalties',
+    summary: 'Increases penalties for certain drug and theft crimes, allowing courts to charge repeat offenders with felonies for possessing hard drugs or stealing goods over $950.',
+    fiscalImpact: 'Estimated $300M–$500M annually in increased incarceration costs; potential savings from reduced retail losses.',
+    proArgument: 'Addresses rampant retail theft and fentanyl crisis by restoring meaningful consequences for repeat offenders.',
+    conArgument: 'Reverses criminal justice reforms and disproportionately impacts low-income communities and people of color.',
+    category: 'Criminal Justice',
+  },
+  {
+    id: 'ny-prop-1',
+    stateCode: 'NY',
+    state: 'New York',
+    number: 'Prop 1',
+    title: 'Equal Rights Amendment',
+    summary: 'Amends the state constitution to explicitly prohibit discrimination based on ethnicity, national origin, age, disability, and sex, including gender identity and sexual orientation.',
+    fiscalImpact: 'Minimal direct fiscal impact; potential litigation costs estimated at $10M–$50M over 5 years.',
+    proArgument: 'Enshrines robust civil rights protections in the state constitution, insulating them from future legislative rollback.',
+    conArgument: 'Broad language could create unintended legal consequences, particularly around parental rights and religious exemptions.',
+    category: 'Healthcare',
+  },
+]
+
 // ─── Race results mock data ───────────────────────────────────────────────────
 
 export const RACE_RESULTS: RaceResult[] = [

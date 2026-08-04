@@ -2,14 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, BarChart3, User, Vote } from 'lucide-react'
+import { Home, BarChart3, User, ScrollText } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
-  { href: '/home',     label: 'Home',     Icon: Home },
-  { href: '/vote',     label: 'Vote',     Icon: Vote },
-  { href: '/results',  label: 'Results',  Icon: BarChart3 },
-  { href: '/profile',  label: 'Profile',  Icon: User },
+  { href: '/home',         label: 'Home',     Icon: Home },
+  { href: '/candidates',   label: 'Candidates', Icon: ScrollText },
+  { href: '/results',      label: 'Results',  Icon: BarChart3 },
+  { href: '/profile',      label: 'Profile',  Icon: User },
 ]
 
 export default function BottomNav() {
