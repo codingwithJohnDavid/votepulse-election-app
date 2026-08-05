@@ -50,7 +50,11 @@ function VoteInner() {
     setSubmitting(true)
     await new Promise((r) => setTimeout(r, 900))
     setSubmitted(true)
-    setTimeout(() => router.push('/results'), 1800)
+    // Encode ballot as raceId:candidateId pairs, e.g. "fl-sen:fl-sen-2,fl-gov:fl-gov-1"
+    const votesParam = Object.entries(selections)
+      .map(([raceId, candidateId]) => `${raceId}:${candidateId}`)
+      .join(',')
+    setTimeout(() => router.push(`/results?votes=${encodeURIComponent(votesParam)}&state=${stateCode}`), 1800)
   }
 
   if (races.length === 0) {
