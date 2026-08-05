@@ -195,22 +195,47 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.12 }}
-            className="mx-5 mt-4 bg-card rounded-3xl border border-border overflow-hidden"
+            className="mx-5 mt-4 bg-card rounded-3xl border border-border p-5"
           >
-            <h2 className="font-black text-[14px] text-foreground px-5 pt-5 pb-3">Key Issues</h2>
+            <h2 className="font-black text-[14px] text-foreground mb-3">Key Issues</h2>
 
-            {/* Accordion — always expandable, detail text populates after AI bio loads */}
-            <div className="flex flex-col">
-              {(aiBio ? aiBio.keyIssues.map(k => k.issue) : candidate.keyIssues).map((issue, i) => {
-                const detail = aiBio?.keyIssues[i]?.detail
-                return (
+            {!aiBio ? (
+              <button
+                onClick={fetchAIBio}
+                disabled={loadingBio}
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-primary/10 hover:bg-primary/15 text-primary font-bold text-sm transition-colors disabled:opacity-60"
+              >
+                {loadingBio ? (
+                  <>
+                    <Loader2 size={15} className="animate-spin" aria-hidden="true" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={15} aria-hidden="true" />
+                    Get Key Issues with AI
+                  </>
+                )}
+              </button>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col -mx-5 -mb-5"
+              >
+                <div className="flex items-center gap-2 px-5 pb-3">
+                  <Sparkles size={13} className="text-primary" aria-hidden="true" />
+                  <span className="text-[11px] font-black text-primary uppercase tracking-wide">AI-Generated</span>
+                </div>
+                {aiBio.keyIssues.map((item, i) => (
                   <div key={i} className="border-t border-border">
                     <button
                       onClick={() => setExpandedIssue(expandedIssue === i ? null : i)}
                       className="w-full flex items-center justify-between px-5 py-3.5 text-left transition-colors hover:bg-muted/50"
                       aria-expanded={expandedIssue === i}
                     >
-                      <span className="font-bold text-sm text-foreground">{issue}</span>
+                      <span className="font-bold text-sm text-foreground">{item.issue}</span>
                       <ChevronDown
                         size={15}
                         className={`text-muted-foreground shrink-0 transition-transform duration-200 ${expandedIssue === i ? 'rotate-180' : ''}`}
@@ -226,23 +251,15 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          {detail ? (
-                            <p className="px-5 pb-4 text-xs text-muted-foreground leading-relaxed">{detail}</p>
-                          ) : (
-                            <div className="px-5 pb-4 space-y-1.5">
-                              <div className="h-2.5 bg-muted rounded-full w-full animate-pulse" />
-                              <div className="h-2.5 bg-muted rounded-full w-4/5 animate-pulse" />
-                              <div className="h-2.5 bg-muted rounded-full w-3/5 animate-pulse" />
-                            </div>
-                          )}
+                          <p className="px-5 pb-4 text-xs text-muted-foreground leading-relaxed">{item.detail}</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
-                )
-              })}
-              <div className="pb-1" />
-            </div>
+                ))}
+                <div className="pb-1" />
+              </motion.div>
+            )}
           </motion.div>
 
           {/* ── Funded By ── */}
