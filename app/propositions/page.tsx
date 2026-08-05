@@ -101,7 +101,7 @@ export default function PropositionsPage() {
               )}
               {activeState.code === 'NY' && (
                 <p className="text-muted-foreground text-xs leading-relaxed max-w-xs">
-                  New York&apos;s amendment process requires passage by two successive legislative sessions before referral to voters. No measures have completed that process for 2026.
+                  New York does not allow citizen initiatives. Constitutional amendments require passage by two successive legislative sessions before going to voters — no measures completed that process for 2026. The next automatic constitutional convention question appears in 2037.
                 </p>
               )}
               {activeState.code !== 'TX' && activeState.code !== 'NY' && (
