@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, Suspense } from 'react'
+import { useState, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, CheckCircle2, Info, MapPin, ChevronLeft } from 'lucide-react'
@@ -52,16 +52,6 @@ function VoteInner() {
     setSubmitted(true)
     setTimeout(() => router.push('/results'), 1800)
   }
-
-  // Auto-advance to next unselected race after pick
-  useEffect(() => {
-    if (!selections[activeRaceId]) return
-    const next = races.find((r) => !selections[r.id] && r.id !== activeRaceId)
-    if (next) {
-      const t = setTimeout(() => switchRace(next.id), 600)
-      return () => clearTimeout(t)
-    }
-  }, [selections, activeRaceId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (races.length === 0) {
     return (
