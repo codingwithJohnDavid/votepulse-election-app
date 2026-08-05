@@ -101,7 +101,7 @@ export default function HomePage() {
     <PageShell>
       <div
         className="flex flex-col min-h-svh"
-        style={{ background: 'linear-gradient(180deg, oklch(0.80 0.07 285) 0%, oklch(0.87 0.04 278) 28%, oklch(0.93 0.02 270) 50%, oklch(0.980 0.005 260) 68%, oklch(0.980 0.005 260) 100%)' }}
+        style={{ background: 'linear-gradient(180deg, oklch(0.70 0.16 285) 0%, oklch(0.82 0.09 280) 20%, oklch(0.93 0.03 272) 38%, oklch(0.980 0.005 260) 52%, oklch(0.980 0.005 260) 100%)' }}
       >
         {/* ── Header — Apple Health style ── */}
         <header className="px-5 pt-14 pb-6 bg-transparent">
