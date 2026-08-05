@@ -202,42 +202,24 @@ function VoteInner() {
         </AnimatePresence>
       </div>
 
-      {/* ── Submit footer ── */}
-      <div className="px-5 py-4 bg-card border-t border-border" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 5.5rem)' }}>
-        <AnimatePresence>
-          {submitted ? (
-            <motion.div
-              key="submitted"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-green-100 text-green-700"
-            >
-              <CheckCircle2 size={18} aria-hidden="true" />
-              <span className="font-bold">Submitted! Redirecting to results…</span>
-            </motion.div>
-          ) : (
-            <motion.button
-              key="submit"
-              type="button"
-              onClick={handleSubmit}
-              disabled={!allRacesSelected || submitting}
-              className={cn(
-                'w-full py-4 rounded-2xl font-bold text-[15px] transition-all duration-200',
-                allRacesSelected
-                  ? 'bg-primary text-primary-foreground hover:opacity-90 active:scale-95'
-                  : 'bg-muted text-muted-foreground cursor-not-allowed',
-              )}
-              aria-disabled={!allRacesSelected}
-            >
-              {submitting
-                ? 'Submitting…'
-                : allRacesSelected
-                ? 'Submit My Ballot'
-                : `${races.length - completedCount} race${races.length - completedCount !== 1 ? 's' : ''} remaining`}
-            </motion.button>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Submitted confirmation banner */}
+      <AnimatePresence>
+        {submitted && (
+          <motion.div
+            key="submitted-banner"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="mx-5 mb-4 flex items-center justify-center gap-2 py-4 rounded-2xl bg-green-100 text-green-700"
+          >
+            <CheckCircle2 size={18} aria-hidden="true" />
+            <span className="font-bold text-sm">Submitted! Redirecting to results…</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Bottom spacer to clear floating buttons */}
+      <div style={{ height: 'calc(env(safe-area-inset-bottom, 0px) + 7rem)' }} />
     </>
   )
 }

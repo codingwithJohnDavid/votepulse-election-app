@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Search, ChevronRight } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import PageShell from '@/components/page-shell'
 import FloatingHomeButton from '@/components/floating-home-button'
@@ -194,32 +194,8 @@ export default function StateSelectionPage() {
           )}
         </div>
 
-        {/* ── Confirm button ── */}
-        <div
-          className="px-5 pt-3 bg-white border-t border-[#F0F0F5]"
-          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 5rem)' }}
-        >
-          <button
-            type="button"
-            onClick={handleConfirm}
-            disabled={!selected}
-            className={cn(
-              'w-full py-3.5 rounded-2xl font-bold text-[15px] transition-all flex items-center justify-center gap-2',
-              selected
-                ? 'bg-primary text-white hover:opacity-90 active:scale-95 shadow-sm'
-                : 'bg-[#F0F0F5] text-[#9CA3AF] cursor-not-allowed',
-            )}
-          >
-            {selected ? (
-              <>
-                {`Continue with ${US_STATES.find((s) => s.code === selected)?.name}`}
-                <ChevronRight size={16} aria-hidden="true" />
-              </>
-            ) : (
-              'Select a State to Continue'
-            )}
-          </button>
-        </div>
+        {/* bottom padding so last tile clears floating buttons */}
+        <div style={{ height: 'calc(env(safe-area-inset-bottom, 0px) + 7rem)' }} />
       </div>
       <FloatingHomeButton />
     </PageShell>

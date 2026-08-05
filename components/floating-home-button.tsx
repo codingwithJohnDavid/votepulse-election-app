@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Home, ArrowRight, Loader2 } from 'lucide-react'
+import { Home, ChevronRight, Loader2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useFloatingAction } from '@/lib/floating-action-context'
 import { cn } from '@/lib/utils'
@@ -25,33 +25,39 @@ export default function FloatingHomeButton() {
           <Home size={22} className="text-background" aria-hidden="true" />
         </Link>
 
-        {/* Submit button — slides in when action is set */}
+        {/* Submit button — circular, slides in when action is set */}
         <AnimatePresence>
           {action && (
             <motion.button
               key="submit-btn"
-              initial={{ opacity: 0, scale: 0.75, x: -8 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.75, x: -8 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 26 }}
               type="button"
               onClick={action.disabled || action.loading ? undefined : action.onSubmit}
               disabled={action.disabled || action.loading}
-              className={cn(
-                'h-14 px-5 rounded-full flex items-center gap-2.5 shadow-xl font-bold text-[14px] transition-colors',
-                action.disabled
-                  ? 'bg-foreground/30 text-background/50 cursor-not-allowed'
-                  : 'bg-primary text-white active:scale-95',
-              )}
               aria-label={action.label}
+              className={cn(
+                'w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform',
+                action.loading
+                  ? 'bg-foreground cursor-default'
+                  : action.disabled
+                    ? 'bg-foreground/25 cursor-not-allowed'
+                    : 'bg-foreground active:scale-95 cursor-pointer',
+              )}
             >
               {action.loading ? (
-                <Loader2 size={18} className="animate-spin" aria-hidden="true" />
+                <Loader2 size={22} className="text-background animate-spin" aria-hidden="true" />
               ) : (
-                <>
-                  <span>{action.label}</span>
-                  <ArrowRight size={16} aria-hidden="true" />
-                </>
+                <ChevronRight
+                  size={26}
+                  strokeWidth={2.5}
+                  className={cn(
+                    action.disabled ? 'text-background/40' : 'text-background',
+                  )}
+                  aria-hidden="true"
+                />
               )}
             </motion.button>
           )}
