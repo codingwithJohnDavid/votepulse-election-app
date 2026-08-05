@@ -124,12 +124,8 @@ export default function CandidateCard({
           ))}
         </div>
 
-        {/* Stats row */}
-        <div className="flex items-center justify-between pt-3 border-t border-border mb-3">
-          <div>
-            <p className="text-sm font-black text-foreground">{candidate.yearsExperience}+</p>
-            <p className="text-[10px] text-muted-foreground">Years Exp.</p>
-          </div>
+        {/* Website link */}
+        <div className="flex justify-end pt-3 border-t border-border mb-3">
           <a
             href={candidate.website}
             target="_blank"
