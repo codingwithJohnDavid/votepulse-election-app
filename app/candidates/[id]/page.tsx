@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, Globe, AtSign, Link2, Award, ExternalLink, Sparkles, Loader2, DollarSign, ChevronDown } from 'lucide-react'
+import { ChevronLeft, Globe, AtSign, Link2, Award, ExternalLink, Sparkles, Loader2, ChevronDown } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, partyColor, type CandidateFunder } from '@/lib/mock-data'
@@ -127,15 +127,12 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             </p>
             <p className="text-xs text-muted-foreground mt-0.5">{candidate.state}</p>
 
-            <div className="flex items-center gap-6 mt-4 pt-4 border-t border-border w-full justify-center">
-              {candidate.incumbent && (
-                <div className="flex flex-col items-center gap-1">
-                  <Award size={15} className="text-amber-500" />
-                  <span className="text-[11px] text-muted-foreground font-medium">Incumbent</span>
-                </div>
-              )}
-
-            </div>
+            {candidate.incumbent && (
+              <div className="flex items-center gap-1 mt-3">
+                <Award size={13} className="text-amber-500" aria-hidden="true" />
+                <span className="text-[11px] text-muted-foreground font-medium">Incumbent</span>
+              </div>
+            )}
           </motion.div>
 
           {/* ── Get Bio with AI ── */}
