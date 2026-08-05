@@ -199,25 +199,28 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
           >
             <h2 className="font-black text-[14px] text-foreground px-5 pt-5 pb-3">Key Issues</h2>
 
-            {/* If AI bio loaded, show full expandable policy cards */}
-            {aiBio ? (
-              <div className="flex flex-col">
-                {aiBio.keyIssues.map((item, i) => (
+            {/* Always show accordion — detail text available after AI bio loads */}
+            <div className="flex flex-col">
+              {(aiBio ? aiBio.keyIssues.map(k => k.issue) : candidate.keyIssues).map((issue, i) => {
+                const detail = aiBio?.keyIssues[i]?.detail
+                return (
                   <div key={i} className="border-t border-border">
                     <button
-                      onClick={() => setExpandedIssue(expandedIssue === i ? null : i)}
-                      className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-muted/50 transition-colors text-left"
+                      onClick={() => detail && setExpandedIssue(expandedIssue === i ? null : i)}
+                      className={`w-full flex items-center justify-between px-5 py-3.5 text-left transition-colors ${detail ? 'hover:bg-muted/50 cursor-pointer' : 'cursor-default'}`}
                       aria-expanded={expandedIssue === i}
                     >
-                      <span className="font-bold text-sm text-foreground">{item.issue}</span>
-                      <ChevronDown
-                        size={15}
-                        className={`text-muted-foreground shrink-0 transition-transform ${expandedIssue === i ? 'rotate-180' : ''}`}
-                        aria-hidden="true"
-                      />
+                      <span className="font-bold text-sm text-foreground">{issue}</span>
+                      {detail && (
+                        <ChevronDown
+                          size={15}
+                          className={`text-muted-foreground shrink-0 transition-transform ${expandedIssue === i ? 'rotate-180' : ''}`}
+                          aria-hidden="true"
+                        />
+                      )}
                     </button>
                     <AnimatePresence>
-                      {expandedIssue === i && (
+                      {expandedIssue === i && detail && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
@@ -225,27 +228,15 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <p className="px-5 pb-4 text-xs text-muted-foreground leading-relaxed">{item.detail}</p>
+                          <p className="px-5 pb-4 text-xs text-muted-foreground leading-relaxed">{detail}</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
-                ))}
-                <div className="pb-1" />
-              </div>
-            ) : (
-              /* Before AI bio: show chips */
-              <div className="flex flex-wrap gap-2 px-5 pb-5">
-                {candidate.keyIssues.map((issue) => (
-                  <span
-                    key={issue}
-                    className="text-[12px] font-semibold px-3 py-1.5 rounded-full bg-brand-subtle text-primary"
-                  >
-                    {issue}
-                  </span>
-                ))}
-              </div>
-            )}
+                )
+              })}
+              <div className="pb-1" />
+            </div>
           </motion.div>
 
           {/* ── Funded By ── */}
