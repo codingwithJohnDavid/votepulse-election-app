@@ -263,15 +263,15 @@ export default function ProfilePage() {
 
         {/* Banner */}
         <div
-          className="px-5 pt-14 pb-20 relative"
+          className="px-5 pt-14 pb-5"
           style={{ background: 'linear-gradient(160deg, oklch(0.36 0.22 285) 0%, oklch(0.50 0.18 275) 100%)' }}
         >
           <p className="text-white/60 text-sm font-medium mb-1">Your Profile</p>
           <h1 className="text-2xl font-black text-white tracking-tight">Demographics</h1>
         </div>
 
-        {/* Floating profile card */}
-        <div className="relative px-5 -mt-12 mb-4">
+        {/* Profile card — sits below the banner */}
+        <div className="px-5 pt-4 mb-4">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
