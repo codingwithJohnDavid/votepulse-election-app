@@ -125,7 +125,7 @@ export default function CandidateCard({
         </div>
 
         {/* Website link */}
-        <div className="flex justify-end pt-3 border-t border-border mb-3">
+        <div className="flex justify-end mb-2">
           <a
             href={candidate.website}
             target="_blank"
