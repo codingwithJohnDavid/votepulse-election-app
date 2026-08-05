@@ -99,39 +99,36 @@ export default function HomePage() {
 
   return (
     <PageShell>
-      <div
-        className="flex flex-col min-h-svh"
-        style={{ background: 'linear-gradient(180deg, oklch(0.56 0.29 300) 0%, oklch(0.72 0.18 295) 18%, oklch(0.87 0.07 285) 36%, oklch(0.980 0.005 260) 52%, oklch(0.980 0.005 260) 100%)' }}
-      >
-        {/* ── Header — Apple Health style ── */}
-        <header className="px-5 pt-14 pb-6 bg-transparent">
+      <div className="flex flex-col min-h-svh bg-background">
+        {/* ── Header ── */}
+        <header className="px-5 pt-14 pb-5 bg-card border-b border-border">
           <div className="flex items-start justify-between">
             {/* Title block */}
             <div>
-              <p className="text-white/60 text-[11px] font-semibold uppercase tracking-widest mb-1">
+              <p className="text-muted-foreground text-[11px] font-semibold uppercase tracking-widest mb-1">
                 2026 Midterms
               </p>
-              <h1 className="text-[34px] font-black text-white leading-none tracking-tight">
+              <h1 className="text-[34px] font-black text-foreground leading-none tracking-tight">
                 VotePulse
               </h1>
               {/* State chip */}
               <Link
                 href="/onboarding/state"
-                className="mt-3 inline-flex items-center gap-1.5 bg-white/20 border border-white/30 rounded-2xl px-3 py-1.5"
+                className="mt-3 inline-flex items-center gap-1.5 bg-brand-subtle border border-primary/20 rounded-2xl px-3 py-1.5"
               >
-                <MapPin size={11} className="text-white/80" aria-hidden="true" />
-                <span className="text-white text-xs font-semibold">{activeState.name}</span>
-                <ChevronRight size={10} className="text-white/50" aria-hidden="true" />
+                <MapPin size={11} className="text-primary" aria-hidden="true" />
+                <span className="text-primary text-xs font-semibold">{activeState.name}</span>
+                <ChevronRight size={10} className="text-primary/50" aria-hidden="true" />
               </Link>
             </div>
 
             {/* Avatar */}
             <Link href="/profile" aria-label="Your profile">
-              <div className="w-11 h-11 rounded-full bg-white/20 border border-white/30 flex items-center justify-center mt-1">
+              <div className="w-11 h-11 rounded-full bg-muted border border-border flex items-center justify-center mt-1">
                 {initials ? (
-                  <span className="text-white font-black text-[15px] leading-none">{initials}</span>
+                  <span className="text-foreground font-black text-[15px] leading-none">{initials}</span>
                 ) : (
-                  <User size={18} className="text-white/80" aria-hidden="true" />
+                  <User size={18} className="text-muted-foreground" aria-hidden="true" />
                 )}
               </div>
             </Link>

@@ -76,31 +76,31 @@ function VoteInner() {
   return (
     <>
       {/* ── Header ── */}
-      <header className="bg-transparent px-5 pt-14 pb-4">
+      <header className="bg-card px-5 pt-14 pb-4 border-b border-border">
         {/* Top row: back to states + race progress */}
         <div className="flex items-center justify-between mb-3">
           <button
             onClick={() => router.push('/onboarding/state')}
-            className="flex items-center gap-1 text-white font-semibold text-sm -ml-1 px-1 py-0.5 rounded-xl hover:bg-white/15 transition-colors"
+            className="flex items-center gap-1 text-primary font-semibold text-sm -ml-1 px-1 py-0.5 rounded-xl hover:bg-brand-subtle transition-colors"
             aria-label="Back to state selection"
           >
             <ChevronLeft size={16} aria-hidden="true" />
             States
           </button>
           <div className="flex items-center gap-1.5">
-            <MapPin size={12} className="text-white/70" aria-hidden="true" />
-            <span className="text-xs text-white/80 font-medium">{stateName}</span>
-            <span className="text-xs text-white/50">·</span>
-            <span className="text-xs text-white/70">
+            <MapPin size={12} className="text-muted-foreground" aria-hidden="true" />
+            <span className="text-xs text-muted-foreground font-medium">{stateName}</span>
+            <span className="text-xs text-muted-foreground">·</span>
+            <span className="text-xs text-muted-foreground">
               {completedCount}/{races.length} completed
             </span>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div className="h-1.5 rounded-full bg-white/25 overflow-hidden">
+        <div className="h-1.5 rounded-full bg-border overflow-hidden">
           <motion.div
-            className="h-full rounded-full bg-white"
+            className="h-full rounded-full bg-primary"
             initial={{ width: 0 }}
             animate={{ width: races.length > 0 ? `${(completedCount / races.length) * 100}%` : '0%' }}
             transition={{ duration: 0.4 }}
@@ -110,7 +110,7 @@ function VoteInner() {
 
       {/* ── Race toolbar ── */}
       <div
-        className="bg-transparent px-5 py-3 overflow-x-auto"
+        className="bg-card border-b border-border px-5 py-3 overflow-x-auto"
         style={{ scrollbarWidth: 'none' }}
         role="tablist"
         aria-label="Races"
@@ -129,10 +129,10 @@ function VoteInner() {
                 className={cn(
                   'flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition-all duration-200',
                   active
-                    ? 'bg-white text-primary shadow-sm'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
                     : done
-                    ? 'bg-white/30 text-white border border-white/40'
-                    : 'bg-white/20 text-white/80 hover:bg-white/30',
+                    ? 'bg-green-100 text-green-800 border border-green-200'
+                    : 'bg-muted text-muted-foreground hover:bg-brand-subtle hover:text-primary',
                 )}
               >
                 {done && <CheckCircle2 size={12} aria-hidden="true" />}
@@ -229,10 +229,7 @@ function VoteInner() {
 export default function VotePage() {
   return (
     <PageShell withNav={false}>
-      <div
-        className="flex flex-col min-h-svh"
-        style={{ background: 'linear-gradient(180deg, oklch(0.56 0.29 300) 0%, oklch(0.72 0.18 295) 18%, oklch(0.87 0.07 285) 36%, oklch(0.980 0.005 260) 52%, oklch(0.980 0.005 260) 100%)' }}
-      >
+      <div className="flex flex-col min-h-svh bg-background">
         <Suspense fallback={<div className="flex-1 flex items-center justify-center"><p className="text-muted-foreground text-sm">Loading ballot…</p></div>}>
           <VoteInner />
         </Suspense>
