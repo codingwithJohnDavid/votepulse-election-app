@@ -103,7 +103,7 @@ export default function HomePage() {
         {/* ── Header — Apple Health style ── */}
         <header
           className="px-5 pt-14 pb-6"
-          style={{ background: 'linear-gradient(170deg, oklch(0.34 0.22 285) 0%, oklch(0.48 0.18 275) 60%, oklch(0.963 0.008 260) 100%)' }}
+          style={{ background: 'linear-gradient(170deg, oklch(0.34 0.22 285) 0%, oklch(0.48 0.18 275) 60%, oklch(0.980 0.005 260) 100%)' }}
         >
           <div className="flex items-start justify-between">
             {/* Title block */}
