@@ -45,7 +45,7 @@ export default function CandidateCard({
       }
     >
       {/* ── Header row: avatar + name + party badge ── */}
-      <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+      <div className="flex items-center gap-3 px-4 pt-4 pb-2">
         {/* Avatar */}
         <div
           className="w-[52px] h-[52px] rounded-2xl overflow-hidden shrink-0 bg-muted"
@@ -100,9 +100,6 @@ export default function CandidateCard({
           </p>
         </div>
       </div>
-
-      {/* ── Thin party accent line ── */}
-      <div className="mx-4 h-[2px] rounded-full mb-3" style={{ backgroundColor: `${ring}30` }} />
 
       {/* ── Body ── */}
       <div className="px-4 pb-4">
