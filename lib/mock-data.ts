@@ -411,7 +411,7 @@ export const CANDIDATES: Candidate[] = [
     bio: 'Former Huntington Beach City Attorney and brief Trump DOJ appointee, running on a law-and-order platform. Gates prioritizes implementing Proposition 36\'s tougher drug and theft penalties, investigating state government waste and fraud, reinforcing parental rights in schools, and pushing back against state housing mandates on local governments. He gained national attention filing legal challenges to state vaccine and housing laws.',
     incumbent: false,
     yearsExperience: 18,
-    website: 'https://michaelgates2026.com',
+    website: 'https://www.gates4ag.com',
     keyIssues: ['Law Enforcement', 'Proposition 36 Implementation', 'Government Fraud', 'Parental Rights', 'Local Government Autonomy'],
     funders: [
       { name: 'California Republican Party', amount: '$1.2M', type: 'Party Committee' },
