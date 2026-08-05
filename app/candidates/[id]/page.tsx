@@ -199,28 +199,26 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
           >
             <h2 className="font-black text-[14px] text-foreground px-5 pt-5 pb-3">Key Issues</h2>
 
-            {/* Always show accordion — detail text available after AI bio loads */}
+            {/* Accordion — always expandable, detail text populates after AI bio loads */}
             <div className="flex flex-col">
               {(aiBio ? aiBio.keyIssues.map(k => k.issue) : candidate.keyIssues).map((issue, i) => {
                 const detail = aiBio?.keyIssues[i]?.detail
                 return (
                   <div key={i} className="border-t border-border">
                     <button
-                      onClick={() => detail && setExpandedIssue(expandedIssue === i ? null : i)}
-                      className={`w-full flex items-center justify-between px-5 py-3.5 text-left transition-colors ${detail ? 'hover:bg-muted/50 cursor-pointer' : 'cursor-default'}`}
+                      onClick={() => setExpandedIssue(expandedIssue === i ? null : i)}
+                      className="w-full flex items-center justify-between px-5 py-3.5 text-left transition-colors hover:bg-muted/50"
                       aria-expanded={expandedIssue === i}
                     >
                       <span className="font-bold text-sm text-foreground">{issue}</span>
-                      {detail && (
-                        <ChevronDown
-                          size={15}
-                          className={`text-muted-foreground shrink-0 transition-transform ${expandedIssue === i ? 'rotate-180' : ''}`}
-                          aria-hidden="true"
-                        />
-                      )}
+                      <ChevronDown
+                        size={15}
+                        className={`text-muted-foreground shrink-0 transition-transform duration-200 ${expandedIssue === i ? 'rotate-180' : ''}`}
+                        aria-hidden="true"
+                      />
                     </button>
                     <AnimatePresence>
-                      {expandedIssue === i && detail && (
+                      {expandedIssue === i && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
@@ -228,7 +226,15 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <p className="px-5 pb-4 text-xs text-muted-foreground leading-relaxed">{detail}</p>
+                          {detail ? (
+                            <p className="px-5 pb-4 text-xs text-muted-foreground leading-relaxed">{detail}</p>
+                          ) : (
+                            <div className="px-5 pb-4 space-y-1.5">
+                              <div className="h-2.5 bg-muted rounded-full w-full animate-pulse" />
+                              <div className="h-2.5 bg-muted rounded-full w-4/5 animate-pulse" />
+                              <div className="h-2.5 bg-muted rounded-full w-3/5 animate-pulse" />
+                            </div>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
