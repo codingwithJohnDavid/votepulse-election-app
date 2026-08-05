@@ -99,12 +99,12 @@ export default function HomePage() {
 
   return (
     <PageShell>
-      <div className="flex flex-col min-h-svh bg-background">
+      <div
+        className="flex flex-col min-h-svh"
+        style={{ background: 'linear-gradient(180deg, oklch(0.34 0.22 285) 0%, oklch(0.46 0.18 278) 18%, oklch(0.72 0.06 270) 38%, oklch(0.980 0.005 260) 56%, oklch(0.980 0.005 260) 100%)' }}
+      >
         {/* ── Header — Apple Health style ── */}
-        <header
-          className="px-5 pt-14 pb-6"
-          style={{ background: 'linear-gradient(170deg, oklch(0.34 0.22 285) 0%, oklch(0.48 0.18 275) 60%, oklch(0.980 0.005 260) 100%)' }}
-        >
+        <header className="px-5 pt-14 pb-6 bg-transparent">
           <div className="flex items-start justify-between">
             {/* Title block */}
             <div>
