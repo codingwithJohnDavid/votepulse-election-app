@@ -8,6 +8,7 @@ import { Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import PageShell from '@/components/page-shell'
+import FloatingHomeButton from '@/components/floating-home-button'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 
@@ -152,6 +153,7 @@ export default function SignInPage() {
           </p>
         </div>
       </div>
+      <FloatingHomeButton />
     </PageShell>
   )
 }

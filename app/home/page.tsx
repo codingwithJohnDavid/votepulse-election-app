@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, User, Home } from 'lucide-react'
+import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, User } from 'lucide-react'
 import PageShell from '@/components/page-shell'
+import FloatingHomeButton from '@/components/floating-home-button'
 import { CANDIDATES, partyColor, type Candidate } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
 import { useProfile } from '@/lib/profile-context'
@@ -232,18 +233,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── Floating circular Home button ── */}
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] flex justify-center pointer-events-none z-50"
-          style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1.5rem)' }}
-        >
-          <Link
-            href="/home"
-            className="pointer-events-auto w-14 h-14 rounded-full bg-foreground flex items-center justify-center shadow-xl active:scale-95 transition-transform"
-            aria-label="Home"
-          >
-            <Home size={22} className="text-background" aria-hidden="true" />
-          </Link>
-        </div>
+        <FloatingHomeButton />
 
       </div>
     </PageShell>

@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, AlertCircle, Check } from 'lucide-react'
+import { ArrowLeft, AlertCircle, Check } from 'lucide-react'
 import PageShell from '@/components/page-shell'
+import FloatingHomeButton from '@/components/floating-home-button'
 import { cn } from '@/lib/utils'
+import { useFloatingAction } from '@/lib/floating-action-context'
 import {
   AGE_OPTIONS,
   RACE_OPTIONS,
@@ -66,6 +68,7 @@ const TOTAL_STEPS = STEPS.length
 export default function DemographicsPage() {
   const router = useRouter()
   const { setProfile } = useProfile()
+  const { setAction, clearAction } = useFloatingAction()
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [form, setForm] = useState<DemoForm>({
@@ -116,6 +119,17 @@ export default function DemographicsPage() {
 
   const canProceed = !!form[currentStep.key]
   const isUnder18 = form.ageRange === 'Under 18' && step > 0
+
+  useEffect(() => {
+    const isLast = step === TOTAL_STEPS - 1
+    setAction({
+      label: isLast ? 'Finish' : 'Continue',
+      onSubmit: goNext,
+      disabled: !canProceed || isUnder18,
+    })
+    return () => clearAction()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, canProceed, isUnder18])
 
   const slideVariants = {
     enter:  (d: number) => ({ x: d * 56, opacity: 0 }),
@@ -226,32 +240,19 @@ export default function DemographicsPage() {
           </AnimatePresence>
         </div>
 
-        {/* Bottom CTA */}
-        <div className="px-5 pb-10 pt-6">
-          <button
-            type="button"
-            onClick={goNext}
-            disabled={!canProceed || isUnder18}
-            className={cn(
-              'w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-[15px] transition-all duration-200',
-              canProceed && !isUnder18
-                ? 'bg-primary text-primary-foreground hover:opacity-90 active:scale-95'
-                : 'bg-muted text-muted-foreground cursor-not-allowed',
-            )}
-          >
-            {step === TOTAL_STEPS - 1 ? 'Finish' : 'Continue'}
-            <ArrowRight size={15} aria-hidden="true" />
-          </button>
-
+        {/* Skip link + bottom spacer */}
+        <div className="px-5 pt-4 pb-2 text-center">
           <button
             type="button"
             onClick={skipStep}
-            className="mt-3 w-full text-center text-sm text-muted-foreground hover:text-foreground py-2 transition-colors"
+            className="text-sm text-muted-foreground hover:text-foreground py-2 transition-colors"
           >
             Skip for now
           </button>
         </div>
+        <div style={{ height: 'calc(env(safe-area-inset-bottom, 0px) + 7rem)' }} />
       </div>
+      <FloatingHomeButton />
     </PageShell>
   )
 }
