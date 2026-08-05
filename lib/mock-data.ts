@@ -369,7 +369,7 @@ export const CANDIDATES: Candidate[] = [
     bio: 'Former Fox News host, Trump-endorsed candidate, and ex-British Conservative Party strategist. Hilton campaigns on ending single-party Democratic rule in California, dramatically cutting state spending and regulations, eliminating income tax on the first $100,000 of earnings, and cracking down on homelessness and crime. He argues California\'s progressive governance has driven out businesses and middle-class families.',
     incumbent: false,
     yearsExperience: 6,
-    website: 'https://stevehilton.com',
+    website: 'https://stevehiltonforgovernor.com',
     keyIssues: ['Tax Cuts', 'Deregulation', 'Homelessness', 'Crime Reduction', 'Fiscal Conservatism'],
     funders: [
       { name: 'California Republican Party', amount: '$1.8M', type: 'Party Committee' },
