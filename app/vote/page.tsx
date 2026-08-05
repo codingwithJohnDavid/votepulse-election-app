@@ -4,7 +4,7 @@ import { useState, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, CheckCircle2, Info, MapPin, ChevronLeft } from 'lucide-react'
-import BottomNav from '@/components/bottom-nav'
+import FloatingHomeButton from '@/components/floating-home-button'
 import CandidateCard from '@/components/candidate-card'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
@@ -190,7 +190,7 @@ function VoteInner() {
       </div>
 
       {/* ── Submit footer ── */}
-      <div className="px-5 py-4 bg-card border-t border-border" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 4.5rem)' }}>
+      <div className="px-5 py-4 bg-card border-t border-border" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 5.5rem)' }}>
         <AnimatePresence>
           {submitted ? (
             <motion.div
@@ -237,7 +237,7 @@ export default function VotePage() {
         <Suspense fallback={<div className="flex-1 flex items-center justify-center"><p className="text-muted-foreground text-sm">Loading ballot…</p></div>}>
           <VoteInner />
         </Suspense>
-        <BottomNav />
+        <FloatingHomeButton />
       </div>
     </PageShell>
   )

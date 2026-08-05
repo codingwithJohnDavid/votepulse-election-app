@@ -8,7 +8,7 @@ import {
   BarChart3, Vote, HelpCircle, Edit3, Check, X,
   ChevronDown,
 } from 'lucide-react'
-import BottomNav from '@/components/bottom-nav'
+import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
 import { useProfile, type UserProfile } from '@/lib/profile-context'
@@ -367,7 +367,7 @@ export default function ProfilePage() {
           </button>
         </div>
 
-        <BottomNav />
+        <FloatingHomeButton />
       </div>
 
       {/* Edit sheet — rendered outside scroll container */}

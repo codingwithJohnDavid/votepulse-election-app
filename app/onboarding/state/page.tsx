@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { Search, ChevronRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import PageShell from '@/components/page-shell'
-import BottomNav from '@/components/bottom-nav'
+import FloatingHomeButton from '@/components/floating-home-button'
 import { cn } from '@/lib/utils'
 import { US_STATES, RACES_BY_STATE } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
@@ -74,8 +74,7 @@ export default function StateSelectionPage() {
   }
 
   return (
-    <PageShell withNav={true}>
-      <BottomNav />
+    <PageShell withNav={false}>
       <div className="flex flex-col min-h-svh bg-white">
 
         {/* ── Header ── */}
@@ -208,6 +207,7 @@ export default function StateSelectionPage() {
           </button>
         </div>
       </div>
+      <FloatingHomeButton />
     </PageShell>
   )
 }

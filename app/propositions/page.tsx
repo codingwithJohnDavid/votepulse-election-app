@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronDown, FileText, Sparkles, Loader2 } from 'lucide-react'
-import BottomNav from '@/components/bottom-nav'
+import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { PROPOSITIONS, US_STATES } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
@@ -254,7 +254,7 @@ export default function PropositionsPage() {
           )}
         </div>
 
-        <BottomNav />
+        <FloatingHomeButton />
       </div>
     </PageShell>
   )

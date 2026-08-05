@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, Globe, AtSign, Link2, Award, ExternalLink, Sparkles, Loader2, DollarSign, ChevronDown } from 'lucide-react'
-import BottomNav from '@/components/bottom-nav'
+import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, partyColor, type CandidateFunder } from '@/lib/mock-data'
 
@@ -356,7 +356,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
           </div>
         </div>
 
-        <BottomNav />
+        <FloatingHomeButton />
       </div>
     </PageShell>
   )

@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PieChart, Pie, Cell } from 'recharts'
 import { ChevronDown, Lock, Share2, Info, BarChart3, CheckCircle2, ChevronRight } from 'lucide-react'
-import BottomNav from '@/components/bottom-nav'
+import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
 import {
@@ -570,7 +570,7 @@ function ResultsInner() {
 
         </div>
 
-        <BottomNav />
+        <FloatingHomeButton />
       </div>
     </PageShell>
   )

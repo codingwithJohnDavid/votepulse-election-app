@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronLeft, Search, SlidersHorizontal } from 'lucide-react'
-import BottomNav from '@/components/bottom-nav'
+import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, US_STATES, partyColor, type Party, type Candidate } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
@@ -216,7 +216,7 @@ export default function CandidatesPage() {
           )}
         </div>
 
-        <BottomNav />
+        <FloatingHomeButton />
       </div>
     </PageShell>
   )
