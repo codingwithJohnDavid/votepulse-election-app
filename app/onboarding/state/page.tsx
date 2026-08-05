@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Search, ChevronRight } from 'lucide-react'
@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 import { US_STATES, RACES_BY_STATE } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
 import { STATE_SVG_DATA } from '@/lib/state-svg-data'
+import { useFloatingAction } from '@/lib/floating-action-context'
 
 // ── Pastel tile colours cycling per index ──────────────────────────────────────
 const TILE_PALETTES = [
@@ -51,6 +52,7 @@ function StateShape({ code, color }: { code: string; color: string }) {
 export default function StateSelectionPage() {
   const router = useRouter()
   const { activeState, setActiveState } = useActiveState()
+  const { setAction, clearAction } = useFloatingAction()
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<string | null>(activeState.code)
 
@@ -72,6 +74,18 @@ export default function StateSelectionPage() {
     setActiveState(selected)
     router.push('/home')
   }
+
+  // Register the floating submit action — updates whenever `selected` changes
+  useEffect(() => {
+    const stateName = US_STATES.find((s) => s.code === selected)?.name
+    setAction({
+      label: stateName ? `Confirm ${stateName}` : 'Select a State',
+      onSubmit: handleConfirm,
+      disabled: !selected,
+    })
+    return () => clearAction()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected])
 
   return (
     <PageShell withNav={false}>

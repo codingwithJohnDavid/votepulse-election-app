@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, Suspense } from 'react'
+import { useState, useRef, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, CheckCircle2, Info, MapPin, ChevronLeft } from 'lucide-react'
@@ -14,11 +14,13 @@ import {
   US_STATES,
   type Race,
 } from '@/lib/mock-data'
+import { useFloatingAction } from '@/lib/floating-action-context'
 
 // ─── Inner component that reads searchParams ─────────────────────────────────
 function VoteInner() {
   const router = useRouter()
   const params = useSearchParams()
+  const { setAction, clearAction } = useFloatingAction()
   const stateCode = params.get('state') || 'FL'
   const races: Race[] = RACES_BY_STATE[stateCode] ?? []
   const stateName = US_STATES.find((s) => s.code === stateCode)?.name ?? stateCode
@@ -50,12 +52,23 @@ function VoteInner() {
     setSubmitting(true)
     await new Promise((r) => setTimeout(r, 900))
     setSubmitted(true)
-    // Encode ballot as raceId:candidateId pairs, e.g. "fl-sen:fl-sen-2,fl-gov:fl-gov-1"
     const votesParam = Object.entries(selections)
       .map(([raceId, candidateId]) => `${raceId}:${candidateId}`)
       .join(',')
     setTimeout(() => router.push(`/results?votes=${encodeURIComponent(votesParam)}&state=${stateCode}`), 1800)
   }
+
+  // Register floating submit — updates whenever ballot selections or submitting state changes
+  useEffect(() => {
+    setAction({
+      label: submitting ? 'Submitting…' : allRacesSelected ? 'Submit Ballot' : `${completedCount}/${races.length} Selected`,
+      onSubmit: handleSubmit,
+      disabled: !allRacesSelected || submitted,
+      loading: submitting,
+    })
+    return () => clearAction()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allRacesSelected, completedCount, submitting, submitted, races.length])
 
   if (races.length === 0) {
     return (

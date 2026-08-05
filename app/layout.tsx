@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { StateProvider } from '@/lib/state-context'
 import { ProfileProvider } from '@/lib/profile-context'
+import { FloatingActionProvider } from '@/lib/floating-action-context'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -28,9 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <StateProvider>
-          <ProfileProvider>{children}</ProfileProvider>
-        </StateProvider>
+        <FloatingActionProvider>
+          <StateProvider>
+            <ProfileProvider>{children}</ProfileProvider>
+          </StateProvider>
+        </FloatingActionProvider>
       </body>
     </html>
   )

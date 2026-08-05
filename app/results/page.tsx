@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PieChart, Pie, Cell } from 'recharts'
@@ -13,6 +13,7 @@ import {
   type RaceResult, type DemographicBreakdown,
 } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
+import { useFloatingAction } from '@/lib/floating-action-context'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -260,6 +261,22 @@ function YourBallot({ picks }: { picks: BallotPick[] }) {
 function ResultsInner() {
   const { activeState } = useActiveState()
   const searchParams = useSearchParams()
+  const { setAction, clearAction } = useFloatingAction()
+
+  const handleShare = useCallback(async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'VotePulse Results', url: window.location.href })
+      } else {
+        await navigator.clipboard.writeText(window.location.href)
+      }
+    } catch { /* user cancelled */ }
+  }, [])
+
+  useEffect(() => {
+    setAction({ label: 'Share Results', onSubmit: handleShare })
+    return () => clearAction()
+  }, [setAction, clearAction, handleShare])
 
   // Parse ?votes= param → map of raceId → candidateId
   const votesParam = searchParams.get('votes') ?? ''

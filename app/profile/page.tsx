@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -12,6 +12,7 @@ import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { cn } from '@/lib/utils'
 import { useProfile, type UserProfile } from '@/lib/profile-context'
+import { useFloatingAction } from '@/lib/floating-action-context'
 import {
   AGE_OPTIONS,
   RACE_OPTIONS,
@@ -41,11 +42,13 @@ function EditSheet({
   onClose,
   profile,
   onSave,
+  onRegisterSave,
 }: {
   open: boolean
   onClose: () => void
   profile: UserProfile
   onSave: (patch: Partial<UserProfile>) => Promise<void>
+  onRegisterSave: (fn: (() => void) | null) => void
 }) {
   const [draft, setDraft] = useState<UserProfile>({ ...profile })
   const [activeField, setActiveField] = useState<keyof UserProfile | null>(null)
@@ -66,6 +69,16 @@ function EditSheet({
     setSaving(false)
     onClose()
   }
+
+  // Register/unregister the save fn with the parent so it can push to floating button
+  useEffect(() => {
+    if (open) {
+      onRegisterSave(handleSave)
+    } else {
+      onRegisterSave(null)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, saving])
 
   return (
     <AnimatePresence>
@@ -252,10 +265,23 @@ const MENU_SECTIONS = [
 
 export default function ProfilePage() {
   const { profile, setProfile } = useProfile()
+  const { setAction, clearAction } = useFloatingAction()
   const [editOpen, setEditOpen] = useState(false)
+  const [pendingSaveFn, setPendingSaveFn] = useState<(() => void) | null>(null)
 
   const filledCount = Object.values(profile).filter(Boolean).length
   const totalFields = DEMO_FIELDS.length
+
+  // Register floating action: "Save Changes" when sheet is open, "Edit Profile" otherwise
+  useEffect(() => {
+    if (editOpen && pendingSaveFn) {
+      setAction({ label: 'Save Changes', onSubmit: pendingSaveFn })
+    } else if (!editOpen) {
+      setAction({ label: 'Edit Profile', onSubmit: () => setEditOpen(true) })
+    }
+    return () => clearAction()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editOpen, pendingSaveFn])
 
   return (
     <PageShell>
@@ -372,11 +398,14 @@ export default function ProfilePage() {
 
       {/* Edit sheet — rendered outside scroll container */}
       <EditSheet
-        open={editOpen}
-        onClose={() => setEditOpen(false)}
-        profile={profile}
-        onSave={(patch) => setProfile(patch)as Promise<void>}
-      />
+          open={editOpen}
+          onClose={() => setEditOpen(false)}
+          profile={profile}
+          onSave={async (patch) => {
+            setProfile(patch)
+          }}
+          onRegisterSave={(fn) => setPendingSaveFn(() => fn)}
+        />
     </PageShell>
   )
 }
