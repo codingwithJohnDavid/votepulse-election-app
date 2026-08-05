@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, Globe, AtSign, Link2, Award, Clock, ExternalLink, Sparkles, Loader2, DollarSign, ChevronDown } from 'lucide-react'
+import { ChevronLeft, Globe, AtSign, Link2, Award, ExternalLink, Sparkles, Loader2, DollarSign, ChevronDown } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, partyColor, type CandidateFunder } from '@/lib/mock-data'
@@ -59,7 +59,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
         `Office Sought: ${candidate!.office}${candidate!.district ? `, ${candidate!.district}` : ''}`,
         `State: ${candidate!.state}`,
         `Incumbent: ${candidate!.incumbent ? 'Yes' : 'No'}`,
-        `Years of Experience: ${candidate!.yearsExperience}`,
+
         `Current Bio: ${candidate!.bio}`,
         `Key Issues: ${candidate!.keyIssues.join(', ')}`,
       ].join('\n')
@@ -134,10 +134,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
                   <span className="text-[11px] text-muted-foreground font-medium">Incumbent</span>
                 </div>
               )}
-              <div className="flex flex-col items-center gap-1">
-                <Clock size={15} className="text-primary" />
-                <span className="text-[11px] text-muted-foreground font-medium">{candidate.yearsExperience} yrs exp.</span>
-              </div>
+
             </div>
           </motion.div>
 
