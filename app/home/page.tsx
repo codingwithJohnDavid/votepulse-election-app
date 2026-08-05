@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, Bell } from 'lucide-react'
+import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, User } from 'lucide-react'
 import BottomNav from '@/components/bottom-nav'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, partyColor, type Candidate } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
+import { useProfile } from '@/lib/profile-context'
 
 const SHELL_CARDS = [
   {
@@ -61,6 +62,15 @@ function CandidateRowSkeleton() {
 
 export default function HomePage() {
   const { activeState } = useActiveState()
+  const { profile } = useProfile()
+
+  // Derive initials from profile or fall back to null
+  const initials = (() => {
+    const parts = [profile?.firstName, profile?.lastName].filter(Boolean)
+    if (parts.length === 2) return `${parts[0]![0]}${parts[1]![0]}`.toUpperCase()
+    if (parts.length === 1) return parts[0]![0].toUpperCase()
+    return null
+  })()
 
   const mockFeatured = CANDIDATES.filter((c) => c.stateCode === activeState.code).slice(0, 4)
   const [featured, setFeatured] = useState<Candidate[]>(mockFeatured)
@@ -90,60 +100,63 @@ export default function HomePage() {
   return (
     <PageShell>
       <div className="flex flex-col min-h-svh bg-background">
-        {/* ── Header ── */}
-        <header className="px-5 pt-14 pb-5 bg-card border-b border-border">
-          <div className="flex items-center justify-between">
+        {/* ── Header — Apple Health style ── */}
+        <header
+          className="px-5 pt-14 pb-6"
+          style={{ background: 'linear-gradient(170deg, oklch(0.34 0.22 285) 0%, oklch(0.48 0.18 275) 60%, oklch(0.963 0.008 260) 100%)' }}
+        >
+          <div className="flex items-start justify-between">
+            {/* Title block */}
             <div>
-              <p className="text-xs text-muted-foreground font-medium mb-0.5">2026 Midterm Elections</p>
-              <h1 className="text-xl font-black text-foreground">VotePulse</h1>
+              <p className="text-white/55 text-[11px] font-semibold uppercase tracking-widest mb-1">
+                2026 Midterms
+              </p>
+              <h1 className="text-[34px] font-black text-white leading-none tracking-tight">
+                VotePulse
+              </h1>
+              {/* State chip */}
+              <Link
+                href="/onboarding/state"
+                className="mt-3 inline-flex items-center gap-1.5 bg-white/15 border border-white/25 rounded-2xl px-3 py-1.5 backdrop-blur-sm"
+              >
+                <MapPin size={11} className="text-white/80" aria-hidden="true" />
+                <span className="text-white text-xs font-semibold">{activeState.name}</span>
+                <ChevronRight size={10} className="text-white/50" aria-hidden="true" />
+              </Link>
             </div>
-            <button
-              className="w-9 h-9 rounded-full bg-muted flex items-center justify-center relative"
-              aria-label="Notifications"
-            >
-              <Bell size={17} className="text-muted-foreground" aria-hidden="true" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary" aria-hidden="true" />
-            </button>
-          </div>
 
-          {/* Active state chip — tapping switches state */}
-          <Link
-            href="/onboarding/state"
-            className="mt-3 inline-flex items-center gap-1.5 bg-brand-subtle border border-primary/20 rounded-2xl px-3 py-1.5"
-          >
-            <MapPin size={12} className="text-primary" aria-hidden="true" />
-            <span className="text-primary text-xs font-semibold">
-              {activeState.name}
-            </span>
-            <ChevronRight size={11} className="text-primary/60" aria-hidden="true" />
-          </Link>
+            {/* Avatar */}
+            <Link href="/profile" aria-label="Your profile">
+              <div className="w-11 h-11 rounded-full bg-white/20 border border-white/30 flex items-center justify-center mt-1 backdrop-blur-sm">
+                {initials ? (
+                  <span className="text-white font-black text-[15px] leading-none">{initials}</span>
+                ) : (
+                  <User size={18} className="text-white/80" aria-hidden="true" />
+                )}
+              </div>
+            </Link>
+          </div>
         </header>
 
         <div className="flex-1 overflow-y-auto" style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 5rem)' }}>
 
-          {/* ── Hero CTA banner ── */}
+          {/* ── Ballot CTA strip ── */}
           <div className="px-5 mt-5">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="rounded-3xl overflow-hidden px-5 py-6"
-              style={{ background: 'linear-gradient(135deg, oklch(0.38 0.20 285) 0%, oklch(0.52 0.17 265) 100%)' }}
+            <Link
+              href={`/vote?state=${activeState.code}`}
+              className="flex items-center justify-between px-5 py-4 bg-card rounded-3xl border border-border hover:border-primary/30 hover:shadow-sm transition-all active:scale-[0.99]"
             >
-              <p className="text-white/65 text-[11px] font-bold uppercase tracking-widest mb-1.5">
-                2026 Midterm Elections
-              </p>
-              <h2 className="text-[22px] font-black text-white leading-tight text-balance mb-4">
-                Ready to make your voice heard?
-              </h2>
-              <Link
-                href={`/vote?state=${activeState.code}`}
-                className="inline-flex items-center gap-2 bg-white text-primary font-bold text-sm px-5 py-2.5 rounded-2xl hover:opacity-90 transition-opacity"
-              >
-                <Vote size={15} aria-hidden="true" />
-                View Your Ballot
-              </Link>
-            </motion.div>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-2xl bg-brand-subtle flex items-center justify-center">
+                  <Vote size={17} className="text-primary" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="font-bold text-[14px] text-foreground leading-tight">View Your Ballot</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">See all races for {activeState.name}</p>
+                </div>
+              </div>
+              <ChevronRight size={16} className="text-muted-foreground" aria-hidden="true" />
+            </Link>
           </div>
 
           {/* ── Shell cards 2×2 ── */}
