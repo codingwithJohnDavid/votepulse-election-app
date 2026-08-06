@@ -17,36 +17,48 @@ const TILES = [
     label: 'States',
     sub: '50 available',
     Icon: MapPin,
+    iconBg: 'oklch(0.92 0.07 160)',   // teal-green
+    iconColor: 'oklch(0.38 0.13 160)',
   },
   {
     href: '/propositions',
     label: 'Propositions',
     sub: '3 in your state',
     Icon: FileText,
+    iconBg: 'oklch(0.94 0.06 60)',    // warm amber
+    iconColor: 'oklch(0.45 0.14 60)',
   },
   {
     href: '/candidates',
     label: 'Candidates',
     sub: '5 in your state',
     Icon: Users,
+    iconBg: 'oklch(0.92 0.06 245)',   // blue
+    iconColor: 'oklch(0.40 0.15 245)',
   },
   {
     href: '/results',
     label: 'Live Results',
     sub: '6,803 responses',
     Icon: BarChart3,
+    iconBg: 'oklch(0.93 0.06 300)',   // purple
+    iconColor: 'oklch(0.42 0.14 300)',
   },
   {
     href: '/vote',
     label: 'Vote',
     sub: 'Cast your ballot',
     Icon: Vote,
+    iconBg: 'oklch(0.94 0.06 20)',    // red-orange
+    iconColor: 'oklch(0.46 0.18 20)',
   },
   {
     href: '/profile',
     label: 'Profile',
     sub: 'Your account',
     Icon: User,
+    iconBg: 'oklch(0.93 0.05 285)',   // violet (brand)
+    iconColor: 'oklch(0.42 0.19 285)',
   },
 ]
 
@@ -139,7 +151,7 @@ export default function HomePage() {
 
           {/* ── 2-column tile grid ── */}
           <div className="grid grid-cols-2 gap-3">
-            {TILES.map(({ href, label, sub, Icon }, i) => (
+            {TILES.map(({ href, label, sub, Icon, iconBg, iconColor }, i) => (
               <motion.div
                 key={href}
                 initial={{ opacity: 0, y: 12 }}
@@ -150,12 +162,13 @@ export default function HomePage() {
                   href={href}
                   className="flex flex-col items-center justify-center gap-3 p-5 rounded-3xl border border-border bg-[oklch(0.965_0.004_265)] hover:bg-[oklch(0.955_0.006_265)] hover:border-border/80 transition-all active:scale-[0.97] aspect-square"
                 >
-                  {/* Icon container — no color tint, just a slightly darker grey circle */}
-                  <div className="w-12 h-12 rounded-full bg-[oklch(0.92_0.006_265)] flex items-center justify-center">
-                    <Icon size={22} className="text-foreground" aria-hidden="true" />
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: iconBg }}
+                  >
+                    <Icon size={22} style={{ color: iconColor }} aria-hidden="true" />
                   </div>
 
-                  {/* Text — centered */}
                   <div className="text-center">
                     <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
                     <p className="text-[11px] text-muted-foreground mt-0.5 leading-tight">{sub}</p>
