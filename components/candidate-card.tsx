@@ -20,6 +20,13 @@ export default function CandidateCard({
 }: CandidateCardProps) {
   const { ring, bg, text, badge } = partyColor(candidate.party)
 
+  const PARTY_GLOW: Record<string, { border: string; glow: string }> = {
+    Democrat:    { border: 'rgba(56, 120, 220, 0.35)',  glow: 'rgba(56, 120, 220, 0.14)' },
+    Republican:  { border: 'rgba(220, 60, 60, 0.35)',   glow: 'rgba(220, 60, 60, 0.14)'  },
+    Independent: { border: 'rgba(148, 60, 210, 0.35)',  glow: 'rgba(148, 60, 210, 0.14)' },
+  }
+  const pc = PARTY_GLOW[candidate.party] ?? PARTY_GLOW.Independent
+
   return (
     <article
       role="button"
@@ -34,15 +41,17 @@ export default function CandidateCard({
         }
       }}
       className={cn(
-        'relative bg-card rounded-3xl overflow-hidden cursor-pointer transition-all duration-200 focus-visible:outline-none',
-        selected ? 'shadow-lg scale-[1.015]' : 'shadow-sm hover:shadow-md',
+        'relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-200 focus-visible:outline-none',
+        selected ? 'scale-[1.015]' : '',
         disabled && 'opacity-50 cursor-not-allowed',
       )}
-      style={
-        selected
-          ? { boxShadow: `0 0 0 2.5px ${ring}, 0 8px 24px ${ring}22` }
-          : { boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }
-      }
+      style={{
+        background: '#ffffff',
+        border: `1.5px solid ${selected ? ring : pc.border}`,
+        boxShadow: selected
+          ? `0 0 0 2px ${ring}, 0 8px 28px ${pc.glow}`
+          : `0 4px 20px ${pc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
+      }}
     >
       {/* ── Header row: avatar + name + party badge ── */}
       <div className="flex items-center gap-3 px-4 pt-4 pb-2">
