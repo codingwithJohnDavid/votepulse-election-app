@@ -8,7 +8,7 @@ interface PageShellProps {
 
 export default function PageShell({ children, className, withNav = true }: PageShellProps) {
   return (
-    <div className="flex justify-center min-h-svh bg-background">
+    <div className="flex justify-center min-h-svh" style={{ background: '#ffffff' }}>
       <main
         className={cn(
           'mobile-shell w-full',
