@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
-import BallotBoxIcon from '@/components/ballot-box-icon'
 import { Shield, BarChart3, Users, Vote, Flame, Newspaper, MapPin, ChevronRight, FileText } from 'lucide-react'
 
 import PageShell from '@/components/page-shell'
@@ -101,7 +101,14 @@ export default function LandingPage() {
             transition={{ duration: 0.45, delay: 0.05 }}
             className="mb-2"
           >
-            <BallotBoxIcon size={120} />
+            <Image
+              src="/images/voterai-icon-final.png"
+              alt="VoterAI ballot box"
+              width={160}
+              height={160}
+              className="object-contain"
+              priority
+            />
           </motion.div>
 
           <motion.div
