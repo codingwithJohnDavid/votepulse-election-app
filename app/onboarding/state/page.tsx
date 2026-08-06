@@ -106,10 +106,12 @@ function StateCard({
           height: '62vw',
           maxHeight: 290,
           background: '#ffffff',
-          border: `1.5px solid ${lc.border}`,
+          border: isSelected
+            ? `1.5px solid rgba(0,0,0,0.12)`
+            : `1.5px solid rgba(0,0,0,0.07)`,
           boxShadow: isSelected
-            ? `0 6px 32px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`
-            : `0 2px 14px ${lc.glow}, 0 1px 3px rgba(0,0,0,0.04)`,
+            ? '0 6px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.04)'
+            : '0 2px 8px rgba(0,0,0,0.06)',
         }}
         aria-label={`Select ${name}`}
         aria-pressed={isSelected}
@@ -462,8 +464,8 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
       className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between"
       style={{
         background: '#ffffff',
-        border: `1.5px solid ${lc.border}`,
-        boxShadow: `0 4px 20px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
+        border: '1.5px solid rgba(0,0,0,0.08)',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
       }}
     >
       <div>
@@ -472,11 +474,8 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
           {hasRaces ? `${raceCount} active race${raceCount !== 1 ? 's' : ''} on your ballot` : 'No active races yet'}
         </p>
       </div>
-      <div
-        className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-        style={{ background: lc.border }}
-      >
-        <span className="text-white text-[11px] font-black">{code}</span>
+      <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center shrink-0">
+        <span className="text-foreground text-[11px] font-black">{code}</span>
       </div>
     </motion.div>
   )
