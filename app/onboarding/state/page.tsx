@@ -9,27 +9,31 @@ import FloatingHomeButton from '@/components/floating-home-button'
 import { cn } from '@/lib/utils'
 import { US_STATES, RACES_BY_STATE } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
-import { STATE_SVG_DATA } from '@/lib/state-svg-data'
+import { STATE_SHAPES } from '@/lib/state-shapes'
 import { useFloatingAction } from '@/lib/floating-action-context'
 
-// ── Large state silhouette — white on dark card ────────────────────────────────
-function StateShape({ code }: { code: string }) {
-  const data = STATE_SVG_DATA[code]
-  if (!data) {
+// ── State silhouette — dark shape on light card ───────────────────────────────
+function StateShape({ code, selected }: { code: string; selected: boolean }) {
+  const path = STATE_SHAPES[code]
+  if (!path) {
     return (
-      <svg viewBox="0 0 100 100" className="w-full h-full" aria-hidden="true">
-        <circle cx="50" cy="50" r="42" fill="white" fillOpacity={0.9} />
+      <svg viewBox="0 0 200 200" className="w-full h-full" aria-hidden="true">
+        <circle cx="100" cy="100" r="80" fill="currentColor" opacity={0.15} />
       </svg>
     )
   }
   return (
     <svg
-      viewBox={data.vb}
+      viewBox="0 0 200 200"
       className="w-full h-full"
       aria-hidden="true"
       preserveAspectRatio="xMidYMid meet"
     >
-      <path d={data.path} fill="white" fillOpacity={0.92} />
+      <path
+        d={path}
+        fill={selected ? 'oklch(0.42 0.19 285)' : 'oklch(0.175 0.04 270)'}
+        opacity={selected ? 1 : 0.75}
+      />
     </svg>
   )
 }
@@ -61,37 +65,32 @@ function StateCard({
         type="button"
         onClick={onClick}
         animate={{
-          scale: isCenter ? 1 : 0.88,
-          opacity: isCenter ? 1 : 0.55,
+          scale: isCenter ? 1 : 0.86,
+          opacity: isCenter ? 1 : 0.45,
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className={cn(
-          'w-full relative rounded-[32px] flex flex-col items-center justify-center gap-0 overflow-hidden border transition-all duration-200',
+          'w-full relative rounded-[32px] flex flex-col items-center justify-center overflow-hidden transition-all duration-200',
           isSelected
-            ? 'border-white/30 shadow-[0_0_40px_rgba(255,255,255,0.12)]'
-            : 'border-white/8',
+            ? 'shadow-[0_8px_40px_rgba(66,36,160,0.18)]'
+            : 'shadow-[0_2px_12px_rgba(0,0,0,0.06)]',
         )}
         style={{
           height: '62vw',
           maxHeight: 290,
           background: isSelected
-            ? 'linear-gradient(145deg, #252840 0%, #1a1d30 100%)'
-            : 'linear-gradient(145deg, #1e2035 0%, #161828 100%)',
+            ? 'oklch(0.96 0.04 285)'
+            : 'oklch(0.97 0.005 265)',
+          border: isSelected
+            ? '1.5px solid oklch(0.42 0.19 285 / 0.3)'
+            : '1.5px solid oklch(0.89 0.02 265)',
         }}
         aria-label={`Select ${name}`}
         aria-pressed={isSelected}
       >
-        {/* Selected ring glow */}
-        {isSelected && (
-          <div
-            className="absolute inset-0 rounded-[32px] pointer-events-none"
-            style={{ boxShadow: 'inset 0 0 0 1.5px rgba(255,255,255,0.25)' }}
-          />
-        )}
-
         {/* State SVG silhouette */}
-        <div className="w-[62%] h-[62%] flex items-center justify-center">
-          <StateShape code={code} />
+        <div className="w-[64%] h-[64%] flex items-center justify-center">
+          <StateShape code={code} selected={isSelected} />
         </div>
 
         {/* Selected checkmark */}
@@ -102,10 +101,11 @@ function StateCard({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-              className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white flex items-center justify-center"
+              className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center"
+              style={{ background: 'oklch(0.42 0.19 285)' }}
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M2 6L5 9L10 3" stroke="#0F1117" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </motion.div>
           )}
@@ -115,21 +115,21 @@ function StateCard({
       {/* Labels below card */}
       <motion.div
         className="mt-4 flex flex-col items-center gap-1 text-center"
-        animate={{ opacity: isCenter ? 1 : 0.4 }}
+        animate={{ opacity: isCenter ? 1 : 0.35 }}
         transition={{ duration: 0.25 }}
       >
-        <span className="text-white font-black text-2xl tracking-tight leading-none">
+        <span className="text-foreground font-black text-2xl tracking-tight leading-none">
           {code}
         </span>
-        <span className="text-white/60 text-[13px] font-medium leading-tight">
+        <span className="text-muted-foreground text-[13px] font-medium leading-tight">
           {name}
         </span>
         <span
           className={cn(
             'mt-1 px-3 py-0.5 rounded-full text-[11px] font-bold tracking-wide',
             hasRaces
-              ? 'bg-white/10 text-white/80'
-              : 'bg-white/5 text-white/30',
+              ? 'bg-primary/10 text-primary'
+              : 'bg-muted text-muted-foreground',
           )}
         >
           {hasRaces ? `${raceCount} race${raceCount !== 1 ? 's' : ''}` : 'Coming soon'}
@@ -237,54 +237,40 @@ export default function StateSelectionPage() {
 
   return (
     <PageShell withNav={false} className="overflow-hidden">
-      {/* Full-bleed dark background */}
-      <div
-        className="flex flex-col min-h-svh relative"
-        style={{
-          background: 'radial-gradient(ellipse 120% 60% at 50% 0%, #1e2140 0%, #0f1117 55%)',
-        }}
-      >
+      <div className="flex flex-col min-h-svh bg-background justify-center">
 
         {/* ── Title ── */}
-        <div className="pt-14 pb-0 px-6 text-center">
+        <div className="pb-0 px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
           >
-            <p className="text-white/40 text-[11px] font-bold tracking-[0.2em] uppercase mb-2">
+            <p className="text-muted-foreground text-[11px] font-bold tracking-[0.2em] uppercase mb-2">
               2026 Midterms
             </p>
-            <h1 className="text-white text-[28px] font-black leading-tight tracking-tight">
+            <h1 className="text-foreground text-[28px] font-black leading-tight tracking-tight">
               Explore Any State
             </h1>
           </motion.div>
         </div>
 
         {/* ── Floating Search Bar ── */}
-        <div className="px-5 pt-4 pb-2">
+        <div className="px-5 pt-5 pb-2">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.1 }}
-            className="relative"
           >
-            <div
-              className="flex items-center gap-3 px-4 rounded-full border border-white/12 h-14"
-              style={{
-                background: 'rgba(255,255,255,0.07)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-              }}
-            >
-              <Search size={18} className="text-white/40 shrink-0" aria-hidden="true" />
+            <div className="flex items-center gap-3 px-4 rounded-full border border-border bg-muted h-14 shadow-sm">
+              <Search size={18} className="text-muted-foreground shrink-0" aria-hidden="true" />
               <input
                 ref={inputRef}
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search states…"
-                className="flex-1 bg-transparent text-white placeholder-white/30 text-[15px] font-medium outline-none border-none min-w-0"
+                className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground text-[15px] font-medium outline-none border-none min-w-0"
                 aria-label="Search states"
                 autoComplete="off"
                 autoCorrect="off"
@@ -299,10 +285,10 @@ export default function StateSelectionPage() {
                     transition={{ duration: 0.15 }}
                     type="button"
                     onClick={() => { setQuery(''); inputRef.current?.focus() }}
-                    className="shrink-0 w-6 h-6 rounded-full bg-white/15 flex items-center justify-center"
+                    className="shrink-0 w-6 h-6 rounded-full bg-foreground/10 flex items-center justify-center"
                     aria-label="Clear search"
                   >
-                    <X size={12} className="text-white/70" aria-hidden="true" />
+                    <X size={12} className="text-foreground/60" aria-hidden="true" />
                   </motion.button>
                 )}
               </AnimatePresence>
@@ -314,8 +300,8 @@ export default function StateSelectionPage() {
         <div className="flex flex-col justify-start pt-2">
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-              <p className="text-white/50 text-base font-medium">No states found for</p>
-              <p className="text-white font-black text-xl mt-1">&ldquo;{query}&rdquo;</p>
+              <p className="text-muted-foreground text-base font-medium">No states found for</p>
+              <p className="text-foreground font-black text-xl mt-1">&ldquo;{query}&rdquo;</p>
             </div>
           ) : (
             <div
@@ -360,14 +346,14 @@ export default function StateSelectionPage() {
                   className={cn(
                     'rounded-full transition-all duration-300',
                     i === centerIndex
-                      ? 'w-5 h-1.5 bg-white'
-                      : 'w-1.5 h-1.5 bg-white/25',
+                      ? 'w-5 h-1.5 bg-foreground'
+                      : 'w-1.5 h-1.5 bg-foreground/20',
                   )}
                   aria-label={`Go to ${filtered[i]?.name}`}
                 />
               ))}
               {filtered.length > 9 && (
-                <span className="text-white/30 text-[10px] font-bold ml-1">
+                <span className="text-muted-foreground text-[10px] font-bold ml-1">
                   +{filtered.length - 9}
                 </span>
               )}
@@ -388,7 +374,7 @@ export default function StateSelectionPage() {
         </div>
 
         {/* Bottom spacer for floating buttons */}
-        <div style={{ height: 'calc(env(safe-area-inset-bottom, 0px) + 7rem)' }} />
+        <div style={{ height: 'calc(env(safe-area-inset-bottom, 0px) + 6rem)' }} />
       </div>
 
       <FloatingHomeButton />
@@ -405,20 +391,16 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between"
-      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)' }}
+      className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between border border-border bg-card shadow-sm"
     >
       <div>
-        <p className="text-white font-black text-[17px] leading-tight">{name}</p>
-        <p className="text-white/40 text-[12px] font-medium mt-0.5">
+        <p className="text-foreground font-black text-[17px] leading-tight">{name}</p>
+        <p className="text-muted-foreground text-[12px] font-medium mt-0.5">
           {hasRaces ? `${raceCount} active race${raceCount !== 1 ? 's' : ''} on your ballot` : 'No active races yet'}
         </p>
       </div>
-      <div
-        className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-        style={{ background: 'rgba(255,255,255,0.08)' }}
-      >
-        <span className="text-white text-[11px] font-black">{code}</span>
+      <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+        <span className="text-primary text-[11px] font-black">{code}</span>
       </div>
     </motion.div>
   )
@@ -441,7 +423,7 @@ function SwipeHint({ show }: { show: boolean }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center text-white/30 text-[12px] font-medium pb-2"
+          className="text-center text-muted-foreground/60 text-[12px] font-medium pb-2"
           aria-hidden="true"
         >
           Swipe to explore all 51 states
