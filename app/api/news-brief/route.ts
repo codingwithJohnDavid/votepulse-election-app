@@ -39,5 +39,5 @@ Use plain language, no jargon. Do not use markdown headers or bullet points — 
     prompt: `State: ${stateContext}\n\nTopic: ${topic.prompt}`,
   })
 
-  return result.toDataStreamResponse()
+  return result.toTextStreamResponse()
 }

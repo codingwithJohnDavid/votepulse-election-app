@@ -110,18 +110,8 @@ export default function NewsPage() {
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
-        const chunk = decoder.decode(value, { stream: true })
-        // Parse AI SDK data stream format: lines starting with '0:"...'
-        for (const line of chunk.split('\n')) {
-          const match = line.match(/^0:"(.*)"$/)
-          if (match) {
-            text += match[1]
-              .replace(/\\n/g, '\n')
-              .replace(/\\"/g, '"')
-              .replace(/\\\\/g, '\\')
-            setBriefing(text)
-          }
-        }
+        text += decoder.decode(value, { stream: true })
+        setBriefing(text)
       }
     } catch {
       setBriefing('Unable to load briefing right now. Please try again.')
