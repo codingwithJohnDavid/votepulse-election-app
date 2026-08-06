@@ -64,10 +64,10 @@ const TILES = [
     label: 'Profile',
     sub: 'Your account',
     Icon: User,
-    iconBg: 'oklch(0.93 0.05 285)',
-    iconColor: 'oklch(0.42 0.19 285)',
-    glow: 'rgba(100, 60, 200, 0.28)',
-    border: 'rgba(100, 60, 200, 0.35)',
+    iconBg: 'oklch(0.93 0.05 0)',
+    iconColor: 'oklch(0.48 0.18 0)',
+    glow: 'rgba(220, 60, 100, 0.28)',
+    border: 'rgba(220, 60, 100, 0.35)',
   },
 ]
 
