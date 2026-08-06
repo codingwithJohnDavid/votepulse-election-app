@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Shield, BarChart3, Users, Vote, Flame, Newspaper, MapPin, ChevronRight } from 'lucide-react'
+import { Shield, BarChart3, Users, Vote, Flame, Newspaper, MapPin, ChevronRight, FileText } from 'lucide-react'
 import PageShell from '@/components/page-shell'
 
 const FEATURE_TILES = [
@@ -13,8 +13,8 @@ const FEATURE_TILES = [
     sub: 'Your ballot, your voice',
     iconBg: 'oklch(0.94 0.06 20)',
     iconColor: 'oklch(0.46 0.18 20)',
-    glow: 'rgba(220, 70, 40, 0.18)',
-    border: 'rgba(220, 70, 40, 0.30)',
+    glow: 'rgba(220, 70, 40, 0.28)',
+    border: 'rgba(220, 70, 40, 0.35)',
   },
   {
     Icon: Users,
@@ -22,8 +22,8 @@ const FEATURE_TILES = [
     sub: 'Know who you elect',
     iconBg: 'oklch(0.92 0.06 245)',
     iconColor: 'oklch(0.40 0.15 245)',
-    glow: 'rgba(56, 120, 220, 0.18)',
-    border: 'rgba(56, 120, 220, 0.30)',
+    glow: 'rgba(56, 120, 220, 0.28)',
+    border: 'rgba(56, 120, 220, 0.35)',
   },
   {
     Icon: BarChart3,
@@ -31,8 +31,8 @@ const FEATURE_TILES = [
     sub: 'Real-time community data',
     iconBg: 'oklch(0.93 0.06 300)',
     iconColor: 'oklch(0.42 0.14 300)',
-    glow: 'rgba(148, 60, 210, 0.18)',
-    border: 'rgba(148, 60, 210, 0.30)',
+    glow: 'rgba(148, 60, 210, 0.28)',
+    border: 'rgba(148, 60, 210, 0.35)',
   },
   {
     Icon: Newspaper,
@@ -40,8 +40,8 @@ const FEATURE_TILES = [
     sub: 'Politics explained clearly',
     iconBg: 'oklch(0.93 0.05 200)',
     iconColor: 'oklch(0.40 0.14 200)',
-    glow: 'rgba(20, 160, 180, 0.18)',
-    border: 'rgba(20, 160, 180, 0.30)',
+    glow: 'rgba(20, 160, 180, 0.28)',
+    border: 'rgba(20, 160, 180, 0.35)',
   },
   {
     Icon: Flame,
@@ -49,17 +49,35 @@ const FEATURE_TILES = [
     sub: 'The unfiltered truth',
     iconBg: 'oklch(0.94 0.06 38)',
     iconColor: 'oklch(0.46 0.17 38)',
-    glow: 'rgba(225, 110, 20, 0.18)',
-    border: 'rgba(225, 110, 20, 0.30)',
+    glow: 'rgba(225, 110, 20, 0.28)',
+    border: 'rgba(225, 110, 20, 0.35)',
+  },
+  {
+    Icon: FileText,
+    label: 'Propositions',
+    sub: 'Plain English breakdown',
+    iconBg: 'oklch(0.94 0.06 60)',
+    iconColor: 'oklch(0.45 0.14 60)',
+    glow: 'rgba(210, 140, 30, 0.28)',
+    border: 'rgba(210, 140, 30, 0.35)',
+  },
+  {
+    Icon: MapPin,
+    label: '50 States',
+    sub: 'Your state, your races',
+    iconBg: 'oklch(0.92 0.07 160)',
+    iconColor: 'oklch(0.38 0.13 160)',
+    glow: 'rgba(32, 178, 120, 0.28)',
+    border: 'rgba(32, 178, 120, 0.35)',
   },
   {
     Icon: Shield,
     label: 'Privacy First',
     sub: 'Your data stays yours',
-    iconBg: 'oklch(0.92 0.07 160)',
-    iconColor: 'oklch(0.38 0.13 160)',
-    glow: 'rgba(32, 178, 120, 0.18)',
-    border: 'rgba(32, 178, 120, 0.30)',
+    iconBg: 'oklch(0.93 0.05 0)',
+    iconColor: 'oklch(0.48 0.18 0)',
+    glow: 'rgba(220, 60, 100, 0.28)',
+    border: 'rgba(220, 60, 100, 0.35)',
   },
 ]
 
@@ -74,107 +92,75 @@ export default function LandingPage() {
     <PageShell withNav={false}>
       <div className="flex flex-col min-h-svh bg-background">
 
-        {/* ── Hero ── */}
-        <div
-          className="relative flex flex-col items-center justify-center px-6 pt-20 pb-20 overflow-hidden"
-          style={{
-            background: 'linear-gradient(165deg, oklch(0.36 0.22 285) 0%, oklch(0.46 0.2 275) 55%, oklch(0.54 0.16 260) 100%)',
-          }}
-        >
-          {/* Soft radial glow */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(ellipse 70% 60% at 50% 40%, rgba(255,255,255,0.10) 0%, transparent 80%)',
-            }}
-            aria-hidden="true"
-          />
-
+        {/* ── Header ── */}
+        <header className="px-5 pt-14 pb-4 flex flex-col items-center text-center">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col items-center text-center z-10 w-full"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.45, delay: 0.05 }}
+            className="w-20 h-20 mb-4 drop-shadow-lg"
           >
-            {/* Logo mark */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="w-24 h-24 mb-6 drop-shadow-2xl"
-            >
-              <Image
-                src="/images/voterai-icon-final.png"
-                alt="VoterAI icon"
-                width={96}
-                height={96}
-                className="w-full h-full object-contain"
-                priority
-              />
-            </motion.div>
-
-            <h1 className="text-[42px] font-black text-white tracking-tight text-balance leading-[1.1] mb-3">
-              VotePulse
-            </h1>
-            <p className="text-white/70 text-[15px] leading-relaxed text-balance max-w-[260px] mb-8">
-              Your voice. Your candidates. Your community&apos;s pulse — all in one place.
-            </p>
-
-            {/* Stat row */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex items-center gap-0 rounded-2xl overflow-hidden"
-              style={{
-                background: 'rgba(255,255,255,0.12)',
-                border: '1.5px solid rgba(255,255,255,0.20)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              {STATS.map(({ value, label }, i) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center px-5 py-3"
-                  style={{
-                    borderRight: i < STATS.length - 1 ? '1px solid rgba(255,255,255,0.15)' : 'none',
-                  }}
-                >
-                  <span className="text-white font-black text-[18px] leading-tight">{value}</span>
-                  <span className="text-white/60 text-[10px] font-medium mt-0.5 uppercase tracking-wide">{label}</span>
-                </div>
-              ))}
-            </motion.div>
+            <Image
+              src="/images/voterai-icon-final.png"
+              alt="VoterAI icon"
+              width={80}
+              height={80}
+              className="w-full h-full object-contain"
+              priority
+            />
           </motion.div>
-        </div>
 
-        {/* ── White section ── */}
-        <div className="flex-1 bg-background px-5 pt-8 pb-12">
-
-          {/* Section header */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.15 }}
-            className="flex flex-col items-center text-center mb-6"
           >
-            <div className="inline-flex items-center gap-1.5 bg-muted/60 border border-border rounded-full px-3 py-1 mb-3">
-              <MapPin size={10} className="text-primary" aria-hidden="true" />
-              <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">Available in all 50 states</span>
-            </div>
-            <h2 className="text-[22px] font-black text-foreground text-balance leading-tight">
-              Everything you need<br />to vote with confidence
-            </h2>
+            <h1 className="text-[28px] font-black text-foreground leading-tight">
+              VotePulse
+            </h1>
+            <p className="text-[14px] text-muted-foreground mt-1 text-balance max-w-[240px] mx-auto">
+              Your personal political analyst, powered by AI.
+            </p>
           </motion.div>
+
+          {/* Stats chip */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.25 }}
+            className="mt-4 flex items-center rounded-2xl overflow-hidden border border-border bg-muted/40"
+          >
+            {STATS.map(({ value, label }, i) => (
+              <div
+                key={label}
+                className="flex flex-col items-center px-5 py-2.5"
+                style={{
+                  borderRight: i < STATS.length - 1 ? '1px solid var(--border)' : 'none',
+                }}
+              >
+                <span className="text-foreground font-black text-[17px] leading-tight">{value}</span>
+                <span className="text-muted-foreground text-[10px] font-medium mt-0.5 uppercase tracking-wide">{label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </header>
+
+        {/* ── Scrollable content ── */}
+        <div className="flex-1 overflow-y-auto px-5 pb-10 no-scrollbar">
+
+          {/* Section label */}
+          <div className="flex items-center justify-between mt-2 mb-3">
+            <h2 className="font-black text-[17px] text-foreground">What&apos;s inside</h2>
+          </div>
 
           {/* Feature tile grid */}
           <div className="grid grid-cols-2 gap-3 mb-8">
             {FEATURE_TILES.map(({ Icon, label, sub, iconBg, iconColor, glow, border }, i) => (
               <motion.div
                 key={label}
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.05 * i + 0.2 }}
+                transition={{ duration: 0.28, delay: 0.05 * i + 0.2 }}
                 className="flex flex-col items-center justify-center gap-3 p-5 rounded-3xl aspect-square"
                 style={{
                   background: '#ffffff',
@@ -205,11 +191,10 @@ export default function LandingPage() {
           >
             <Link
               href="/auth/signup"
-              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-bold text-[15px] transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-bold text-[15px] text-white transition-all active:scale-[0.98]"
               style={{
                 background: 'linear-gradient(135deg, oklch(0.40 0.20 280), oklch(0.50 0.18 265))',
-                color: '#ffffff',
-                boxShadow: '0 4px 20px rgba(80, 60, 200, 0.30)',
+                boxShadow: '0 4px 20px rgba(80, 60, 200, 0.28)',
               }}
             >
               Get Started Free
