@@ -17,19 +17,19 @@ import { useFloatingAction } from '@/lib/floating-action-context'
 type Lean = 'solid-r' | 'likely-r' | 'lean-r' | 'swing' | 'lean-d' | 'likely-d' | 'solid-d'
 
 const STATE_LEAN: Record<string, Lean> = {
-  AL: 'solid-r',   AK: 'likely-r',  AZ: 'swing',     AR: 'solid-r',
+  AL: 'solid-r',   AK: 'likely-r',  AZ: 'likely-r',  AR: 'solid-r',
   CA: 'solid-d',   CO: 'likely-d',  CT: 'solid-d',   DC: 'solid-d',
-  DE: 'solid-d',   FL: 'likely-r',  GA: 'swing',     HI: 'solid-d',
-  ID: 'solid-r',   IL: 'solid-d',   IN: 'solid-r',   IA: 'likely-r',
+  DE: 'solid-d',   FL: 'likely-r',  GA: 'likely-r',  HI: 'solid-d',
+  ID: 'solid-r',   IL: 'solid-d',   IN: 'solid-r',   IA: 'solid-r',
   KS: 'solid-r',   KY: 'solid-r',   LA: 'solid-r',   ME: 'lean-d',
-  MD: 'solid-d',   MA: 'solid-d',   MI: 'swing',     MN: 'lean-d',
-  MS: 'solid-r',   MO: 'solid-r',   MT: 'likely-r',  NE: 'solid-r',
-  NV: 'swing',     NH: 'lean-d',    NJ: 'likely-d',  NM: 'likely-d',
-  NY: 'solid-d',   NC: 'swing',     ND: 'solid-r',   OH: 'likely-r',
-  OK: 'solid-r',   OR: 'likely-d',  PA: 'swing',     RI: 'solid-d',
-  SC: 'likely-r',  SD: 'solid-r',   TN: 'solid-r',   TX: 'likely-r',
+  MD: 'solid-d',   MA: 'solid-d',   MI: 'likely-r',  MN: 'lean-d',
+  MS: 'solid-r',   MO: 'solid-r',   MT: 'solid-r',   NE: 'solid-r',
+  NV: 'likely-r',  NH: 'lean-d',    NJ: 'likely-d',  NM: 'likely-d',
+  NY: 'solid-d',   NC: 'likely-r',  ND: 'solid-r',   OH: 'solid-r',
+  OK: 'solid-r',   OR: 'likely-d',  PA: 'likely-r',  RI: 'solid-d',
+  SC: 'likely-r',  SD: 'solid-r',   TN: 'solid-r',   TX: 'solid-r',
   UT: 'likely-r',  VT: 'solid-d',   VA: 'likely-d',  WA: 'solid-d',
-  WV: 'solid-r',   WI: 'swing',     WY: 'solid-r',
+  WV: 'solid-r',   WI: 'likely-r',  WY: 'solid-r',
 }
 
 const LEAN_COLORS: Record<Lean, { bg: string; border: string; glow: string; shape: string }> = {
