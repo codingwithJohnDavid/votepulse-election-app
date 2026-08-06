@@ -100,7 +100,7 @@ export async function GET(request: Request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   )
 
-  const apiKey = process.env.NEWS_API_KEY
+  const apiKey = process.env.API_KEY
 
   // ── Purge articles older than 7 days ─────────────────────────────────────
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
