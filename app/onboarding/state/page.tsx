@@ -106,12 +106,10 @@ function StateCard({
           height: '62vw',
           maxHeight: 290,
           background: '#ffffff',
-          border: isSelected
-            ? `1.5px solid rgba(0,0,0,0.12)`
-            : `1.5px solid rgba(0,0,0,0.07)`,
+          border: `1.5px solid ${lc.border}`,
           boxShadow: isSelected
-            ? '0 6px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.04)'
-            : '0 2px 8px rgba(0,0,0,0.06)',
+            ? `0 6px 32px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`
+            : `0 2px 14px ${lc.glow}, 0 1px 3px rgba(0,0,0,0.04)`,
         }}
         aria-label={`Select ${name}`}
         aria-pressed={isSelected}
@@ -464,8 +462,8 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
       className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between"
       style={{
         background: '#ffffff',
-        border: '1.5px solid rgba(0,0,0,0.08)',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+        border: `1.5px solid ${lc.border}`,
+        boxShadow: `0 4px 20px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
       }}
     >
       <div>
