@@ -165,12 +165,11 @@ export default function StateSelectionPage() {
   const scrollToIndex = useCallback((index: number) => {
     const container = scrollRef.current
     if (!container) return
+    // Use scrollIntoView on the slide element — most reliable across browsers
     const slides = container.querySelectorAll<HTMLElement>('.carousel-slide')
     const slide = slides[index]
     if (!slide) return
-    const containerCenter = container.offsetWidth / 2
-    const slideCenter = slide.offsetLeft + slide.offsetWidth / 2
-    container.scrollTo({ left: slideCenter - containerCenter, behavior: 'smooth' })
+    slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
   }, [])
 
   // ── Detect which slide is centered via scroll ──────────────────────────────
@@ -206,10 +205,19 @@ export default function StateSelectionPage() {
     const idx = filtered.findIndex((s) => s.code === activeState.code)
     if (idx >= 0) {
       setCenterIndex(idx)
-      setTimeout(() => scrollToIndex(idx), 120)
+      setTimeout(() => scrollToIndex(idx), 150)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // scrollend fires once snapping is complete — more reliable than continuous scroll
+  useEffect(() => {
+    const container = scrollRef.current
+    if (!container) return
+    const onScrollEnd = () => handleScroll()
+    container.addEventListener('scrollend', onScrollEnd)
+    return () => container.removeEventListener('scrollend', onScrollEnd)
+  }, [handleScroll])
 
   function handleCardClick(code: string, index: number) {
     setSelected(code)
