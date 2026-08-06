@@ -66,13 +66,6 @@ export default function HomePage() {
   const { activeState } = useActiveState()
   const { profile } = useProfile()
 
-  const initials = (() => {
-    const parts = [profile?.firstName, profile?.lastName].filter(Boolean)
-    if (parts.length === 2) return `${parts[0]![0]}${parts[1]![0]}`.toUpperCase()
-    if (parts.length === 1) return parts[0]![0].toUpperCase()
-    return null
-  })()
-
   const firstName = profile?.firstName ?? 'there'
 
   const mockFeatured = CANDIDATES.filter((c) => c.stateCode === activeState.code).slice(0, 4)
@@ -106,26 +99,13 @@ export default function HomePage() {
 
         {/* ── Header ── */}
         <header className="px-5 pt-14 pb-4">
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-[28px] font-black text-foreground leading-tight">
-                Hi {firstName}
-              </h1>
-              <p className="text-[14px] text-muted-foreground mt-0.5">
-                Welcome to VotePulse.
-              </p>
-            </div>
-
-            {/* Avatar */}
-            <Link href="/profile" aria-label="Your profile">
-              <div className="w-11 h-11 rounded-full bg-muted border border-border flex items-center justify-center mt-1 shadow-sm">
-                {initials ? (
-                  <span className="text-foreground font-black text-[15px] leading-none">{initials}</span>
-                ) : (
-                  <User size={18} className="text-muted-foreground" aria-hidden="true" />
-                )}
-              </div>
-            </Link>
+          <div>
+            <h1 className="text-[28px] font-black text-foreground leading-tight">
+              Hi {firstName}
+            </h1>
+            <p className="text-[14px] text-muted-foreground mt-0.5">
+              Welcome to VotePulse.
+            </p>
           </div>
 
           {/* State chip */}
