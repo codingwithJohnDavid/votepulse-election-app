@@ -151,6 +151,7 @@ export default function StateSelectionPage() {
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const filteredRef = useRef(US_STATES)
 
   // Filter states by query
   const filtered = US_STATES.filter(
@@ -159,21 +160,27 @@ export default function StateSelectionPage() {
       s.code.toLowerCase().includes(query.toLowerCase()),
   )
 
+  // Keep a ref so scrollend closure always sees fresh filtered list
+  filteredRef.current = filtered
+
   const getRaceCount = (code: string) => RACES_BY_STATE[code]?.length ?? 0
 
-  // ── Scroll to a specific index ─────────────────────────────────────────────
-  const scrollToIndex = useCallback((index: number) => {
+  // ── Scroll to index — direct scrollLeft, no scrollIntoView fighting snap ──
+  const scrollToIndex = useCallback((index: number, animated = true) => {
     const container = scrollRef.current
     if (!container) return
-    // Use scrollIntoView on the slide element — most reliable across browsers
     const slides = container.querySelectorAll<HTMLElement>('.carousel-slide')
     const slide = slides[index]
     if (!slide) return
-    slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    // Force a layout read so offsetLeft is accurate even right after mount
+    void container.offsetWidth
+    const containerCenter = container.offsetWidth / 2
+    const target = slide.offsetLeft + slide.offsetWidth / 2 - containerCenter
+    container.scrollTo({ left: Math.max(0, target), behavior: animated ? 'smooth' : 'instant' })
   }, [])
 
-  // ── Detect which slide is centered via scroll ──────────────────────────────
-  const handleScroll = useCallback(() => {
+  // ── Detect centered slide — only called from scrollend, never during scroll ─
+  const detectCenter = useCallback(() => {
     const container = scrollRef.current
     if (!container) return
     const slides = container.querySelectorAll<HTMLElement>('.carousel-slide')
@@ -185,39 +192,52 @@ export default function StateSelectionPage() {
       const dist = Math.abs(slideCenter - containerCenter)
       if (dist < minDist) { minDist = dist; closest = i }
     })
-    if (closest !== centerIndex) {
-      setCenterIndex(closest)
-      const code = filtered[closest]?.code
-      if (code) setSelected(code)
-    }
-  }, [centerIndex, filtered])
+    setCenterIndex(closest)
+    const code = filteredRef.current[closest]?.code
+    if (code) setSelected(code)
+  }, [])
 
-  // When query changes, reset scroll to index 0 and select first result
+  // scrollend — fires once after native snap settles, no mid-scroll interference
+  useEffect(() => {
+    const container = scrollRef.current
+    if (!container) return
+
+    // scrollend not supported in all browsers — debounced scroll as fallback
+    let timer: ReturnType<typeof setTimeout>
+    const onScroll = () => {
+      clearTimeout(timer)
+      timer = setTimeout(detectCenter, 80)
+    }
+
+    container.addEventListener('scrollend', detectCenter, { passive: true })
+    container.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      container.removeEventListener('scrollend', detectCenter)
+      container.removeEventListener('scroll', onScroll)
+      clearTimeout(timer)
+    }
+  }, [detectCenter])
+
+  // When query changes, jump instantly to index 0 (no animation fighting snap)
   useEffect(() => {
     setCenterIndex(0)
-    setTimeout(() => scrollToIndex(0), 50)
+    // rAF ensures DOM has updated with filtered slides before we scroll
+    requestAnimationFrame(() => scrollToIndex(0, false))
     if (filtered.length > 0) setSelected(filtered[0].code)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
-  // When initial mount, scroll to active state
+  // On mount, jump to previously active state — double rAF ensures layout is complete
   useEffect(() => {
     const idx = filtered.findIndex((s) => s.code === activeState.code)
-    if (idx >= 0) {
-      setCenterIndex(idx)
-      setTimeout(() => scrollToIndex(idx), 150)
-    }
+    if (idx < 0) return
+    setCenterIndex(idx)
+    // First rAF: React has committed. Second rAF: browser has painted & measured layout.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => scrollToIndex(idx, false))
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  // scrollend fires once snapping is complete — more reliable than continuous scroll
-  useEffect(() => {
-    const container = scrollRef.current
-    if (!container) return
-    const onScrollEnd = () => handleScroll()
-    container.addEventListener('scrollend', onScrollEnd)
-    return () => container.removeEventListener('scrollend', onScrollEnd)
-  }, [handleScroll])
 
   function handleCardClick(code: string, index: number) {
     setSelected(code)
@@ -314,7 +334,6 @@ export default function StateSelectionPage() {
           ) : (
             <div
               ref={scrollRef}
-              onScroll={handleScroll}
               className="flex items-center gap-4 overflow-x-auto no-scrollbar py-6"
               style={{
                 scrollSnapType: 'x mandatory',
