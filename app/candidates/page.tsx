@@ -24,14 +24,14 @@ const PARTY_CARD: Record<string, { glow: string; border: string; iconBg: string;
   Independent: { glow: 'rgba(148, 60, 210, 0.22)',  border: 'rgba(148, 60, 210, 0.30)',  iconBg: 'rgba(243, 232, 255, 0.9)', iconColor: 'rgba(109, 40, 217, 0.9)' },
 }
 
-function CandidateSkeleton({ wide }: { wide?: boolean }) {
+function CandidateSkeleton() {
   return (
     <div
-      className={`flex animate-pulse rounded-3xl p-5 ${wide ? 'flex-row items-center gap-4' : 'flex-col items-center justify-center gap-3 aspect-square'}`}
+      className="flex flex-col items-center justify-center gap-3 p-5 min-h-[160px] animate-pulse rounded-3xl"
       style={{ background: '#ffffff', border: '1.5px solid rgba(0,0,0,0.07)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
     >
       <div className="w-12 h-12 rounded-full bg-muted shrink-0" />
-      <div className={`flex flex-col gap-2 ${wide ? 'flex-1' : 'items-center w-full'}`}>
+      <div className="flex flex-col items-center gap-2 w-full">
         <div className="h-3.5 bg-muted rounded-full w-2/3" />
         <div className="h-3 bg-muted rounded-full w-1/2" />
         <div className="h-5 bg-muted rounded-full w-12 mt-1" />
@@ -179,9 +179,7 @@ export default function CandidatesPage() {
           {loading ? (
             <div className="grid grid-cols-2 gap-3">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className={i === 5 ? 'col-span-2' : ''}>
-                  <CandidateSkeleton wide={i === 5} />
-                </div>
+                <CandidateSkeleton key={i} />
               ))}
             </div>
           ) : filtered.length === 0 ? (
@@ -192,7 +190,6 @@ export default function CandidatesPage() {
           ) : (
             <div className="grid grid-cols-2 gap-3">
               {filtered.map((c, i) => {
-                const isOddLast = filtered.length % 2 !== 0 && i === filtered.length - 1
                 const { badge } = partyColor(c.party)
                 const pc = PARTY_CARD[c.party] ?? PARTY_CARD.Independent
                 return (
@@ -201,18 +198,16 @@ export default function CandidatesPage() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, delay: i * 0.03 }}
-                    className={isOddLast ? 'col-span-2' : ''}
                   >
                     <Link
                       href={`/candidates/${c.id}`}
-                      className={`flex gap-3 p-4 rounded-3xl transition-all active:scale-[0.97] h-full ${isOddLast ? 'flex-row items-center' : 'flex-col items-center justify-center min-h-[160px]'}`}
+                      className="flex flex-col items-center justify-center gap-3 p-4 rounded-3xl transition-all active:scale-[0.97] min-h-[160px] h-full"
                       style={{
                         background: '#ffffff',
                         border: `1.5px solid ${pc.border}`,
                         boxShadow: `0 4px 16px ${pc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
                       }}
                     >
-                      {/* Avatar */}
                       <div
                         className="w-12 h-12 rounded-full overflow-hidden shrink-0"
                         style={{ backgroundColor: pc.iconBg, boxShadow: `0 0 0 2px ${pc.border}` }}
@@ -227,13 +222,12 @@ export default function CandidatesPage() {
                         />
                       </div>
 
-                      {/* Name + office + badge */}
-                      <div className={`min-w-0 flex flex-col ${isOddLast ? 'flex-1' : 'items-center text-center'}`}>
+                      <div className="min-w-0 flex flex-col items-center text-center">
                         <p className="font-bold text-[13px] text-foreground leading-tight line-clamp-2">{c.name}</p>
                         <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2 leading-tight">
                           {c.office}{c.district ? ` · ${c.district}` : ''}
                         </p>
-                        <span className={`mt-2 text-[10px] font-black px-2 py-0.5 rounded-full ${badge} ${isOddLast ? 'self-start' : 'self-center'}`}>
+                        <span className={`mt-2 self-center text-[10px] font-black px-2 py-0.5 rounded-full ${badge}`}>
                           {c.party === 'Democrat' ? 'DEM' : c.party === 'Republican' ? 'REP' : 'IND'}
                         </span>
                       </div>
