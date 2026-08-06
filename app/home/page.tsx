@@ -14,48 +14,60 @@ const TILES = [
     label: 'States',
     sub: '50 available',
     Icon: MapPin,
-    iconBg: 'oklch(0.92 0.07 160)',   // teal-green
+    iconBg: 'oklch(0.92 0.07 160)',
     iconColor: 'oklch(0.38 0.13 160)',
+    glow: 'rgba(32, 178, 120, 0.28)',
+    border: 'rgba(32, 178, 120, 0.35)',
   },
   {
     href: '/propositions',
     label: 'Propositions',
     sub: '3 in your state',
     Icon: FileText,
-    iconBg: 'oklch(0.94 0.06 60)',    // warm amber
+    iconBg: 'oklch(0.94 0.06 60)',
     iconColor: 'oklch(0.45 0.14 60)',
+    glow: 'rgba(210, 140, 30, 0.28)',
+    border: 'rgba(210, 140, 30, 0.35)',
   },
   {
     href: '/candidates',
     label: 'Candidates',
     sub: '5 in your state',
     Icon: Users,
-    iconBg: 'oklch(0.92 0.06 245)',   // blue
+    iconBg: 'oklch(0.92 0.06 245)',
     iconColor: 'oklch(0.40 0.15 245)',
+    glow: 'rgba(56, 120, 220, 0.28)',
+    border: 'rgba(56, 120, 220, 0.35)',
   },
   {
     href: '/results',
     label: 'Live Results',
     sub: '6,803 responses',
     Icon: BarChart3,
-    iconBg: 'oklch(0.93 0.06 300)',   // purple
+    iconBg: 'oklch(0.93 0.06 300)',
     iconColor: 'oklch(0.42 0.14 300)',
+    glow: 'rgba(148, 60, 210, 0.28)',
+    border: 'rgba(148, 60, 210, 0.35)',
   },
   {
     href: '/vote',
     label: 'Vote',
     sub: 'Cast your ballot',
     Icon: Vote,
-    iconBg: 'oklch(0.94 0.06 20)',    // red-orange
+    iconBg: 'oklch(0.94 0.06 20)',
     iconColor: 'oklch(0.46 0.18 20)',
+    glow: 'rgba(220, 70, 40, 0.28)',
+    border: 'rgba(220, 70, 40, 0.35)',
   },
   {
     href: '/profile',
     label: 'Profile',
     sub: 'Your account',
     Icon: User,
-    iconBg: 'oklch(0.93 0.05 285)',   // violet (brand)
+    iconBg: 'oklch(0.93 0.05 285)',
     iconColor: 'oklch(0.42 0.19 285)',
+    glow: 'rgba(100, 60, 200, 0.28)',
+    border: 'rgba(100, 60, 200, 0.35)',
   },
 ]
 
@@ -101,7 +113,7 @@ export default function HomePage() {
 
           {/* ── 2-column tile grid ── */}
           <div className="grid grid-cols-2 gap-3">
-            {TILES.map(({ href, label, sub, Icon, iconBg, iconColor }, i) => (
+            {TILES.map(({ href, label, sub, Icon, iconBg, iconColor, glow, border }, i) => (
               <motion.div
                 key={href}
                 initial={{ opacity: 0, y: 12 }}
@@ -110,7 +122,12 @@ export default function HomePage() {
               >
                 <Link
                   href={href}
-                  className="flex flex-col items-center justify-center gap-3 p-5 rounded-3xl border border-border bg-[oklch(0.965_0.004_265)] hover:bg-[oklch(0.955_0.006_265)] hover:border-border/80 transition-all active:scale-[0.97] aspect-square"
+                  className="flex flex-col items-center justify-center gap-3 p-5 rounded-3xl transition-all active:scale-[0.97] aspect-square"
+                  style={{
+                    background: '#ffffff',
+                    border: `1.5px solid ${border}`,
+                    boxShadow: `0 4px 20px ${glow}, 0 1px 4px rgba(0,0,0,0.04)`,
+                  }}
                 >
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center"
