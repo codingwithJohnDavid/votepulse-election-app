@@ -3,10 +3,10 @@ import { createClient } from '@supabase/supabase-js'
 
 // Only the 4 active states
 const ACTIVE_STATES = [
-  { code: 'CA', name: 'California' },
-  { code: 'FL', name: 'Florida' },
-  { code: 'TX', name: 'Texas' },
-  { code: 'NY', name: 'New York' },
+  { code: 'CA', name: 'California', query: '"California" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Sacramento" OR "Newsom")' },
+  { code: 'FL', name: 'Florida',    query: '"Florida" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Tallahassee" OR "DeSantis")' },
+  { code: 'TX', name: 'Texas',      query: '"Texas" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Austin" OR "Abbott")' },
+  { code: 'NY', name: 'New York',   query: '"New York" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Albany" OR "Hochul")' },
 ]
 
 // Seed articles used when NEWS_API_KEY is not set
@@ -132,7 +132,7 @@ export async function GET(request: Request) {
 
   for (const state of ACTIVE_STATES) {
     try {
-      const query = encodeURIComponent(`${state.name} election politics`)
+      const query = encodeURIComponent(state.query)
       const url = `https://newsapi.org/v2/everything?q=${query}&language=en&sortBy=publishedAt&pageSize=10&apiKey=${apiKey}`
       const res = await fetch(url, { next: { revalidate: 0 } })
       const data = await res.json()
