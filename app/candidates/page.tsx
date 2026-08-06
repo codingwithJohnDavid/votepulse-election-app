@@ -24,18 +24,18 @@ const PARTY_CARD: Record<string, { glow: string; border: string; iconBg: string;
   Independent: { glow: 'rgba(148, 60, 210, 0.22)',  border: 'rgba(148, 60, 210, 0.30)',  iconBg: 'rgba(243, 232, 255, 0.9)', iconColor: 'rgba(109, 40, 217, 0.9)' },
 }
 
-function CandidateSkeleton() {
+function CandidateSkeleton({ wide }: { wide?: boolean }) {
   return (
     <div
-      className="flex items-center gap-3.5 px-4 py-3.5 rounded-3xl animate-pulse"
+      className={`flex animate-pulse rounded-3xl p-5 ${wide ? 'flex-row items-center gap-4' : 'flex-col items-center justify-center gap-3 aspect-square'}`}
       style={{ background: '#ffffff', border: '1.5px solid rgba(0,0,0,0.07)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
     >
       <div className="w-12 h-12 rounded-full bg-muted shrink-0" />
-      <div className="flex-1 min-w-0 flex flex-col gap-2">
+      <div className={`flex flex-col gap-2 ${wide ? 'flex-1' : 'items-center w-full'}`}>
         <div className="h-3.5 bg-muted rounded-full w-2/3" />
         <div className="h-3 bg-muted rounded-full w-1/2" />
+        <div className="h-5 bg-muted rounded-full w-12 mt-1" />
       </div>
-      <div className="w-10 h-6 rounded-full bg-muted shrink-0" />
     </div>
   )
 }
@@ -177,8 +177,12 @@ export default function CandidatesPage() {
           )}
 
           {loading ? (
-            <div className="flex flex-col gap-2.5">
-              {Array.from({ length: 6 }).map((_, i) => <CandidateSkeleton key={i} />)}
+            <div className="grid grid-cols-2 gap-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className={i === 5 ? 'col-span-2' : ''}>
+                  <CandidateSkeleton wide={i === 5} />
+                </div>
+              ))}
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -186,8 +190,9 @@ export default function CandidatesPage() {
               <p className="text-muted-foreground text-xs mt-1">Try adjusting your filters</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-2.5">
+            <div className="grid grid-cols-2 gap-3">
               {filtered.map((c, i) => {
+                const isOddLast = filtered.length % 2 !== 0 && i === filtered.length - 1
                 const { badge } = partyColor(c.party)
                 const pc = PARTY_CARD[c.party] ?? PARTY_CARD.Independent
                 return (
@@ -196,19 +201,20 @@ export default function CandidatesPage() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, delay: i * 0.03 }}
+                    className={isOddLast ? 'col-span-2' : ''}
                   >
                     <Link
                       href={`/candidates/${c.id}`}
-                      className="flex items-center gap-3.5 px-4 py-3.5 rounded-3xl transition-all active:scale-[0.99]"
+                      className={`flex gap-3 p-4 rounded-3xl transition-all active:scale-[0.97] h-full ${isOddLast ? 'flex-row items-center' : 'flex-col items-center justify-center min-h-[160px]'}`}
                       style={{
                         background: '#ffffff',
                         border: `1.5px solid ${pc.border}`,
                         boxShadow: `0 4px 16px ${pc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
                       }}
                     >
-                      {/* Avatar with party-colored ring */}
+                      {/* Avatar */}
                       <div
-                        className="w-12 h-12 rounded-full overflow-hidden shrink-0 flex items-center justify-center"
+                        className="w-12 h-12 rounded-full overflow-hidden shrink-0"
                         style={{ backgroundColor: pc.iconBg, boxShadow: `0 0 0 2px ${pc.border}` }}
                       >
                         <Image
@@ -221,18 +227,16 @@ export default function CandidatesPage() {
                         />
                       </div>
 
-                      {/* Name + office */}
-                      <div className="flex-1 min-w-0">
-                        <p className="font-bold text-[14px] text-foreground leading-tight">{c.name}</p>
-                        <p className="text-[12px] text-muted-foreground mt-0.5 truncate">
+                      {/* Name + office + badge */}
+                      <div className={`min-w-0 flex flex-col ${isOddLast ? 'flex-1' : 'items-center text-center'}`}>
+                        <p className="font-bold text-[13px] text-foreground leading-tight line-clamp-2">{c.name}</p>
+                        <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2 leading-tight">
                           {c.office}{c.district ? ` · ${c.district}` : ''}
                         </p>
+                        <span className={`mt-2 self-start text-[10px] font-black px-2 py-0.5 rounded-full ${badge} ${isOddLast ? '' : 'self-center'}`}>
+                          {c.party === 'Democrat' ? 'DEM' : c.party === 'Republican' ? 'REP' : 'IND'}
+                        </span>
                       </div>
-
-                      {/* Party badge */}
-                      <span className={`shrink-0 text-[11px] font-black px-2.5 py-1 rounded-full ${badge}`}>
-                        {c.party === 'Democrat' ? 'DEM' : c.party === 'Republican' ? 'REP' : 'IND'}
-                      </span>
                     </Link>
                   </motion.div>
                 )
