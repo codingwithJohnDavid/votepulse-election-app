@@ -292,7 +292,7 @@ export default function StateSelectionPage() {
 
   return (
     <PageShell withNav={false} className="overflow-hidden">
-      <div className="flex flex-col min-h-svh bg-background justify-center">
+      <div className="flex flex-col min-h-svh justify-center" style={{ background: '#ffffff' }}>
 
         {/* ── Title ── */}
         <div className="pb-0 px-6 text-center">
