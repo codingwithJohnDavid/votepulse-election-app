@@ -98,15 +98,13 @@ export default function HomePage() {
       <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}
-        <header className="px-5 pt-14 pb-4">
-          <div>
-            <h1 className="text-[28px] font-black text-foreground leading-tight">
-              Hi {firstName}
-            </h1>
-            <p className="text-[14px] text-muted-foreground mt-0.5">
-              Welcome to VotePulse.
-            </p>
-          </div>
+        <header className="px-5 pt-14 pb-4 flex flex-col items-center text-center">
+          <h1 className="text-[28px] font-black text-foreground leading-tight">
+            Hi, {firstName}
+          </h1>
+          <p className="text-[14px] text-muted-foreground mt-0.5">
+            Welcome to VotePulse.
+          </p>
 
           {/* State chip */}
           <Link
@@ -126,7 +124,7 @@ export default function HomePage() {
 
           {/* ── Your Races heading ── */}
           <div className="flex items-center justify-between mt-2 mb-3">
-            <h2 className="font-black text-[17px] text-foreground">Your Races</h2>
+            <h2 className="font-black text-[17px] text-foreground">Your Dashboard</h2>
           </div>
 
           {/* ── 2-column tile grid ── */}
