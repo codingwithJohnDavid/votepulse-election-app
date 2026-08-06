@@ -26,8 +26,6 @@ function parseRSSItems(xml: string) {
     const url = extractTag(block, 'guid') || extractTag(block, 'link') || link
     const pubDate = extractTag(block, 'pubDate')
     const source = extractTag(block, 'source')
-    const description = extractTag(block, 'description')
-
     if (!title || !url || url.includes('news.google.com/rss')) continue
 
     items.push({
@@ -35,7 +33,7 @@ function parseRSSItems(xml: string) {
       url,
       published_at: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
       source_name: source || 'Google News',
-      description: description.replace(/<[^>]+>/g, '').slice(0, 300),
+      description: null, // Google RSS descriptions are HTML blocks — omit them
     })
   }
 
