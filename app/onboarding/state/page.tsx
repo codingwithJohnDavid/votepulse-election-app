@@ -12,13 +12,48 @@ import { useActiveState } from '@/lib/state-context'
 import { STATE_SHAPES } from '@/lib/state-shapes'
 import { useFloatingAction } from '@/lib/floating-action-context'
 
-// ── State silhouette — dark shape on light card ───────────────────────────────
-function StateShape({ code, selected }: { code: string; selected: boolean }) {
+// ── Political lean per state — based on 2024 Cook/Gallup partisan index ────────
+// R = Republican, D = Democrat, S = Swing/Tossup
+type Lean = 'solid-r' | 'likely-r' | 'lean-r' | 'swing' | 'lean-d' | 'likely-d' | 'solid-d'
+
+const STATE_LEAN: Record<string, Lean> = {
+  AL: 'solid-r',   AK: 'likely-r',  AZ: 'swing',     AR: 'solid-r',
+  CA: 'solid-d',   CO: 'likely-d',  CT: 'solid-d',   DC: 'solid-d',
+  DE: 'solid-d',   FL: 'likely-r',  GA: 'swing',     HI: 'solid-d',
+  ID: 'solid-r',   IL: 'solid-d',   IN: 'solid-r',   IA: 'likely-r',
+  KS: 'solid-r',   KY: 'solid-r',   LA: 'solid-r',   ME: 'lean-d',
+  MD: 'solid-d',   MA: 'solid-d',   MI: 'swing',     MN: 'lean-d',
+  MS: 'solid-r',   MO: 'solid-r',   MT: 'likely-r',  NE: 'solid-r',
+  NV: 'swing',     NH: 'lean-d',    NJ: 'likely-d',  NM: 'likely-d',
+  NY: 'solid-d',   NC: 'swing',     ND: 'solid-r',   OH: 'likely-r',
+  OK: 'solid-r',   OR: 'likely-d',  PA: 'swing',     RI: 'solid-d',
+  SC: 'likely-r',  SD: 'solid-r',   TN: 'solid-r',   TX: 'likely-r',
+  UT: 'likely-r',  VT: 'solid-d',   VA: 'likely-d',  WA: 'solid-d',
+  WV: 'solid-r',   WI: 'swing',     WY: 'solid-r',
+}
+
+const LEAN_COLORS: Record<Lean, { bg: string; border: string; glow: string; shape: string }> = {
+  'solid-r':   { bg: 'rgba(254, 226, 226, 0.9)', border: 'rgba(220, 60,  60,  0.30)', glow: 'rgba(220, 60,  60,  0.16)', shape: 'rgba(185, 28,  28,  0.80)' },
+  'likely-r':  { bg: 'rgba(255, 237, 237, 0.9)', border: 'rgba(239, 100, 100, 0.28)', glow: 'rgba(239, 100, 100, 0.14)', shape: 'rgba(220, 60,  60,  0.75)' },
+  'lean-r':    { bg: 'rgba(255, 245, 245, 0.9)', border: 'rgba(252, 165, 165, 0.28)', glow: 'rgba(252, 165, 165, 0.13)', shape: 'rgba(239, 100, 100, 0.70)' },
+  'swing':     { bg: 'rgba(245, 240, 255, 0.9)', border: 'rgba(139, 92,  246, 0.30)', glow: 'rgba(139, 92,  246, 0.16)', shape: 'rgba(109, 40,  217, 0.75)' },
+  'lean-d':    { bg: 'rgba(240, 247, 255, 0.9)', border: 'rgba(147, 197, 253, 0.28)', glow: 'rgba(147, 197, 253, 0.13)', shape: 'rgba(59,  130, 246, 0.70)' },
+  'likely-d':  { bg: 'rgba(232, 244, 255, 0.9)', border: 'rgba(96,  165, 250, 0.28)', glow: 'rgba(96,  165, 250, 0.14)', shape: 'rgba(37,  99,  235, 0.75)' },
+  'solid-d':   { bg: 'rgba(219, 234, 254, 0.9)', border: 'rgba(59,  130, 246, 0.30)', glow: 'rgba(59,  130, 246, 0.16)', shape: 'rgba(29,  78,  216, 0.80)' },
+}
+
+function getLeanColors(code: string) {
+  const lean = STATE_LEAN[code] ?? 'swing'
+  return LEAN_COLORS[lean]
+}
+
+// ── State silhouette ──────────────────────────────────────────────────────────
+function StateShape({ code, fillColor }: { code: string; fillColor: string }) {
   const path = STATE_SHAPES[code]
   if (!path) {
     return (
       <svg viewBox="0 0 200 200" className="w-full h-full" aria-hidden="true">
-        <circle cx="100" cy="100" r="80" fill="currentColor" opacity={0.15} />
+        <circle cx="100" cy="100" r="80" fill={fillColor} />
       </svg>
     )
   }
@@ -29,11 +64,7 @@ function StateShape({ code, selected }: { code: string; selected: boolean }) {
       aria-hidden="true"
       preserveAspectRatio="xMidYMid meet"
     >
-      <path
-        d={path}
-        fill={selected ? 'oklch(0.42 0.19 285)' : 'oklch(0.175 0.04 270)'}
-        opacity={selected ? 1 : 0.75}
-      />
+      <path d={path} fill={fillColor} />
     </svg>
   )
 }
@@ -55,6 +86,7 @@ function StateCard({
   onClick: () => void
 }) {
   const hasRaces = raceCount > 0
+  const lc = getLeanColors(code)
 
   return (
     <div
@@ -73,20 +105,18 @@ function StateCard({
         style={{
           height: '62vw',
           maxHeight: 290,
-          background: '#ffffff',
-          border: isSelected
-            ? '1.5px solid rgba(100, 60, 200, 0.4)'
-            : '1.5px solid rgba(0, 0, 0, 0.07)',
+          background: lc.bg,
+          border: `1.5px solid ${isSelected ? lc.border.replace('0.30', '0.55').replace('0.28', '0.50') : lc.border}`,
           boxShadow: isSelected
-            ? '0 6px 32px rgba(100, 60, 200, 0.22), 0 1px 4px rgba(0,0,0,0.04)'
-            : '0 2px 12px rgba(0,0,0,0.05)',
+            ? `0 6px 32px ${lc.glow.replace('0.16', '0.30').replace('0.14', '0.26').replace('0.13', '0.22')}, 0 1px 4px rgba(0,0,0,0.04)`
+            : `0 2px 14px ${lc.glow}, 0 1px 3px rgba(0,0,0,0.04)`,
         }}
         aria-label={`Select ${name}`}
         aria-pressed={isSelected}
       >
         {/* State SVG silhouette */}
         <div className="w-[64%] h-[64%] flex items-center justify-center">
-          <StateShape code={code} selected={isSelected} />
+          <StateShape code={code} fillColor={lc.shape} />
         </div>
 
         {/* Selected checkmark */}
@@ -98,7 +128,7 @@ function StateCard({
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 400, damping: 25 }}
               className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center"
-              style={{ background: 'oklch(0.42 0.19 285)' }}
+              style={{ background: lc.shape }}
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -422,6 +452,7 @@ export default function StateSelectionPage() {
 // ── Selected state info strip ──────────────────────────────────────────────────
 function SelectedStateInfo({ code, name, raceCount }: { code: string; name: string; raceCount: number }) {
   const hasRaces = raceCount > 0
+  const lc = getLeanColors(code)
   return (
     <motion.div
       key={code}
@@ -430,9 +461,9 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
       transition={{ duration: 0.3 }}
       className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between"
       style={{
-        background: '#ffffff',
-        border: '1.5px solid rgba(100, 60, 200, 0.25)',
-        boxShadow: '0 4px 20px rgba(100, 60, 200, 0.12), 0 1px 4px rgba(0,0,0,0.04)',
+        background: lc.bg,
+        border: `1.5px solid ${lc.border}`,
+        boxShadow: `0 4px 20px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
       }}
     >
       <div>
@@ -441,8 +472,11 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
           {hasRaces ? `${raceCount} active race${raceCount !== 1 ? 's' : ''} on your ballot` : 'No active races yet'}
         </p>
       </div>
-      <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-        <span className="text-primary text-[11px] font-black">{code}</span>
+      <div
+        className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+        style={{ background: lc.border }}
+      >
+        <span className="text-white text-[11px] font-black">{code}</span>
       </div>
     </motion.div>
   )
