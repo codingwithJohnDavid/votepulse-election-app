@@ -14,40 +14,42 @@ function extractTag(xml: string, tag: string): string {
   return (match?.[1] ?? match?.[2] ?? '').trim()
 }
 
-// ── Resolve a Google News redirect URL to the real article URL ────────────────
-async function resolveGoogleUrl(googleUrl: string): Promise<string> {
-  try {
-    const res = await fetch(googleUrl, {
-      method: 'HEAD',
-      redirect: 'follow',
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; VotePulse/1.0)' },
-    })
-    return res.url || googleUrl
-  } catch {
-    return googleUrl
-  }
-}
 
 function parseRSSItems(xml: string) {
-  const items: { title: string; url: string; published_at: string; source_name: string; description: string }[] = []
+  const items: { title: string; url: string; published_at: string; source_name: string }[] = []
   const itemMatches = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)]
 
   for (const match of itemMatches) {
     const block = match[1]
     const title = extractTag(block, 'title')
-    const link = extractTag(block, 'link') || block.match(/<link\s*\/>[\s\S]*?<([^>]+)>/i)?.[0] || ''
-    // Google RSS puts the real URL in <link> but it may be wrapped — also try guid
-    const url = extractTag(block, 'guid') || extractTag(block, 'link') || link
     const pubDate = extractTag(block, 'pubDate')
     const source = extractTag(block, 'source')
-    if (!title || !url || url.includes('news.google.com/rss')) continue
 
+    // Google RSS: <link> is a self-closing tag followed by the URL as text
+    // Try multiple extraction strategies
+    let url = ''
+
+    // Strategy 1: text node after <link/>
+    const linkAfterSelfClose = block.match(/<link\s*\/>\s*([^\s<]+)/i)
+    if (linkAfterSelfClose) url = linkAfterSelfClose[1].trim()
+
+    // Strategy 2: regular <link> tag content
+    if (!url) url = extractTag(block, 'link')
+
+    // Strategy 3: <guid> tag — prefix with google.com/articles if it's an encoded ID
+    if (!url) {
+      const guid = extractTag(block, 'guid')
+      if (guid) url = guid.startsWith('http') ? guid : `https://news.google.com/articles/${guid}`
+    }
+
+    if (!title || !url) continue
+
+    // If URL is still a Google News URL, keep it — it will open correctly in browser
     items.push({
       title,
       url,
       published_at: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
       source_name: source || 'Google News',
-      description: null, // Google RSS descriptions are HTML blocks — omit them
     })
   }
 
@@ -90,21 +92,18 @@ export async function GET(request: Request) {
       const xml = await res.text()
       const parsed = parseRSSItems(xml)
 
-      // Resolve Google redirect URLs to real article URLs in parallel
-      const rawArticles = parsed.filter(a => a.title && a.url).slice(0, 15)
-      const resolved = await Promise.all(
-        rawArticles.map(async a => ({
+      const articles = parsed
+        .filter(a => a.title && a.url)
+        .slice(0, 15)
+        .map(a => ({
           state_code: state.code,
           title: a.title,
           description: null,
-          url: await resolveGoogleUrl(a.url),
+          url: a.url,
           image_url: null,
           source_name: a.source_name,
           published_at: a.published_at,
         }))
-      )
-      // Filter out any that still point to google.com after resolution
-      const articles = resolved.filter(a => !a.url.includes('google.com'))
 
       if (articles.length === 0) {
         results.push({ state: state.code, count: 0, error: 'No articles parsed' })
