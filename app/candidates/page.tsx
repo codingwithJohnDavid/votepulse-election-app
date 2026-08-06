@@ -233,7 +233,7 @@ export default function CandidatesPage() {
                         <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2 leading-tight">
                           {c.office}{c.district ? ` · ${c.district}` : ''}
                         </p>
-                        <span className={`mt-2 self-start text-[10px] font-black px-2 py-0.5 rounded-full ${badge} ${isOddLast ? '' : 'self-center'}`}>
+                        <span className={`mt-2 text-[10px] font-black px-2 py-0.5 rounded-full ${badge} ${isOddLast ? 'self-start' : 'self-center'}`}>
                           {c.party === 'Democrat' ? 'DEM' : c.party === 'Republican' ? 'REP' : 'IND'}
                         </span>
                       </div>
