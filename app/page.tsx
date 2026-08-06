@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Shield, BarChart3, Users, Vote, Flame, Newspaper, MapPin, ChevronRight } from 'lucide-react'
 import PageShell from '@/components/page-shell'
@@ -100,14 +101,16 @@ export default function LandingPage() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="w-20 h-20 rounded-[22px] flex items-center justify-center mb-6 shadow-2xl"
-              style={{
-                background: 'rgba(255,255,255,0.15)',
-                border: '1.5px solid rgba(255,255,255,0.28)',
-                backdropFilter: 'blur(12px)',
-              }}
+              className="w-24 h-24 mb-6 drop-shadow-2xl"
             >
-              <span className="text-[32px] font-black text-white tracking-tight select-none">VP</span>
+              <Image
+                src="/images/voterai-icon-final.png"
+                alt="VoterAI icon"
+                width={96}
+                height={96}
+                className="w-full h-full object-contain"
+                priority
+              />
             </motion.div>
 
             <h1 className="text-[42px] font-black text-white tracking-tight text-balance leading-[1.1] mb-3">
