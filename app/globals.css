@@ -141,9 +141,8 @@ body {
   min-height: 100svh;
   margin: 0 auto;
   position: relative;
-  background: var(--surface, #ffffff);
+  background: #ffffff;
   overflow-x: hidden;
-  box-shadow: 0 0 80px rgba(0,0,0,0.55);
 }
 
 @media (min-width: 500px) {
