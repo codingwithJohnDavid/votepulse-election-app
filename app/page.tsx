@@ -98,14 +98,14 @@ export default function LandingPage() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.45, delay: 0.05 }}
-            className="w-20 h-20 mb-4 drop-shadow-lg"
+            className="mb-2"
           >
             <Image
               src="/images/voterai-icon-final.png"
               alt="VoterAI icon"
-              width={80}
-              height={80}
-              className="w-full h-full object-contain"
+              width={120}
+              height={120}
+              className="object-contain"
               priority
             />
           </motion.div>
