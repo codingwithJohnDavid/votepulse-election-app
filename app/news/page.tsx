@@ -11,7 +11,7 @@ const TOPICS = [
   {
     key: 'overview',
     label: 'Political Overview',
-    sub: 'The big picture',
+    sub: 'Who runs this state',
     Icon: BarChart3,
     iconBg: 'oklch(0.93 0.05 200)',
     iconColor: 'oklch(0.40 0.14 200)',
@@ -21,7 +21,7 @@ const TOPICS = [
   {
     key: 'senate',
     label: 'Senate & Congress',
-    sub: 'Who holds power',
+    sub: 'Your reps in D.C.',
     Icon: Users,
     iconBg: 'oklch(0.93 0.05 250)',
     iconColor: 'oklch(0.42 0.16 250)',
@@ -31,7 +31,7 @@ const TOPICS = [
   {
     key: 'governor',
     label: 'Governor & State Gov',
-    sub: 'Agenda & decisions',
+    sub: 'Wins, fails & agenda',
     Icon: MapPin,
     iconBg: 'oklch(0.93 0.05 160)',
     iconColor: 'oklch(0.42 0.14 160)',
@@ -41,7 +41,7 @@ const TOPICS = [
   {
     key: 'republican',
     label: 'Republican View',
-    sub: 'Their talking points',
+    sub: 'Their best argument',
     Icon: BarChart3,
     iconBg: 'oklch(0.93 0.04 20)',
     iconColor: 'oklch(0.46 0.16 20)',
@@ -51,7 +51,7 @@ const TOPICS = [
   {
     key: 'democrat',
     label: 'Democrat View',
-    sub: 'Their talking points',
+    sub: 'Their best argument',
     Icon: BarChart3,
     iconBg: 'oklch(0.93 0.05 250)',
     iconColor: 'oklch(0.44 0.18 250)',
@@ -61,7 +61,7 @@ const TOPICS = [
   {
     key: 'ballot',
     label: 'Ballot & Propositions',
-    sub: 'What\'s on the ballot',
+    sub: 'Plain English breakdown',
     Icon: Vote,
     iconBg: 'oklch(0.93 0.05 90)',
     iconColor: 'oklch(0.44 0.14 90)',
@@ -71,7 +71,7 @@ const TOPICS = [
   {
     key: 'controversy',
     label: 'Controversies',
-    sub: 'What they\'re fighting about',
+    sub: 'Unfiltered',
     Icon: Flame,
     iconBg: 'oklch(0.94 0.06 38)',
     iconColor: 'oklch(0.46 0.17 38)',
