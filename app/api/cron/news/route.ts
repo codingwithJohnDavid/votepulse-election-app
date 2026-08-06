@@ -1,92 +1,48 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-// Only the 4 active states
 const ACTIVE_STATES = [
-  { code: 'CA', name: 'California', query: '"California" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Sacramento" OR "Newsom")' },
-  { code: 'FL', name: 'Florida',    query: '"Florida" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Tallahassee" OR "DeSantis")' },
-  { code: 'TX', name: 'Texas',      query: '"Texas" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Austin" OR "Abbott")' },
-  { code: 'NY', name: 'New York',   query: '"New York" AND ("governor" OR "senate" OR "election" OR "ballot" OR "legislature" OR "Albany" OR "Hochul")' },
+  { code: 'CA', query: 'California+politics+election+legislature' },
+  { code: 'FL', query: 'Florida+politics+election+legislature' },
+  { code: 'TX', query: 'Texas+politics+election+legislature' },
+  { code: 'NY', query: 'New+York+politics+election+legislature' },
 ]
 
-// Seed articles used when NEWS_API_KEY is not set
-const SEED_ARTICLES = [
-  {
-    state_code: 'FL',
-    title: 'Florida Senate race heats up as candidates trade attacks',
-    description: 'With November approaching, both parties are ramping up campaign spending across the state.',
-    url: 'https://example.com/fl-senate-1',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-  },
-  {
-    state_code: 'FL',
-    title: 'Governor signs new election integrity bill into law',
-    description: 'The legislation updates voter ID requirements and expands early voting hours in select counties.',
-    url: 'https://example.com/fl-election-2',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 10).toISOString(),
-  },
-  {
-    state_code: 'CA',
-    title: 'California ballot measure on housing draws national attention',
-    description: 'Proposition 33 would significantly expand rent control across the state, dividing economists.',
-    url: 'https://example.com/ca-housing-1',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
-  },
-  {
-    state_code: 'CA',
-    title: 'Los Angeles mayoral race enters final stretch',
-    description: 'Polling shows a tight race with both candidates within the margin of error weeks before election day.',
-    url: 'https://example.com/ca-mayor-2',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-  },
-  {
-    state_code: 'TX',
-    title: 'Texas congressional redistricting faces new legal challenge',
-    description: 'A federal court agreed to hear arguments over whether new district maps dilute minority voting power.',
-    url: 'https://example.com/tx-redistrict-1',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString(),
-  },
-  {
-    state_code: 'TX',
-    title: 'Texas Senate candidate raises record $12M in latest quarter',
-    description: 'The fundraising haul signals a competitive general election as both parties invest heavily in the state.',
-    url: 'https://example.com/tx-senate-2',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 36).toISOString(),
-  },
-  {
-    state_code: 'NY',
-    title: 'New York governor announces major infrastructure initiative',
-    description: 'The $4 billion plan targets bridges, transit, and broadband across upstate counties.',
-    url: 'https://example.com/ny-infra-1',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(),
-  },
-  {
-    state_code: 'NY',
-    title: 'NYC mayoral primary sees record early voting turnout',
-    description: 'Election officials report a 34% increase over the last primary cycle, driven by younger voters.',
-    url: 'https://example.com/ny-primary-2',
-    image_url: null,
-    source_name: 'Demo News',
-    published_at: new Date(Date.now() - 1000 * 60 * 60 * 18).toISOString(),
-  },
-]
+// ── Simple XML field extractor ────────────────────────────────────────────────
+function extractTag(xml: string, tag: string): string {
+  const match = xml.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>|<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'))
+  return (match?.[1] ?? match?.[2] ?? '').trim()
+}
+
+function parseRSSItems(xml: string) {
+  const items: { title: string; url: string; published_at: string; source_name: string; description: string }[] = []
+  const itemMatches = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)]
+
+  for (const match of itemMatches) {
+    const block = match[1]
+    const title = extractTag(block, 'title')
+    const link = extractTag(block, 'link') || block.match(/<link\s*\/>[\s\S]*?<([^>]+)>/i)?.[0] || ''
+    // Google RSS puts the real URL in <link> but it may be wrapped — also try guid
+    const url = extractTag(block, 'guid') || extractTag(block, 'link') || link
+    const pubDate = extractTag(block, 'pubDate')
+    const source = extractTag(block, 'source')
+    const description = extractTag(block, 'description')
+
+    if (!title || !url || url.includes('news.google.com/rss')) continue
+
+    items.push({
+      title,
+      url,
+      published_at: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+      source_name: source || 'Google News',
+      description: description.replace(/<[^>]+>/g, '').slice(0, 300),
+    })
+  }
+
+  return items
+}
 
 export async function GET(request: Request) {
-  // Protect the cron route — Vercel sends this header automatically
   const authHeader = request.headers.get('authorization')
   if (
     process.env.NODE_ENV === 'production' &&
@@ -100,59 +56,46 @@ export async function GET(request: Request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   )
 
-  const apiKey = process.env.API_KEY
-
-  // ── Purge articles older than 7 days ─────────────────────────────────────
+  // ── Purge articles older than 7 days ──────────────────────────────────────
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-  await supabase
-    .from('news_articles')
-    .delete()
-    .lt('published_at', sevenDaysAgo)
+  await supabase.from('news_articles').delete().lt('published_at', sevenDaysAgo)
 
-  // ── No API key — upsert seed data for UI testing ──────────────────────────
-  if (!apiKey) {
-    const { error } = await supabase
-      .from('news_articles')
-      .upsert(SEED_ARTICLES, { onConflict: 'url', ignoreDuplicates: true })
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({
-      ok: true,
-      mode: 'seed',
-      message: 'No NEWS_API_KEY — seeded demo articles',
-      count: SEED_ARTICLES.length,
-    })
-  }
-
-  // ── Live fetch from NewsAPI ───────────────────────────────────────────────
   const results: { state: string; count: number; error?: string }[] = []
 
   for (const state of ACTIVE_STATES) {
     try {
-      const query = encodeURIComponent(state.query)
-      const url = `https://newsapi.org/v2/everything?q=${query}&language=en&sortBy=publishedAt&pageSize=10&apiKey=${apiKey}`
-      const res = await fetch(url, { next: { revalidate: 0 } })
-      const data = await res.json()
+      const rssUrl = `https://news.google.com/rss/search?q=${state.query}&hl=en-US&gl=US&ceid=US:en`
+      const res = await fetch(rssUrl, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; VotePulse/1.0)' },
+        next: { revalidate: 0 },
+      })
 
-      if (data.status !== 'ok') {
-        results.push({ state: state.code, count: 0, error: data.message })
+      if (!res.ok) {
+        results.push({ state: state.code, count: 0, error: `HTTP ${res.status}` })
         continue
       }
 
-      const articles = (data.articles as any[])
-        .filter((a) => a.title && a.url && a.publishedAt)
-        .map((a) => ({
+      const xml = await res.text()
+      const parsed = parseRSSItems(xml)
+
+      // Google RSS <link> tags point to a google redirect — extract the real URL from guid
+      const articles = parsed
+        .filter(a => a.title && a.url)
+        .slice(0, 15)
+        .map(a => ({
           state_code: state.code,
           title: a.title,
-          description: a.description ?? null,
+          description: a.description || null,
           url: a.url,
-          image_url: a.urlToImage ?? null,
-          source_name: a.source?.name ?? null,
-          published_at: a.publishedAt,
+          image_url: null,
+          source_name: a.source_name,
+          published_at: a.published_at,
         }))
+
+      if (articles.length === 0) {
+        results.push({ state: state.code, count: 0, error: 'No articles parsed' })
+        continue
+      }
 
       const { error } = await supabase
         .from('news_articles')
@@ -164,5 +107,6 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, mode: 'live', results })
+  const total = results.reduce((sum, r) => sum + r.count, 0)
+  return NextResponse.json({ ok: true, mode: 'google-rss', total, results })
 }
