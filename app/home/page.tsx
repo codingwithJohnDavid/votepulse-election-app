@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, User, Flame } from 'lucide-react'
+import { MapPin, ChevronRight, BarChart3, Vote, FileText, Users, User, Flame, Newspaper } from 'lucide-react'
 import PageShell from '@/components/page-shell'
 import FloatingHomeButton from '@/components/floating-home-button'
 import { useActiveState } from '@/lib/state-context'
@@ -70,6 +70,16 @@ const TILES = [
     border: 'rgba(225, 110, 20, 0.35)',
   },
   {
+    href: '/news',
+    label: 'News',
+    sub: 'Latest headlines',
+    Icon: Newspaper,
+    iconBg: 'oklch(0.93 0.05 200)',
+    iconColor: 'oklch(0.40 0.14 200)',
+    glow: 'rgba(20, 160, 180, 0.28)',
+    border: 'rgba(20, 160, 180, 0.35)',
+  },
+  {
     href: '/profile',
     label: 'Profile',
     sub: 'Your account',
@@ -129,11 +139,10 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.28, delay: 0.05 * i }}
-                className={i === TILES.length - 1 && TILES.length % 2 !== 0 ? 'col-span-2' : ''}
               >
                 <Link
                   href={href}
-                  className={`flex items-center justify-center gap-3 p-5 rounded-3xl transition-all active:scale-[0.97] ${i === TILES.length - 1 && TILES.length % 2 !== 0 ? 'flex-row aspect-auto py-5' : 'flex-col aspect-square'}`}
+                  className="flex flex-col items-center justify-center gap-3 p-5 rounded-3xl transition-all active:scale-[0.97] aspect-square"
                   style={{
                     background: '#ffffff',
                     border: `1.5px solid ${border}`,
