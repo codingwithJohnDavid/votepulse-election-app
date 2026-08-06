@@ -1,159 +1,282 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { ExternalLink, Clock, Newspaper } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Newspaper, ChevronLeft, Sparkles, Loader2, MapPin, Vote, Users, Flame, BarChart3 } from 'lucide-react'
 import PageShell from '@/components/page-shell'
 import FloatingHomeButton from '@/components/floating-home-button'
 import { useActiveState } from '@/lib/state-context'
-import { createClient } from '@/lib/supabase/client'
 
-type Article = {
-  id: string
-  title: string
-  description: string | null
-  url: string
-  image_url: string | null
-  source_name: string | null
-  published_at: string
-}
+const TOPICS = [
+  {
+    key: 'overview',
+    label: 'Political Overview',
+    sub: 'The big picture',
+    Icon: BarChart3,
+    iconBg: 'oklch(0.93 0.05 200)',
+    iconColor: 'oklch(0.40 0.14 200)',
+    border: 'rgba(20, 160, 180, 0.35)',
+    glow: 'rgba(20, 160, 180, 0.14)',
+  },
+  {
+    key: 'senate',
+    label: 'Senate & Congress',
+    sub: 'Who holds power',
+    Icon: Users,
+    iconBg: 'oklch(0.93 0.05 250)',
+    iconColor: 'oklch(0.42 0.16 250)',
+    border: 'rgba(80, 100, 220, 0.35)',
+    glow: 'rgba(80, 100, 220, 0.14)',
+  },
+  {
+    key: 'governor',
+    label: 'Governor & State Gov',
+    sub: 'Agenda & decisions',
+    Icon: MapPin,
+    iconBg: 'oklch(0.93 0.05 160)',
+    iconColor: 'oklch(0.42 0.14 160)',
+    border: 'rgba(30, 160, 120, 0.35)',
+    glow: 'rgba(30, 160, 120, 0.14)',
+  },
+  {
+    key: 'republican',
+    label: 'Republican View',
+    sub: 'Their talking points',
+    Icon: BarChart3,
+    iconBg: 'oklch(0.93 0.04 20)',
+    iconColor: 'oklch(0.46 0.16 20)',
+    border: 'rgba(220, 60, 60, 0.35)',
+    glow: 'rgba(220, 60, 60, 0.14)',
+  },
+  {
+    key: 'democrat',
+    label: 'Democrat View',
+    sub: 'Their talking points',
+    Icon: BarChart3,
+    iconBg: 'oklch(0.93 0.05 250)',
+    iconColor: 'oklch(0.44 0.18 250)',
+    border: 'rgba(40, 100, 220, 0.35)',
+    glow: 'rgba(40, 100, 220, 0.14)',
+  },
+  {
+    key: 'ballot',
+    label: 'Ballot & Propositions',
+    sub: 'What\'s on the ballot',
+    Icon: Vote,
+    iconBg: 'oklch(0.93 0.05 90)',
+    iconColor: 'oklch(0.44 0.14 90)',
+    border: 'rgba(130, 160, 30, 0.35)',
+    glow: 'rgba(130, 160, 30, 0.14)',
+  },
+  {
+    key: 'controversy',
+    label: 'Controversies',
+    sub: 'What they\'re fighting about',
+    Icon: Flame,
+    iconBg: 'oklch(0.94 0.06 38)',
+    iconColor: 'oklch(0.46 0.17 38)',
+    border: 'rgba(225, 110, 20, 0.35)',
+    glow: 'rgba(225, 110, 20, 0.14)',
+  },
+]
 
-function timeAgo(dateStr: string) {
-  const diff = Date.now() - new Date(dateStr).getTime()
-  const mins = Math.floor(diff / 60000)
-  if (mins < 60) return `${mins}m ago`
-  const hrs = Math.floor(mins / 60)
-  if (hrs < 24) return `${hrs}h ago`
-  return `${Math.floor(hrs / 24)}d ago`
-}
-
-function ArticleSkeleton() {
-  return (
-    <div
-      className="flex flex-col gap-3 p-4 rounded-3xl animate-pulse"
-      style={{ background: '#ffffff', border: '1.5px solid rgba(0,0,0,0.07)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
-    >
-      <div className="h-4 bg-muted rounded-full w-3/4" />
-      <div className="h-3 bg-muted rounded-full w-full" />
-      <div className="h-3 bg-muted rounded-full w-2/3" />
-      <div className="flex gap-2 mt-1">
-        <div className="h-3 bg-muted rounded-full w-16" />
-        <div className="h-3 bg-muted rounded-full w-10" />
-      </div>
-    </div>
-  )
-}
+// Only unique topic keys
+const UNIQUE_TOPICS = TOPICS.filter((t, i, arr) => arr.findIndex(x => x.key === t.key) === i)
 
 export default function NewsPage() {
   const { activeState } = useActiveState()
-  const [articles, setArticles] = useState<Article[]>([])
-  const [loading, setLoading] = useState(true)
+  const [activeTopic, setActiveTopic] = useState<typeof UNIQUE_TOPICS[0] | null>(null)
+  const [briefing, setBriefing] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
+  async function fetchBriefing(topic: typeof UNIQUE_TOPICS[0]) {
+    setActiveTopic(topic)
+    setBriefing('')
     setLoading(true)
-    const supabase = createClient()
-    supabase
-      .from('news_articles')
-      .select('id, title, description, url, image_url, source_name, published_at')
-      .eq('state_code', activeState.code)
-      .order('published_at', { ascending: false })
-      .limit(20)
-      .then(({ data }) => {
-        setArticles(data ?? [])
-        setLoading(false)
+
+    try {
+      const res = await fetch('/api/news-brief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stateCode: activeState.code, topicKey: topic.key }),
       })
-  }, [activeState.code])
+
+      if (!res.ok || !res.body) throw new Error('Failed to fetch briefing')
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let text = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const chunk = decoder.decode(value, { stream: true })
+        // Parse AI SDK data stream format: lines starting with '0:"...'
+        for (const line of chunk.split('\n')) {
+          const match = line.match(/^0:"(.*)"$/)
+          if (match) {
+            text += match[1]
+              .replace(/\\n/g, '\n')
+              .replace(/\\"/g, '"')
+              .replace(/\\\\/g, '\\')
+            setBriefing(text)
+          }
+        }
+      }
+    } catch {
+      setBriefing('Unable to load briefing right now. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <PageShell>
       <div className="flex flex-col min-h-svh" style={{ background: '#ffffff' }}>
 
-        {/* Header */}
-        <header className="px-5 pt-14 pb-4 flex flex-col items-center text-center">
-          <div
-            className="w-12 h-12 rounded-full flex items-center justify-center mb-3"
-            style={{ backgroundColor: 'oklch(0.93 0.05 200)' }}
-          >
-            <Newspaper size={22} style={{ color: 'oklch(0.40 0.14 200)' }} aria-hidden="true" />
-          </div>
-          <h1 className="text-[28px] font-black text-foreground leading-tight">News</h1>
-          <p className="text-[14px] text-muted-foreground mt-0.5">
-            Latest headlines for {activeState.name}
-          </p>
-        </header>
-
-        {/* Articles */}
-        <main className="px-4 pb-28 flex flex-col gap-3">
-          {loading ? (
-            Array.from({ length: 5 }).map((_, i) => <ArticleSkeleton key={i} />)
-          ) : articles.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <p className="text-muted-foreground font-medium text-sm">No headlines yet</p>
-              <p className="text-muted-foreground text-xs mt-1">
-                Check back soon — articles refresh every 30 minutes
-              </p>
-            </div>
-          ) : (
-            articles.map((article, i) => (
-              <motion.a
-                key={article.id}
-                href={article.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25, delay: i * 0.04 }}
-                className="flex flex-col gap-2.5 p-4 rounded-3xl active:scale-[0.99] transition-all"
-                style={{
-                  background: '#ffffff',
-                  border: '1.5px solid rgba(20, 160, 180, 0.25)',
-                  boxShadow: '0 4px 20px rgba(20, 160, 180, 0.10), 0 1px 4px rgba(0,0,0,0.04)',
-                }}
-              >
-                {/* Image */}
-                {article.image_url && (
-                  <div className="w-full h-36 rounded-2xl overflow-hidden bg-muted">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={article.image_url}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-
-                {/* Title */}
-                <p className="font-bold text-[14px] text-foreground leading-snug line-clamp-3">
-                  {article.title}
-                </p>
-
-                {/* Description */}
-                {article.description && (
-                  <p className="text-[12px] text-muted-foreground leading-relaxed line-clamp-2">
-                    {article.description}
-                  </p>
-                )}
-
-                {/* Footer */}
-                <div className="flex items-center justify-between mt-0.5">
-                  <div className="flex items-center gap-1.5">
-                    {article.source_name && (
-                      <span className="text-[11px] font-semibold text-foreground">
-                        {article.source_name}
-                      </span>
-                    )}
-                    <span className="text-muted-foreground text-[11px]">·</span>
-                    <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
-                      <Clock size={10} aria-hidden="true" />
-                      {timeAgo(article.published_at)}
-                    </span>
-                  </div>
-                  <ExternalLink size={13} className="text-muted-foreground shrink-0" aria-hidden="true" />
+        <AnimatePresence mode="wait">
+          {!activeTopic ? (
+            // ── Topic Grid ──────────────────────────────────────────────────
+            <motion.div
+              key="grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <header className="px-5 pt-14 pb-4 flex flex-col items-center text-center">
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center mb-3"
+                  style={{ backgroundColor: 'oklch(0.93 0.05 200)' }}
+                >
+                  <Newspaper size={22} style={{ color: 'oklch(0.40 0.14 200)' }} aria-hidden="true" />
                 </div>
-              </motion.a>
-            ))
+                <h1 className="text-[28px] font-black text-foreground leading-tight">News</h1>
+                <p className="text-[14px] text-muted-foreground mt-0.5">
+                  AI briefings for {activeState.name}
+                </p>
+              </header>
+
+              <main className="px-4 pb-28">
+                <div className="grid grid-cols-2 gap-3">
+                  {UNIQUE_TOPICS.map((topic, i) => {
+                    const { Icon } = topic
+                    const isOddLast = UNIQUE_TOPICS.length % 2 !== 0 && i === UNIQUE_TOPICS.length - 1
+                    return (
+                      <motion.button
+                        key={topic.key}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.22, delay: i * 0.05 }}
+                        onClick={() => fetchBriefing(topic)}
+                        className={`flex flex-col items-center justify-center gap-3 p-4 rounded-3xl transition-all active:scale-[0.97] min-h-[150px] text-left ${isOddLast ? 'col-span-2 flex-row min-h-[72px]' : ''}`}
+                        style={{
+                          background: '#ffffff',
+                          border: `1.5px solid ${topic.border}`,
+                          boxShadow: `0 4px 16px ${topic.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
+                        }}
+                      >
+                        <div
+                          className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                          style={{ backgroundColor: topic.iconBg }}
+                        >
+                          <Icon size={22} style={{ color: topic.iconColor }} aria-hidden="true" />
+                        </div>
+                        <div className={`flex flex-col ${isOddLast ? 'items-start flex-1' : 'items-center text-center'}`}>
+                          <p className="font-bold text-[13px] text-foreground leading-tight">{topic.label}</p>
+                          <p className="text-[11px] text-muted-foreground mt-0.5">{topic.sub}</p>
+                        </div>
+                      </motion.button>
+                    )
+                  })}
+                </div>
+              </main>
+            </motion.div>
+
+          ) : (
+            // ── Briefing View ────────────────────────────────────────────────
+            <motion.div
+              key="briefing"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.22 }}
+              className="flex flex-col min-h-svh"
+            >
+              {/* Back header */}
+              <header className="px-4 pt-14 pb-4 flex items-center gap-3">
+                <button
+                  onClick={() => { setActiveTopic(null); setBriefing('') }}
+                  className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: 'rgba(0,0,0,0.05)' }}
+                  aria-label="Back to topics"
+                >
+                  <ChevronLeft size={20} className="text-foreground" />
+                </button>
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: activeTopic.iconBg }}
+                  >
+                    <activeTopic.Icon size={18} style={{ color: activeTopic.iconColor }} aria-hidden="true" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-bold text-[15px] text-foreground leading-tight truncate">{activeTopic.label}</p>
+                    <p className="text-[11px] text-muted-foreground">{activeState.name}</p>
+                  </div>
+                </div>
+              </header>
+
+              {/* Content */}
+              <main className="flex-1 px-5 pb-28">
+                {loading && !briefing ? (
+                  <div className="flex flex-col items-center justify-center py-20 gap-4">
+                    <div
+                      className="w-14 h-14 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: activeTopic.iconBg }}
+                    >
+                      <Sparkles size={24} style={{ color: activeTopic.iconColor }} />
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <Loader2 size={14} className="animate-spin" />
+                      <span>Generating briefing...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex flex-col gap-4"
+                  >
+                    <div
+                      className="p-4 rounded-3xl"
+                      style={{
+                        background: '#ffffff',
+                        border: `1.5px solid ${activeTopic.border}`,
+                        boxShadow: `0 4px 20px ${activeTopic.glow}`,
+                      }}
+                    >
+                      <p className="text-[14px] text-foreground leading-relaxed whitespace-pre-wrap">
+                        {briefing}
+                        {loading && <span className="inline-block w-1.5 h-4 bg-foreground/40 ml-0.5 animate-pulse rounded-sm" />}
+                      </p>
+                    </div>
+
+                    {!loading && briefing && (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-[11px] text-muted-foreground text-center px-4"
+                      >
+                        AI-generated briefing based on political knowledge up to training cutoff. Always verify with current sources.
+                      </motion.p>
+                    )}
+                  </motion.div>
+                )}
+              </main>
+            </motion.div>
           )}
-        </main>
+        </AnimatePresence>
 
         <FloatingHomeButton />
       </div>
