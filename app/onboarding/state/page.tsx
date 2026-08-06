@@ -165,17 +165,18 @@ export default function StateSelectionPage() {
 
   const getRaceCount = (code: string) => RACES_BY_STATE[code]?.length ?? 0
 
-  // ── Scroll to index — direct scrollLeft, no scrollIntoView fighting snap ──
+  // ── Scroll to index ────────────────────────────────────────────────────────
   const scrollToIndex = useCallback((index: number, animated = true) => {
     const container = scrollRef.current
     if (!container) return
     const slides = container.querySelectorAll<HTMLElement>('.carousel-slide')
     const slide = slides[index]
     if (!slide) return
-    // Force a layout read so offsetLeft is accurate even right after mount
-    void container.offsetWidth
+    // Trigger a layout flush so offsetLeft is never stale
+    void container.getBoundingClientRect()
     const containerCenter = container.offsetWidth / 2
-    const target = slide.offsetLeft + slide.offsetWidth / 2 - containerCenter
+    const slideCenter = slide.offsetLeft + slide.offsetWidth / 2
+    const target = slideCenter - containerCenter
     container.scrollTo({ left: Math.max(0, target), behavior: animated ? 'smooth' : 'instant' })
   }, [])
 
@@ -334,16 +335,19 @@ export default function StateSelectionPage() {
           ) : (
             <div
               ref={scrollRef}
-              className="flex items-center gap-4 overflow-x-auto no-scrollbar py-6"
+              className="flex items-center overflow-x-auto no-scrollbar py-6"
               style={{
                 scrollSnapType: 'x mandatory',
+                scrollPadding: '0 calc(50% - 36vw)',
                 WebkitOverflowScrolling: 'touch',
-                paddingLeft: 'calc(50vw - 36vw)',
-                paddingRight: 'calc(50vw - 36vw)',
+                gap: '16px',
               }}
               role="listbox"
               aria-label="Select a state"
             >
+              {/* Leading sentinel — gives first card room to snap to center */}
+              <div aria-hidden="true" className="flex-shrink-0" style={{ width: 'calc(50vw - 36vw - 8px)' }} />
+
               {filtered.map((state, i) => (
                 <StateCard
                   key={state.code}
@@ -355,6 +359,9 @@ export default function StateSelectionPage() {
                   onClick={() => handleCardClick(state.code, i)}
                 />
               ))}
+
+              {/* Trailing sentinel — gives last card room to snap to center */}
+              <div aria-hidden="true" className="flex-shrink-0" style={{ width: 'calc(50vw - 36vw - 8px)' }} />
             </div>
           )}
 
