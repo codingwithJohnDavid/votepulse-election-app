@@ -44,7 +44,9 @@ function parseRSSItems(xml: string) {
 
     if (!title || !url) continue
 
-    // If URL is still a Google News URL, keep it — it will open correctly in browser
+    // Convert RSS redirect URLs to direct article URLs
+    url = url.replace('news.google.com/rss/articles/', 'news.google.com/articles/')
+
     items.push({
       title,
       url,
