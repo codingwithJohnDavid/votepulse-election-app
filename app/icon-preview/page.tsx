@@ -8,6 +8,7 @@ const icons = [
   { src: '/images/voterai-icon-v5.png', label: 'V5 — Dark Neon',             desc: 'Near-black bg, neon wireframe box, white burst' },
   { src: '/images/voterai-icon-v6.png', label: 'V6 — Navy + Gold',           desc: 'Royal blue bg, dark navy box, gold sparkle, no white' },
   { src: '/images/voterai-icon-v7.png', label: 'V7 — Steel Blue + Star',     desc: 'Deep navy bg, steel blue box, white glowing star' },
+  { src: '/images/voterai-icon-v8.png', label: 'V8 — V6 Box + V1 Star',      desc: 'Transparent bg, dark navy 3D box, electric blue sparkle' },
 ]
 
 export default function IconPreviewPage() {
