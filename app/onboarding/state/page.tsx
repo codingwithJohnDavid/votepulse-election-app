@@ -69,21 +69,17 @@ function StateCard({
           opacity: isCenter ? 1 : 0.45,
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className={cn(
-          'w-full relative rounded-[32px] flex flex-col items-center justify-center overflow-hidden transition-all duration-200',
-          isSelected
-            ? 'shadow-[0_8px_40px_rgba(66,36,160,0.18)]'
-            : 'shadow-[0_2px_12px_rgba(0,0,0,0.06)]',
-        )}
+        className="w-full relative rounded-[32px] flex flex-col items-center justify-center overflow-hidden transition-all duration-200"
         style={{
           height: '62vw',
           maxHeight: 290,
-          background: isSelected
-            ? 'oklch(0.96 0.04 285)'
-            : 'oklch(0.97 0.005 265)',
+          background: '#ffffff',
           border: isSelected
-            ? '1.5px solid oklch(0.42 0.19 285 / 0.3)'
-            : '1.5px solid oklch(0.89 0.02 265)',
+            ? '1.5px solid rgba(100, 60, 200, 0.4)'
+            : '1.5px solid rgba(0, 0, 0, 0.07)',
+          boxShadow: isSelected
+            ? '0 6px 32px rgba(100, 60, 200, 0.22), 0 1px 4px rgba(0,0,0,0.04)'
+            : '0 2px 12px rgba(0,0,0,0.05)',
         }}
         aria-label={`Select ${name}`}
         aria-pressed={isSelected}
@@ -291,7 +287,14 @@ export default function StateSelectionPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.1 }}
           >
-            <div className="flex items-center gap-3 px-4 rounded-full border border-border bg-muted h-14 shadow-sm">
+            <div
+              className="flex items-center gap-3 px-4 rounded-full h-14"
+              style={{
+                background: '#ffffff',
+                border: '1.5px solid rgba(0,0,0,0.08)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+              }}
+            >
               <Search size={18} className="text-muted-foreground shrink-0" aria-hidden="true" />
               <input
                 ref={inputRef}
@@ -425,7 +428,12 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between border border-border bg-card shadow-sm"
+      className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between"
+      style={{
+        background: '#ffffff',
+        border: '1.5px solid rgba(100, 60, 200, 0.25)',
+        boxShadow: '0 4px 20px rgba(100, 60, 200, 0.12), 0 1px 4px rgba(0,0,0,0.04)',
+      }}
     >
       <div>
         <p className="text-foreground font-black text-[17px] leading-tight">{name}</p>
