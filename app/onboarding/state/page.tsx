@@ -105,10 +105,10 @@ function StateCard({
         style={{
           height: '62vw',
           maxHeight: 290,
-          background: lc.bg,
-          border: `1.5px solid ${isSelected ? lc.border.replace('0.30', '0.55').replace('0.28', '0.50') : lc.border}`,
+          background: '#ffffff',
+          border: `1.5px solid ${lc.border}`,
           boxShadow: isSelected
-            ? `0 6px 32px ${lc.glow.replace('0.16', '0.30').replace('0.14', '0.26').replace('0.13', '0.22')}, 0 1px 4px rgba(0,0,0,0.04)`
+            ? `0 6px 32px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`
             : `0 2px 14px ${lc.glow}, 0 1px 3px rgba(0,0,0,0.04)`,
         }}
         aria-label={`Select ${name}`}
@@ -461,7 +461,7 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
       transition={{ duration: 0.3 }}
       className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between"
       style={{
-        background: lc.bg,
+        background: '#ffffff',
         border: `1.5px solid ${lc.border}`,
         boxShadow: `0 4px 20px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
       }}
