@@ -14,6 +14,20 @@ function extractTag(xml: string, tag: string): string {
   return (match?.[1] ?? match?.[2] ?? '').trim()
 }
 
+// ── Resolve a Google News redirect URL to the real article URL ────────────────
+async function resolveGoogleUrl(googleUrl: string): Promise<string> {
+  try {
+    const res = await fetch(googleUrl, {
+      method: 'HEAD',
+      redirect: 'follow',
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; VotePulse/1.0)' },
+    })
+    return res.url || googleUrl
+  } catch {
+    return googleUrl
+  }
+}
+
 function parseRSSItems(xml: string) {
   const items: { title: string; url: string; published_at: string; source_name: string; description: string }[] = []
   const itemMatches = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)]
@@ -76,19 +90,21 @@ export async function GET(request: Request) {
       const xml = await res.text()
       const parsed = parseRSSItems(xml)
 
-      // Google RSS <link> tags point to a google redirect — extract the real URL from guid
-      const articles = parsed
-        .filter(a => a.title && a.url)
-        .slice(0, 15)
-        .map(a => ({
+      // Resolve Google redirect URLs to real article URLs in parallel
+      const rawArticles = parsed.filter(a => a.title && a.url).slice(0, 15)
+      const resolved = await Promise.all(
+        rawArticles.map(async a => ({
           state_code: state.code,
           title: a.title,
-          description: a.description || null,
-          url: a.url,
+          description: null,
+          url: await resolveGoogleUrl(a.url),
           image_url: null,
           source_name: a.source_name,
           published_at: a.published_at,
         }))
+      )
+      // Filter out any that still point to google.com after resolution
+      const articles = resolved.filter(a => !a.url.includes('google.com'))
 
       if (articles.length === 0) {
         results.push({ state: state.code, count: 0, error: 'No articles parsed' })
