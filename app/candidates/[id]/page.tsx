@@ -342,7 +342,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
                 className="flex items-center gap-3 px-5 py-3.5 border-t border-border hover:bg-muted transition-colors"
               >
                 <AtSign size={16} className="text-primary shrink-0" aria-hidden="true" />
-                <span className="flex-1 text-sm font-medium text-foreground">{candidate.twitter}</span>
+                <span className="flex-1 text-sm font-medium text-foreground">X / Twitter</span>
                 <ExternalLink size={13} className="text-muted-foreground" aria-hidden="true" />
               </a>
             )}
@@ -355,7 +355,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
                 className="flex items-center gap-3 px-5 py-3.5 border-t border-border hover:bg-muted transition-colors"
               >
                 <Link2 size={16} className="text-primary shrink-0" aria-hidden="true" />
-                <span className="flex-1 text-sm font-medium text-foreground">{candidate.instagram}</span>
+                <span className="flex-1 text-sm font-medium text-foreground">Instagram</span>
                 <ExternalLink size={13} className="text-muted-foreground" aria-hidden="true" />
               </a>
             )}
