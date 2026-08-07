@@ -61,7 +61,9 @@ Only cover claims from the last 180 days. Do not cover claims that have already 
     iconColor: 'oklch(0.44 0.16 290)',
     border: 'rgba(150, 50, 200, 0.40)',
     glow: 'rgba(150, 50, 200, 0.15)',
-    prompt: `Identify the most serious accusations, legal cases, ethics complaints, and formal investigations involving candidates or elected officials in this state within the last 180 days.
+    prompt: `IMPORTANT: Every single item you include MUST have occurred or been actively updated within the last 180 days from today. Do not include any accusation, lawsuit, investigation, or ethics complaint that is older than 180 days or has been fully resolved and closed. If you cannot confirm a case is currently active and recent, omit it entirely.
+
+Identify the most serious accusations, legal cases, ethics complaints, and formal investigations involving candidates or elected officials in this state that are currently active within the last 180 days.
 
 For each accusation, answer all of the following:
 - What exactly is the accusation? Describe it with full factual specificity — not vague characterizations.
