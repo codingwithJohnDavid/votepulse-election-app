@@ -93,29 +93,34 @@ function VoteInner() {
   return (
     <>
       {/* ── Header ── */}
-      <header className="bg-card px-5 pt-14 pb-4 border-b border-border">
-        {/* Top row: back to states + race progress */}
-        <div className="flex items-center justify-between mb-3">
+      <header className="bg-background px-5 pt-6 pb-4">
+        {/* Top row: back + state chip */}
+        <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => router.push('/onboarding/state')}
-            className="flex items-center gap-1 text-primary font-semibold text-sm -ml-1 px-1 py-0.5 rounded-xl hover:bg-brand-subtle transition-colors"
+            className="flex items-center gap-1 text-primary font-semibold text-sm -ml-1 px-2 py-1 rounded-xl hover:bg-brand-subtle transition-colors"
             aria-label="Back to state selection"
           >
             <ChevronLeft size={16} aria-hidden="true" />
             States
           </button>
-          <div className="flex items-center gap-1.5">
-            <MapPin size={12} className="text-muted-foreground" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground font-medium">{stateName}</span>
+          <div
+            className="inline-flex items-center gap-1.5 bg-muted/60 border border-border rounded-full px-3 py-1.5"
+          >
+            <MapPin size={11} className="text-primary" aria-hidden="true" />
+            <span className="text-foreground text-xs font-semibold">{stateName}</span>
             <span className="text-xs text-muted-foreground">·</span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground font-medium">
               {completedCount}/{races.length} completed
             </span>
           </div>
         </div>
 
+        {/* Title */}
+        <h1 className="text-[22px] font-black text-foreground leading-tight mb-3">Cast Your Ballot</h1>
+
         {/* Progress bar */}
-        <div className="h-1.5 rounded-full bg-border overflow-hidden">
+        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
           <motion.div
             className="h-full rounded-full bg-primary"
             initial={{ width: 0 }}
@@ -127,7 +132,7 @@ function VoteInner() {
 
       {/* ── Race toolbar ── */}
       <div
-        className="bg-card border-b border-border px-5 py-3 overflow-x-auto"
+        className="bg-background px-5 py-3 overflow-x-auto border-b border-border/40"
         style={{ scrollbarWidth: 'none' }}
         role="tablist"
         aria-label="Races"
