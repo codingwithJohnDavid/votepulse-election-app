@@ -136,7 +136,7 @@ function EditSheet({
                 const current = draft[key]
                 const isOpen = activeField === key
                 return (
-                  <div key={key} className="rounded-2xl border border-border overflow-hidden bg-card">
+                  <div key={key} className="rounded-2xl overflow-hidden" style={{ background: '#ffffff', border: '1.5px solid rgba(148,60,210,0.25)', boxShadow: '0 2px 10px rgba(148,60,210,0.07)' }}>
                     {/* Field header row */}
                     <button
                       type="button"
@@ -287,22 +287,24 @@ export default function ProfilePage() {
     <PageShell>
       <div className="flex flex-col min-h-svh bg-background">
 
-        {/* Banner */}
-        <div
-          className="px-5 pt-14 pb-5"
-          style={{ background: 'linear-gradient(160deg, oklch(0.36 0.22 285) 0%, oklch(0.50 0.18 275) 100%)' }}
-        >
-          <p className="text-white/60 text-sm font-medium mb-1">Your Profile</p>
-          <h1 className="text-2xl font-black text-white tracking-tight">Demographics</h1>
-        </div>
+        {/* ── Header ── */}
+        <header className="bg-background px-5 pt-6 pb-4 flex flex-col items-center text-center">
+          <h1 className="text-[22px] font-black text-foreground mb-0.5">Your Profile</h1>
+          <p className="text-xs text-muted-foreground">Manage your account and demographics</p>
+        </header>
 
-        {/* Profile card — sits below the banner */}
-        <div className="px-5 pt-4 mb-4">
+        {/* Profile card */}
+        <div className="px-5 pt-2 mb-4">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="bg-card rounded-3xl p-4 shadow-md border border-border"
+            className="rounded-3xl p-4"
+            style={{
+              background: '#ffffff',
+              border: '1.5px solid rgba(148, 60, 210, 0.35)',
+              boxShadow: '0 4px 20px rgba(148, 60, 210, 0.12), 0 1px 4px rgba(0,0,0,0.04)',
+            }}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -362,12 +364,20 @@ export default function ProfilePage() {
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 px-1">
                 {title}
               </p>
-              <div className="bg-card rounded-3xl border border-border overflow-hidden divide-y divide-border">
+              <div
+                className="rounded-3xl overflow-hidden divide-y"
+                style={{
+                  background: '#ffffff',
+                  border: '1.5px solid rgba(148, 60, 210, 0.25)',
+                  boxShadow: '0 4px 20px rgba(148, 60, 210, 0.08), 0 1px 4px rgba(0,0,0,0.04)',
+                  borderColor: 'rgba(148, 60, 210, 0.25)',
+                }}
+              >
                 {items.map(({ label, sub, Icon, href }) => (
                   <Link
                     key={label}
                     href={href}
-                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-muted transition-colors"
+                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-primary/5 transition-colors"
                   >
                     <div className="w-8 h-8 rounded-xl bg-brand-subtle flex items-center justify-center shrink-0">
                       <Icon size={15} className="text-primary" aria-hidden="true" />
