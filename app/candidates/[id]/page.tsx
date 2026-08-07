@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, Globe, AtSign, Link2, Award, ExternalLink, Sparkles, Loader2, DollarSign, ChevronDown } from 'lucide-react'
+import { ChevronLeft, Globe, Link2, Award, ExternalLink, Sparkles, Loader2, DollarSign, ChevronDown } from 'lucide-react'
 import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { CANDIDATES, partyColor, type CandidateFunder } from '@/lib/mock-data'
@@ -334,18 +334,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
               <ExternalLink size={13} className="text-muted-foreground" aria-hidden="true" />
             </a>
 
-            {candidate.twitter && (
-              <a
-                href={`https://twitter.com/${candidate.twitter.replace('@', '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 px-5 py-3.5 border-t border-border hover:bg-muted transition-colors"
-              >
-                <AtSign size={16} className="text-primary shrink-0" aria-hidden="true" />
-                <span className="flex-1 text-sm font-medium text-foreground">X / Twitter</span>
-                <ExternalLink size={13} className="text-muted-foreground" aria-hidden="true" />
-              </a>
-            )}
+
 
             {candidate.instagram && (
               <a
