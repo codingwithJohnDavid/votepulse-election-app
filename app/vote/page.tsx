@@ -94,16 +94,8 @@ function VoteInner() {
     <>
       {/* ── Header ── */}
       <header className="bg-background px-5 pt-6 pb-4">
-        {/* Top row: back + state chip */}
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={() => router.push('/onboarding/state')}
-            className="flex items-center gap-1 text-primary font-semibold text-sm -ml-1 px-2 py-1 rounded-xl hover:bg-brand-subtle transition-colors"
-            aria-label="Back to state selection"
-          >
-            <ChevronLeft size={16} aria-hidden="true" />
-            States
-          </button>
+        {/* Top row: state chip */}
+        <div className="flex items-center justify-end mb-4">
           <div
             className="inline-flex items-center gap-1.5 bg-muted/60 border border-border rounded-full px-3 py-1.5"
           >
