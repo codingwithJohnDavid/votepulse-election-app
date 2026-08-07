@@ -1355,7 +1355,7 @@ CANDIDATES.push(
     bio: 'Ruben Gallego is the incumbent U.S. Senator from Arizona, elected in 2024. A Marine Corps veteran and former U.S. Representative, Gallego has focused on veterans\' affairs, border security from a humanitarian angle, and expanding access to healthcare. He is seeking his first full Senate term in 2026.',
     keyIssues: ['Veterans healthcare & benefits', 'Border policy reform', 'Water rights & drought management', 'Expanding Medicare', 'Tribal nation sovereignty'],
     fundedBy: ['Emily\'s List', 'SEIU', 'ActBlue small donors', 'Arizona trial lawyers'],
-    website: 'https://rubengallego.com', twitter: '@RubenGallego', instagram: '@rubengallego', imageUrl: '',
+    website: 'https://rubengallego.com', twitter: '@RubenGallego', instagram: '@rubengallego', imageUrl: '/candidates/ruben-gallego.png',
   },
   {
     id: 'az-sen-2', name: 'Kari Lake', party: 'Republican' as const,
@@ -1363,7 +1363,7 @@ CANDIDATES.push(
     bio: 'Kari Lake is a former Phoenix TV news anchor and 2022 Republican gubernatorial nominee. A prominent Trump ally, Lake ran for Senate in 2024 and has announced she will run again in 2026, focusing on election integrity, border security, and opposing federal overreach.',
     keyIssues: ['Border security & immigration enforcement', 'Election integrity', 'Second Amendment rights', 'Reducing federal spending', 'Energy independence'],
     fundedBy: ['Trump-aligned PACs', 'America First Action', 'Small-dollar MAGA donors', 'Club for Growth'],
-    website: 'https://karilake.com', twitter: '@KariLake', instagram: '@karilake', imageUrl: '',
+    website: 'https://karilake.com', twitter: '@KariLake', instagram: '@karilake', imageUrl: '/candidates/kari-lake.png',
   },
   {
     id: 'az-gov-1', name: 'Katie Hobbs', party: 'Democrat' as const,
@@ -1371,7 +1371,7 @@ CANDIDATES.push(
     bio: 'Katie Hobbs is the incumbent Governor of Arizona, elected in 2022 in one of the narrowest gubernatorial races in state history. A former state legislator and Secretary of State, Hobbs has prioritized water conservation, education funding, and reproductive rights. She is running for re-election in 2026.',
     keyIssues: ['Water conservation & Colorado River', 'Reproductive rights', 'Education funding', 'Housing affordability', 'Economic development'],
     fundedBy: ['Arizona Education Association', 'Planned Parenthood Action', 'ActBlue', 'Progressive donors'],
-    website: 'https://katiehobbs.com', twitter: '@katiehobbs', instagram: '@katiehobbs', imageUrl: '',
+    website: 'https://katiehobbs.com', twitter: '@katiehobbs', instagram: '@katiehobbs', imageUrl: '/candidates/katie-hobbs.png',
   },
   {
     id: 'az-gov-2', name: 'Abe Hamadeh', party: 'Republican' as const,
@@ -1379,7 +1379,7 @@ CANDIDATES.push(
     bio: 'Abe Hamadeh is an Arizona attorney and former Republican nominee for state Attorney General in 2022, losing by fewer than 300 votes. A strong Trump endorsee, Hamadeh has declared his candidacy for Governor in 2026, running on border enforcement, election security, and reducing government regulation.',
     keyIssues: ['Border enforcement', 'Election security', 'Reducing regulation & taxes', 'Public safety', 'Parental rights in education'],
     fundedBy: ['Arizona GOP', 'Trump-aligned donors', 'Law enforcement PACs', 'Small business groups'],
-    website: 'https://abehamadeh.com', twitter: '@AbeHamadeh', instagram: '@abehamadeh', imageUrl: '',
+    website: 'https://abehamadeh.com', twitter: '@AbeHamadeh', instagram: '@abehamadeh', imageUrl: '/candidates/abe-hamadeh.png',
   }
 )
 
@@ -1514,7 +1514,7 @@ CANDIDATES.push(
     bio: 'Brian Kemp is the incumbent Governor of Georgia, serving since 2019. He won re-election in 2022 by 8 points despite Trump\'s opposition, focusing on economic development, job creation, and fiscal conservatism while navigating tensions within the GOP over his refusal to overturn the 2020 election results.',
     keyIssues: ['Economic development & job creation', 'Public safety & law enforcement', 'Infrastructure investment', 'Workforce development', 'Fiscal conservatism & tax cuts'],
     fundedBy: ['Georgia Chamber of Commerce', 'Business PACs', 'Republican Governors Association', 'Real estate interests'],
-    website: 'https://briankemp.com', twitter: '@BrianKempGA', instagram: '@briankempga', imageUrl: '',
+    website: 'https://briankemp.com', twitter: '@BrianKempGA', instagram: '@briankempga', imageUrl: '/candidates/brian-kemp.png',
   },
   {
     id: 'ga-gov-2', name: 'Stacey Abrams', party: 'Democrat' as const,
@@ -1522,7 +1522,7 @@ CANDIDATES.push(
     bio: 'Stacey Abrams is a former Georgia state House Minority Leader, voting rights advocate, and two-time gubernatorial candidate. Founder of Fair Fight Action, she is credited with transforming Georgia into a competitive state. Abrams has signaled potential interest in a 2026 campaign.',
     keyIssues: ['Voting rights & access', 'Expanding Medicaid', 'Education investment', 'Reproductive rights', 'Economic equity & workers\' rights'],
     fundedBy: ['Emily\'s List', 'ActBlue', 'Labor unions', 'National progressive donors'],
-    website: 'https://staceyabrams.com', twitter: '@staceyabrams', instagram: '@staceyabrams', imageUrl: '',
+    website: 'https://staceyabrams.com', twitter: '@staceyabrams', instagram: '@staceyabrams', imageUrl: '/candidates/stacey-abrams.png',
   },
   {
     id: 'ga-sen-1', name: 'Jon Ossoff', party: 'Democrat' as const,
@@ -1530,7 +1530,7 @@ CANDIDATES.push(
     bio: 'Jon Ossoff is the incumbent U.S. Senator from Georgia, elected in the landmark January 2021 runoff election that flipped the Senate to Democratic control. A documentary filmmaker and former investigative journalist, Ossoff has focused on government accountability, veterans\' healthcare, and fighting corruption. He is up for re-election in 2026.',
     keyIssues: ['Government accountability & anti-corruption', 'Veterans\' healthcare', 'Small business support', 'Criminal justice reform', 'Infrastructure & broadband access'],
     fundedBy: ['ActBlue small donors', 'Georgia trial lawyers', 'Emily\'s List', 'Labor unions'],
-    website: 'https://ossoff.senate.gov', twitter: '@ossoff', instagram: '@jonossoff', imageUrl: '',
+    website: 'https://ossoff.senate.gov', twitter: '@ossoff', instagram: '@jonossoff', imageUrl: '/candidates/jon-ossoff.png',
   },
   {
     id: 'ga-sen-2', name: 'Marjorie Taylor Greene', party: 'Republican' as const,
@@ -1538,7 +1538,7 @@ CANDIDATES.push(
     bio: 'Marjorie Taylor Greene is the U.S. Representative for Georgia\'s 14th Congressional District. A prominent Trump ally, she has announced a 2026 Senate run against Jon Ossoff, running on border security, America First foreign policy, and cutting federal spending.',
     keyIssues: ['Border security & immigration enforcement', 'America First foreign policy', 'Second Amendment rights', 'Opposing federal spending', 'Cultural conservatism'],
     fundedBy: ['Small-dollar MAGA donors', 'America First Action', 'Gun rights PACs', 'Conservative media figures'],
-    website: 'https://marjorietaylorgreene.com', twitter: '@mtgreenee', instagram: '@mtgreenee', imageUrl: '',
+    website: 'https://marjorietaylorgreene.com', twitter: '@mtgreenee', instagram: '@mtgreenee', imageUrl: '/candidates/marjorie-taylor-greene.png',
   }
 )
 
@@ -1662,7 +1662,7 @@ CANDIDATES.push(
     bio: 'Tudor Dixon is a conservative commentator, businesswoman, and the 2022 Republican gubernatorial nominee in Michigan, losing to Gretchen Whitmer by 10 points. Dixon has signaled interest in running again in 2026 as Whitmer is term-limited out, running on education parental rights, reversing clean energy mandates, and border security.',
     keyIssues: ['Parental rights in education', 'Reversing clean energy mandates', 'Reducing business regulation', 'Public safety & crime', 'Election integrity'],
     fundedBy: ['DeVos family network', 'Michigan Business community', 'Republican Governors Association', 'Conservative PACs'],
-    website: 'https://tudordixon.com', twitter: '@TudorDixon', instagram: '@tudordixon', imageUrl: '',
+    website: 'https://tudordixon.com', twitter: '@TudorDixon', instagram: '@tudordixon', imageUrl: '/candidates/tudor-dixon.png',
   },
   {
     id: 'mi-gov-1', name: 'Garlin Gilchrist', party: 'Democrat' as const,
@@ -1670,7 +1670,7 @@ CANDIDATES.push(
     bio: 'Garlin Gilchrist is the Lieutenant Governor of Michigan under Gretchen Whitmer and is widely seen as the leading Democratic candidate for Governor in 2026 as Whitmer is term-limited. A former technology executive and Detroit native, Gilchrist has focused on economic development, clean energy jobs, and closing the racial wealth gap.',
     keyIssues: ['Clean energy jobs & economic development', 'Closing racial wealth gaps', 'Education investment', 'Reproductive rights', 'Infrastructure modernization'],
     fundedBy: ['Michigan UAW & labor unions', 'Emily\'s List', 'ActBlue', 'Tech community donors'],
-    website: 'https://garlingilchrist.com', twitter: '@GarlinGilchrist', instagram: '@garlingilchrist', imageUrl: '',
+    website: 'https://garlingilchrist.com', twitter: '@GarlinGilchrist', instagram: '@garlingilchrist', imageUrl: '/candidates/garlin-gilchrist.png',
   },
   {
     id: 'mi-sen-1', name: 'Gary Peters', party: 'Democrat' as const,
@@ -1678,7 +1678,7 @@ CANDIDATES.push(
     bio: 'Gary Peters is the incumbent U.S. Senator from Michigan, first elected in 2014 and re-elected in 2020. Chair of the Senate Homeland Security Committee, Peters has focused on Great Lakes protection, automotive industry support, cybersecurity, and veterans\' healthcare. He is seeking a third term in 2026.',
     keyIssues: ['Great Lakes protection', 'Automotive industry & manufacturing jobs', 'Cybersecurity & national security', 'Veterans\' healthcare', 'Bipartisan infrastructure investment'],
     fundedBy: ['Michigan labor unions (UAW, SEIU)', 'Environmental groups', 'ActBlue', 'Defense contractors'],
-    website: 'https://peters.senate.gov', twitter: '@SenGaryPeters', instagram: '@sengpeters', imageUrl: '',
+    website: 'https://peters.senate.gov', twitter: '@SenGaryPeters', instagram: '@sengpeters', imageUrl: '/candidates/gary-peters.png',
   },
   {
     id: 'mi-sen-2', name: 'Mike Rogers', party: 'Republican' as const,
@@ -1686,7 +1686,7 @@ CANDIDATES.push(
     bio: 'Mike Rogers is a former U.S. Representative and former chair of the House Intelligence Committee. A former FBI agent known as a national security hawk, Rogers ran for Senate in 2024 and is expected to run again in 2026, focusing on China competition, border security, and cutting federal spending.',
     keyIssues: ['China & national security threats', 'Border security', 'Cutting federal spending', 'Law enforcement support', 'Second Amendment rights'],
     fundedBy: ['Defense industry PACs', 'National Republican Senatorial Committee', 'Michigan business community', 'Law enforcement groups'],
-    website: 'https://mikerogers.com', twitter: '@MikeRogersMI', instagram: '@mikerogers', imageUrl: '',
+    website: 'https://mikerogers.com', twitter: '@MikeRogersMI', instagram: '@mikerogers', imageUrl: '/candidates/mike-rogers.png',
   }
 )
 
@@ -1825,7 +1825,7 @@ CANDIDATES.push(
     bio: 'Joe Lombardo is the incumbent Governor of Nevada, elected in 2022 after serving as Clark County Sheriff. A former Las Vegas Metropolitan Police officer, Lombardo has governed as a moderate Republican, vetoing several Democratic bills while supporting some bipartisan measures. He is running for re-election in 2026.',
     keyIssues: ['Public safety & law enforcement', 'Economic development & tourism', 'Education reform', 'Water conservation', 'Reducing government spending'],
     fundedBy: ['Nevada business community', 'Republican Governors Association', 'Law enforcement PACs', 'Gaming industry'],
-    website: 'https://joelombardo.com', twitter: '@JoeLombardoNV', instagram: '@joelombardo', imageUrl: '',
+    website: 'https://joelombardo.com', twitter: '@JoeLombardoNV', instagram: '@joelombardo', imageUrl: '/candidates/joe-lombardo.png',
   },
   {
     id: 'nv-gov-2', name: 'Steven Horsford', party: 'Democrat' as const,
@@ -1833,7 +1833,7 @@ CANDIDATES.push(
     bio: 'Steven Horsford is a U.S. Representative for Nevada\'s 4th Congressional District and former Nevada State Senate Majority Leader. A labor leader and longtime Nevada political figure, Horsford has announced a 2026 gubernatorial run focusing on workers\' rights, healthcare access, and diversifying Nevada\'s economy beyond gaming and tourism.',
     keyIssues: ['Workers\' rights & labor protections', 'Healthcare access & affordability', 'Economic diversification', 'Education funding', 'Voting rights'],
     fundedBy: ['Culinary Workers Union Local 226', 'ActBlue', 'Nevada Democrats', 'Labor unions'],
-    website: 'https://stevenhorsford.com', twitter: '@StevenHorsford', instagram: '@stevenhorsford', imageUrl: '',
+    website: 'https://stevenhorsford.com', twitter: '@StevenHorsford', instagram: '@stevenhorsford', imageUrl: '/candidates/steven-horsford.png',
   },
   {
     id: 'nv-sen-1', name: 'Jacky Rosen', party: 'Democrat' as const,
@@ -1841,7 +1841,7 @@ CANDIDATES.push(
     bio: 'Jacky Rosen is the incumbent U.S. Senator from Nevada, first elected in 2018. A former computer programmer and synagogue president, Rosen has focused on bipartisan legislation on veterans\' healthcare, workforce development, and technology policy. She is seeking a second term in 2026 in what is expected to be a competitive race.',
     keyIssues: ['Bipartisan workforce & tech policy', 'Veterans\' healthcare', 'Reproductive rights', 'Water conservation & Colorado River', 'Healthcare costs'],
     fundedBy: ['ActBlue', 'EMILY\'s List', 'Nevada labor unions', 'Tech industry donors'],
-    website: 'https://rosen.senate.gov', twitter: '@SenJackyRosen', instagram: '@senjackyrosen', imageUrl: '',
+    website: 'https://rosen.senate.gov', twitter: '@SenJackyRosen', instagram: '@senjackyrosen', imageUrl: '/candidates/jacky-rosen.png',
   },
   {
     id: 'nv-sen-2', name: 'Sam Brown', party: 'Republican' as const,
@@ -1849,7 +1849,7 @@ CANDIDATES.push(
     bio: 'Sam Brown is an Army veteran severely wounded in Afghanistan and the 2024 Republican nominee for U.S. Senate in Nevada, losing narrowly to Jon Tester\'s margin-equivalent. He has announced another Senate run in 2026 targeting Jacky Rosen, running on border security, veterans\' issues, and fiscal conservatism.',
     keyIssues: ['Border security', 'Veterans\' issues & benefits', 'Fiscal conservatism & spending cuts', 'Second Amendment rights', 'Energy independence'],
     fundedBy: ['National Republican Senatorial Committee', 'Club for Growth', 'Veterans PACs', 'Small-dollar donors'],
-    website: 'https://sambrown.com', twitter: '@SamBrownNV', instagram: '@sambrownNV', imageUrl: '',
+    website: 'https://sambrown.com', twitter: '@SamBrownNV', instagram: '@sambrownNV', imageUrl: '/candidates/sam-brown.png',
   }
 )
 
@@ -1984,7 +1984,7 @@ CANDIDATES.push(
     bio: 'Josh Stein is the incumbent Governor of North Carolina, elected in 2024, succeeding term-limited Roy Cooper. A former state Attorney General known for leading major consumer protection and opioid lawsuits, Stein has focused on hurricane recovery from Helene, education investment, and healthcare access. He is seeking his first full term in 2028, but is a key figure in 2026 down-ballot races.',
     keyIssues: ['Hurricane Helene recovery & infrastructure', 'Education funding', 'Healthcare access & Medicaid expansion', 'Economic development', 'Consumer & voter protections'],
     fundedBy: ['ActBlue', 'NC Education Association', 'Trial lawyers', 'Labor unions'],
-    website: 'https://joshstein.com', twitter: '@JoshSteinNC', instagram: '@joshsteinNC', imageUrl: '',
+    website: 'https://joshstein.com', twitter: '@JoshSteinNC', instagram: '@joshsteinNC', imageUrl: '/candidates/josh-stein.png',
   },
   {
     id: 'nc-sen-1', name: 'Thom Tillis', party: 'Republican' as const,
@@ -1992,7 +1992,7 @@ CANDIDATES.push(
     bio: 'Thom Tillis is the incumbent U.S. Senator from North Carolina, first elected in 2014 and re-elected in 2020. A former state House Speaker, Tillis has focused on military affairs, cybersecurity, and immigration reform. He is up for re-election in 2026 and faces both a primary challenge and a potentially competitive general election.',
     keyIssues: ['Military & veterans\' support (Fort Liberty)', 'Cybersecurity & tech policy', 'Immigration reform', 'Fiscal conservatism', 'Economic development & jobs'],
     fundedBy: ['Business Roundtable', 'Financial industry', 'Defense contractors', 'North Carolina GOP'],
-    website: 'https://tillis.senate.gov', twitter: '@SenThomTillis', instagram: '@sentillis', imageUrl: '',
+    website: 'https://tillis.senate.gov', twitter: '@SenThomTillis', instagram: '@sentillis', imageUrl: '/candidates/thom-tillis.png',
   },
   {
     id: 'nc-sen-2', name: 'Jeff Jackson', party: 'Democrat' as const,
@@ -2000,7 +2000,7 @@ CANDIDATES.push(
     bio: 'Jeff Jackson is a former U.S. Representative and Army National Guard JAG officer who became nationally known for his direct, unscripted TikTok videos about Congress. He lost the 2024 Attorney General race narrowly to Dan Bishop and has announced a 2026 Senate challenge to Thom Tillis, focusing on affordability, veterans\' issues, and institutional reform.',
     keyIssues: ['Economic affordability & housing costs', 'Veterans\' issues', 'Institutional reform & anti-corruption', 'Healthcare access', 'Public safety'],
     fundedBy: ['ActBlue small donors', 'NC Democrats', 'Veterans groups', 'Progressive donors'],
-    website: 'https://jeffjackson.com', twitter: '@JeffJacksonNC', instagram: '@jeffjacksonNC', imageUrl: '',
+    website: 'https://jeffjackson.com', twitter: '@JeffJacksonNC', instagram: '@jeffjacksonNC', imageUrl: '/candidates/jeff-jackson.png',
   }
 )
 
@@ -2084,7 +2084,7 @@ CANDIDATES.push(
     bio: 'Josh Shapiro is the incumbent Governor of Pennsylvania, elected in 2022 by 14 points. A former state Attorney General, Shapiro has governed as a pragmatic centrist, winning plaudits for emergency infrastructure repair and bipartisan dealmaking. He is running for re-election in 2026 and is considered one of the most popular governors in the country.',
     keyIssues: ['Infrastructure & transportation', 'Economic development & job creation', 'Education funding equity', 'Public safety', 'Energy transition & natural gas policy'],
     fundedBy: ['Pennsylvania labor unions', 'Emily\'s List', 'ActBlue', 'Business community'],
-    website: 'https://joshshapiro.org', twitter: '@JoshShapiroPA', instagram: '@joshshapiropa', imageUrl: '',
+    website: 'https://joshshapiro.org', twitter: '@JoshShapiroPA', instagram: '@joshshapiropa', imageUrl: '/candidates/josh-shapiro.png',
   },
   {
     id: 'pa-gov-2', name: 'Dave McCormick', party: 'Republican' as const,
@@ -2092,7 +2092,7 @@ CANDIDATES.push(
     bio: 'Dave McCormick is a former hedge fund CEO and U.S. Senate candidate who narrowly lost the 2022 Republican primary to Dr. Oz. He won the 2024 Senate race against Bob Casey and has signaled interest in the 2026 Governor\'s race if he does not run for re-election. A West Point graduate and former Treasury official, McCormick focuses on economic growth and China competitiveness.',
     keyIssues: ['Economic growth & competitiveness', 'China & national security', 'Energy development', 'Reducing regulation', 'Fiscal conservatism'],
     fundedBy: ['Pennsylvania business community', 'Wall Street & financial industry', 'Republican Governors Association', 'Energy sector'],
-    website: 'https://davemccormick.com', twitter: '@DaveMcCormickPA', instagram: '@davemccormickpa', imageUrl: '',
+    website: 'https://davemccormick.com', twitter: '@DaveMcCormickPA', instagram: '@davemccormickpa', imageUrl: '/candidates/dave-mccormick.png',
   },
   {
     id: 'pa-sen-1', name: 'Dave McCormick', party: 'Republican' as const,
@@ -2100,7 +2100,7 @@ CANDIDATES.push(
     bio: 'Dave McCormick is the incumbent U.S. Senator from Pennsylvania, elected in 2024 defeating incumbent Bob Casey. A former hedge fund CEO and West Point graduate, McCormick focuses on economic competitiveness, energy development, and countering China. His 2026 re-election timeline depends on whether he pursues the Governor\'s race instead.',
     keyIssues: ['Economic competitiveness vs. China', 'Energy development & natural gas', 'Fiscal conservatism', 'National security', 'Veterans\' support'],
     fundedBy: ['Wall Street & financial industry', 'Pennsylvania energy sector', 'NRSC', 'Business PACs'],
-    website: 'https://davemccormick.com', twitter: '@DaveMcCormickPA', instagram: '@davemccormickpa', imageUrl: '',
+    website: 'https://davemccormick.com', twitter: '@DaveMcCormickPA', instagram: '@davemccormickpa', imageUrl: '/candidates/dave-mccormick.png',
   },
   {
     id: 'pa-sen-2', name: 'John Fetterman', party: 'Democrat' as const,
@@ -2108,7 +2108,7 @@ CANDIDATES.push(
     bio: 'John Fetterman is the incumbent U.S. Senator from Pennsylvania, elected in 2022 after serving as Lieutenant Governor. Known for his unconventional style and working-class appeal, Fetterman has surprised many by staking out centrist and hawkish positions on Israel and border security. He is not up for re-election until 2028 but remains a major figure in Pennsylvania politics.',
     keyIssues: ['Working-class economic issues', 'Border security (centrist position)', 'Steel & manufacturing jobs', 'Criminal justice reform', 'Mental health advocacy'],
     fundedBy: ['ActBlue', 'Labor unions', 'Pennsylvania small donors', 'AIPAC'],
-    website: 'https://fetterman.senate.gov', twitter: '@SenFettermanPA', instagram: '@johnfetterman', imageUrl: '',
+    website: 'https://fetterman.senate.gov', twitter: '@SenFettermanPA', instagram: '@johnfetterman', imageUrl: '/candidates/john-fetterman.png',
   }
 )
 
@@ -2203,7 +2203,7 @@ CANDIDATES.push(
     bio: 'Tony Evers is the incumbent Governor of Wisconsin, first elected in 2018 and re-elected in 2022. A former state Superintendent of Public Instruction, Evers has vetoed hundreds of Republican bills from a gerrymandered legislature, protecting Medicaid expansion, abortion access, and education funding. He is running for a third term in 2026.',
     keyIssues: ['Education funding & public schools', 'Reproductive rights & abortion', 'Expanding Medicaid & healthcare access', 'Protecting voting rights', 'Economic development'],
     fundedBy: ['Wisconsin Education Association Council', 'ActBlue', 'Labor unions', 'Emily\'s List'],
-    website: 'https://tonyevers.com', twitter: '@GovEvers', instagram: '@tonyeversWI', imageUrl: '',
+    website: 'https://tonyevers.com', twitter: '@GovEvers', instagram: '@tonyeversWI', imageUrl: '/candidates/tony-evers.png',
   },
   {
     id: 'wi-gov-2', name: 'Scott Walker', party: 'Republican' as const,
@@ -2211,7 +2211,7 @@ CANDIDATES.push(
     bio: 'Scott Walker is the former Governor of Wisconsin who served three terms from 2011 to 2019, best known for Act 10, which severely curtailed public employee union bargaining rights. Walker has signaled potential interest in a political comeback in 2026 to reclaim the governorship from Tony Evers, running on fiscal conservatism and reversing Evers\' education and healthcare policies.',
     keyIssues: ['Fiscal conservatism & tax cuts', 'Reversing Act 10 rollbacks', 'Education reform & school choice', 'Reducing government spending', 'Business-friendly policies'],
     fundedBy: ['Wisconsin business community', 'Republican Governors Association', 'Club for Growth', 'School choice advocates'],
-    website: 'https://scottwalker.com', twitter: '@ScottWalker', instagram: '@scottwalker', imageUrl: '',
+    website: 'https://scottwalker.com', twitter: '@ScottWalker', instagram: '@scottwalker', imageUrl: '/candidates/scott-walker.png',
   },
   {
     id: 'wi-sen-1', name: 'Tammy Baldwin', party: 'Democrat' as const,
@@ -2219,7 +2219,7 @@ CANDIDATES.push(
     bio: 'Tammy Baldwin is the incumbent U.S. Senator from Wisconsin, first elected in 2012 and re-elected in 2018 and 2024. The first openly gay person elected to the Senate, Baldwin has focused on manufacturing jobs, prescription drug costs, and veterans\' healthcare. She is not up until 2030.',
     keyIssues: ['Manufacturing jobs & trade policy', 'Prescription drug pricing', 'Veterans\' healthcare', 'LGBTQ+ equality', 'Campaign finance reform'],
     fundedBy: ['ActBlue', 'Labor unions', 'LGBTQ+ advocacy groups', 'Progressive donors'],
-    website: 'https://baldwin.senate.gov', twitter: '@SenatorBaldwin', instagram: '@senatorbaldwin', imageUrl: '',
+    website: 'https://baldwin.senate.gov', twitter: '@SenatorBaldwin', instagram: '@senatorbaldwin', imageUrl: '/candidates/tammy-baldwin.png',
   },
   {
     id: 'wi-sen-2', name: 'Eric Hovde', party: 'Republican' as const,
@@ -2227,7 +2227,7 @@ CANDIDATES.push(
     bio: 'Eric Hovde is a Wisconsin banker and businessman who narrowly lost the 2024 Senate race to Tammy Baldwin. He has signaled interest in running again for Wisconsin\'s other Senate seat in 2026, focusing on border security, fiscal conservatism, and reducing federal spending.',
     keyIssues: ['Border security & immigration', 'Fiscal conservatism & debt reduction', 'Reducing federal regulation', 'Second Amendment rights', 'Energy independence'],
     fundedBy: ['Personal wealth', 'Wisconsin business community', 'NRSC', 'Club for Growth'],
-    website: 'https://erichovde.com', twitter: '@EricHovdeWI', instagram: '@erichovde', imageUrl: '',
+    website: 'https://erichovde.com', twitter: '@EricHovdeWI', instagram: '@erichovde', imageUrl: '/candidates/eric-hovde.png',
   }
 )
 
@@ -2313,7 +2313,7 @@ RACE_RESULTS.push(
   }
 )
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ────────────────��────────────────────────────────────────────────────────────
 
 export function partyColor(party: Party): { ring: string; bg: string; text: string; badge: string } {
   switch (party) {
