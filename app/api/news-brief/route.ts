@@ -1,12 +1,12 @@
 import { streamText } from 'ai'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-// Ensure the Vercel AI Gateway can authenticate using the project API key
-if (!process.env.AI_GATEWAY_API_KEY && process.env.API_KEY) {
-  process.env.AI_GATEWAY_API_KEY = process.env.API_KEY
-}
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.API_KEY,
+})
 
 const STATE_CONTEXT: Record<string, string> = {
   CA: `California — the most populous U.S. state with 39 million residents and a Democratic supermajority legislature.
@@ -153,7 +153,7 @@ export async function POST(req: Request) {
   const cutoffStr = cutoff.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
   const result = streamText({
-    model: 'google/gemini-2.5-flash',
+    model: google('gemini-2.5-flash'),
     system: `You are a veteran political journalist with 25 years covering U.S. state elections. You write for an educated general audience — people who want real, actionable information, not spin from either party.
 
 Today's date is ${todayStr}. The 180-day cutoff date is ${cutoffStr}.
