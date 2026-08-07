@@ -63,7 +63,7 @@ export default function SignInPage() {
             className="mb-3"
           >
             <Image
-              src="/images/voterai-icon-final.png"
+              src="/images/logo.png"
               alt="VoterAI"
               width={90}
               height={90}
