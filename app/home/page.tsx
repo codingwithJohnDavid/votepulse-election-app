@@ -31,7 +31,7 @@ const TILES = [
   },
   {
     href: '/propositions',
-    label: 'Propositions',
+    label: 'AI Proposition Breakdown',
     sub: '3 in your state',
     Icon: FileText,
     iconBg: 'oklch(0.94 0.06 60)',
@@ -41,7 +41,7 @@ const TILES = [
   },
   {
     href: '/candidates',
-    label: 'Candidates',
+    label: 'AI Candidate Profiles',
     sub: '5 in your state',
     Icon: Users,
     iconBg: 'oklch(0.92 0.06 245)',
@@ -51,7 +51,7 @@ const TILES = [
   },
   {
     href: '/vote',
-    label: 'Vote',
+    label: 'Record Your Vote',
     sub: 'Cast your ballot',
     Icon: Vote,
     iconBg: 'oklch(0.94 0.06 20)',
@@ -61,7 +61,7 @@ const TILES = [
   },
   {
     href: '/results',
-    label: 'Live Results',
+    label: 'User Live Results',
     sub: '6,803 responses',
     Icon: BarChart3,
     iconBg: 'oklch(0.93 0.06 300)',
@@ -71,7 +71,7 @@ const TILES = [
   },
   {
     href: '/news',
-    label: 'News',
+    label: 'AI News Digest',
     sub: 'Latest headlines',
     Icon: Newspaper,
     iconBg: 'oklch(0.93 0.05 200)',
@@ -81,7 +81,7 @@ const TILES = [
   },
   {
     href: '/controversies',
-    label: 'Controversies',
+    label: 'AI Controversy Radar',
     sub: "What they're saying",
     Icon: Flame,
     iconBg: 'oklch(0.94 0.06 38)',
