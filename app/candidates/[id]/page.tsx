@@ -361,16 +361,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             )}
           </motion.div>
 
-          {/* ── Vote CTA ── */}
-          <div className="mx-5 mt-4">
-            <Link
-              href={`/vote?state=${candidate.stateCode}`}
-              className="flex items-center justify-center gap-2 w-full py-3.5 rounded-3xl font-bold text-sm text-white transition-opacity hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, oklch(0.38 0.20 285) 0%, oklch(0.52 0.17 265) 100%)' }}
-            >
-              Vote in {candidate.state}
-            </Link>
-          </div>
+
         </div>
 
         <FloatingHomeButton />
