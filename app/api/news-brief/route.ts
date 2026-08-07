@@ -3,8 +3,10 @@ import { streamText } from 'ai'
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-// Bridge project API_KEY into the name the Vercel AI Gateway expects
-process.env.AI_GATEWAY_API_KEY = process.env.AI_GATEWAY_API_KEY ?? process.env.API_KEY
+// Ensure the Vercel AI Gateway can authenticate using the project API key
+if (!process.env.AI_GATEWAY_API_KEY && process.env.API_KEY) {
+  process.env.AI_GATEWAY_API_KEY = process.env.API_KEY
+}
 
 const STATE_CONTEXT: Record<string, string> = {
   CA: `California — the most populous U.S. state with 39 million residents and a Democratic supermajority legislature.
@@ -72,7 +74,6 @@ Recent ballot activity: Multiple Wisconsin Supreme Court elections (abortion rig
 Top voter concerns: abortion access, dairy farm economics, redistricting and voting maps, gun policy, manufacturing jobs, college student debt.`,
 }
 
-// Fallback for states not in the detailed context above
 function getStateContext(code: string, name: string): string {
   return STATE_CONTEXT[code] ?? `${name} — a U.S. state with its own distinct political landscape, voter concerns, and upcoming election races.
 Use your knowledge of this state's governor, U.S. senators, congressional delegation, recent ballot measures, top policy issues, and political dynamics as of 2024-2026.
@@ -91,7 +92,7 @@ For each issue:
 - Note any recent developments — a new law, court ruling, budget decision, or news story — that has shifted the debate
 - Be honest about which issues have clear solutions and which are genuinely hard to fix
 
-Focus on the issues that are dominating campaign ads, town halls, and voter conversations in this state right now. Cover topics across this range as relevant: immigration, taxes, education, healthcare, crime, housing, transportation, environment, and energy. Prioritize whichever five are most live in this state.`,
+Focus on the issues that are dominating campaign ads, town halls, and voter conversations in this state right now.`,
   },
 
   voters: {
@@ -103,9 +104,8 @@ For each topic:
 - Describe who cares most about this issue and why it affects their daily life
 - Explain what has made this issue flare up recently — a specific event, a price spike, a crime story, a court ruling
 - Be honest about frustration levels — are voters angry, worried, hopeful, or resigned?
-- Note any surprising shifts — issues that unexpectedly moved up or down in importance
 
-Give a real street-level picture of voter sentiment in this specific state. Avoid generic national talking points.`,
+Give a real street-level picture of voter sentiment in this specific state.`,
   },
 
   propositions: {
@@ -113,31 +113,26 @@ Give a real street-level picture of voter sentiment in this specific state. Avoi
     prompt: `Provide voters in this state with a clear, up-to-date briefing on ballot measures and propositions they will face or have recently decided on.
 
 Cover the following:
-- What are the most significant active, upcoming, or recently decided ballot measures? Explain each one in plain English — no legal jargon
-- Have any new propositions been added, qualified, or removed from the ballot recently?
-- Have any court rulings blocked, altered, or reinstated a measure voters expected to see?
-- Who is funding the campaigns for and against each measure, and what does that money suggest about who really benefits?
-- What are the strongest arguments from each side — not straw men, but the most persuasive versions of each case?
-- What is the estimated fiscal impact — will taxes go up, will spending be cut, or is it cost-neutral?
-- Are there any confusing aspects of how the measure is worded that voters have complained about?
-
-Help voters walk into the booth understanding exactly what they are deciding and what each outcome means for their daily life.`,
+- What are the most significant active, upcoming, or recently decided ballot measures? Explain each one in plain English
+- Who is funding the campaigns for and against each measure?
+- What are the strongest arguments from each side?
+- What is the estimated fiscal impact?
+- Help voters understand exactly what they are deciding and what each outcome means for their daily life.`,
   },
 
   updates: {
     label: 'Election Updates',
     prompt: `Deliver a focused briefing of the most important election developments in this state from the past 7 days.
 
-Stick strictly to verified, newsworthy facts. Cover:
-- Any candidates who have entered or exited a race since last week — and why it matters
-- Debate announcements, schedule changes, or notable moments from recent debates
-- Major endorsements from elected officials, unions, business groups, newspapers, or celebrities — and whether they are likely to move votes
-- Significant campaign announcements: new policy positions, ad campaigns, fundraising numbers, or strategy shifts
-- Any lawsuits, legal challenges, or court rulings affecting the election — ballot access, districting, voting rules
-- Polling shifts: if any race has moved more than 3 points in recent surveys, explain what drove it
-- Any candidate controversy, gaffe, or scandal that broke this week
+Cover:
+- Any candidates who have entered or exited a race
+- Major endorsements and debate announcements
+- Significant campaign announcements or strategy shifts
+- Any lawsuits, legal challenges, or court rulings affecting the election
+- Polling shifts: if any race has moved more than 3 points, explain what drove it
+- Any candidate controversy or scandal that broke this week
 
-Be precise. If something happened, say when and what the consequences are. If a race was considered safe and is now competitive, say so directly.`,
+Be precise about when things happened and what the consequences are.`,
   },
 }
 
@@ -164,16 +159,13 @@ export async function POST(req: Request) {
 Today's date is ${todayStr}. The 180-day cutoff date is ${cutoffStr}.
 
 Your rules:
-- HARD TIME CONSTRAINT: You may ONLY reference events, developments, rulings, polls, candidates, and news that occurred ON OR AFTER ${cutoffStr}. Any item that predates ${cutoffStr} must be completely excluded. If all you know about a topic is older than ${cutoffStr}, say "No significant developments in this area since ${cutoffStr}" rather than surfacing outdated information.
-- Be specific. Use real names, real numbers, and real events. Vague generalities are useless to voters.
-- Be state-specific. Everything you say must be grounded in this particular state's politics, not a generic national overview.
-- Be balanced. Present what each side actually believes with equal seriousness. No caricatures.
-- Be honest about complexity. If an issue has no easy answer, say so.
-- Be concise. 5 to 7 short paragraphs maximum. Every sentence must earn its place.
+- Be specific. Use real names, real numbers, and real events.
+- Be state-specific. Everything must be grounded in this particular state's politics.
+- Be balanced. Present what each side actually believes with equal seriousness.
+- Be concise. 5 to 7 short paragraphs maximum.
 - Write in plain conversational prose. No markdown headers, no bullet points, no bold text — flowing paragraphs only.
-- Treat the reader as an intelligent adult who can handle nuance and contradiction.
-- If there is something voters are genuinely not being told by either campaign, surface it.`,
-    prompt: `Today is ${todayStr}. Only include items from ${cutoffStr} or later.\n\nState: ${stateName ?? stateCode}\n\nState context:\n${stateContext}\n\n---\n\n${topic.prompt}`,
+- Treat the reader as an intelligent adult who can handle nuance and contradiction.`,
+    prompt: `Today is ${todayStr}.\n\nState: ${stateName ?? stateCode}\n\nState context:\n${stateContext}\n\n---\n\n${topic.prompt}`,
   })
 
   return result.toTextStreamResponse()
