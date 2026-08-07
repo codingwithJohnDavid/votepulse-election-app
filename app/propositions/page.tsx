@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronDown, FileText, Sparkles, Loader2, BookOpen, Landmark, Heart, DollarSign, Scale, Building2, Home, Vote, Settings, ReceiptText, Activity, Megaphone, MapPin } from 'lucide-react'
+import { ChevronDown, FileText, Sparkles, Loader2, BookOpen, Landmark, Heart, DollarSign, Scale, Building2, Home, Vote, Settings, ReceiptText, Activity, Megaphone, MapPin } from 'lucide-react'
 import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
 import { PROPOSITIONS, US_STATES } from '@/lib/mock-data'
@@ -71,16 +70,7 @@ export default function PropositionsPage() {
       <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}
-        <header className="px-5 pt-4 pb-4 flex flex-col items-center text-center">
-          <div className="w-full flex items-center mb-4">
-            <Link
-              href="/home"
-              className="flex items-center gap-1 text-primary font-semibold text-sm px-1 py-0.5 rounded-xl hover:bg-primary/10 transition-colors"
-            >
-              <ChevronLeft size={16} aria-hidden="true" />
-              Home
-            </Link>
-          </div>
+        <header className="px-5 pt-6 pb-4 flex flex-col items-center text-center">
           <h1 className="text-[28px] font-black text-foreground leading-tight">Propositions</h1>
           <p className="text-[14px] text-muted-foreground mt-0.5">
             {stateName} · {filtered.length} measure{filtered.length !== 1 ? 's' : ''}
