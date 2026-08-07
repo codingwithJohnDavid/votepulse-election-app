@@ -1,7 +1,7 @@
 import { streamText } from 'ai'
 
-export const runtime = 'edge'
-export const maxDuration = 30
+export const runtime = 'nodejs'
+export const maxDuration = 60
 
 const STATE_CONTEXT: Record<string, string> = {
   CA: `California — the most populous U.S. state with 39 million residents and a Democratic supermajority legislature.
