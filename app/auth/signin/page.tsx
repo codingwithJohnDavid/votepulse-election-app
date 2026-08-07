@@ -42,7 +42,7 @@ export default function SignInPage() {
   }
 
   return (
-    <PageShell withNav={false}>
+    <PageShell withNav={false} showLogo={false}>
       <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}

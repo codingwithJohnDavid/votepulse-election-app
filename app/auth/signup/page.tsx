@@ -108,7 +108,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <PageShell withNav={false}>
+    <PageShell withNav={false} showLogo={false}>
       <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}
@@ -129,7 +129,7 @@ export default function SignUpPage() {
             className="mb-3"
           >
             <Image
-              src="/images/voterai-icon-final.png"
+              src="/images/logo.png"
               alt="VoterAI"
               width={90}
               height={90}

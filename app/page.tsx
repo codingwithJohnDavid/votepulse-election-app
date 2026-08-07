@@ -90,7 +90,7 @@ const STATS = [
 
 export default function LandingPage() {
   return (
-    <PageShell withNav={false}>
+    <PageShell withNav={false} showLogo={false}>
       <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}
