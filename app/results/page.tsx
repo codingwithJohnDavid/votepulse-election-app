@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PieChart, Pie, Cell } from 'recharts'
 import { ChevronDown, Lock, Share2, Info, BarChart3, CheckCircle2, ChevronRight } from 'lucide-react'
 import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
@@ -422,8 +421,8 @@ function ResultsInner() {
             </div>
           </div>
 
-          {/* ── Donut card ── */}
-          <AnimatePresence mode="wait">
+          {/* ── DONUT REMOVED ── */}
+          {false && <AnimatePresence mode="wait">
             <motion.div
               key={race.raceId}
               initial={{ opacity: 0, y: 8 }}
@@ -516,11 +515,24 @@ function ResultsInner() {
                 </p>
               </div>
             </motion.div>
-          </AnimatePresence>
+          </AnimatePresence>}
 
           {/* ── Results by Candidate ── */}
           <div className="mx-5 mb-3 rounded-3xl px-5 py-5" style={purpleCard}>
-            <h2 className="font-black text-[17px] text-foreground mb-4">Results by Candidate</h2>
+
+            {/* Header row with total votes */}
+            <div className="flex items-start justify-between mb-5">
+              <h2 className="font-black text-[17px] text-foreground">Results by Candidate</h2>
+              <div className="text-right">
+                <p className="text-[22px] font-black text-foreground leading-tight tabular-nums">
+                  {race.totalResponses.toLocaleString()}
+                </p>
+                <p className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                  Total Votes
+                </p>
+              </div>
+            </div>
+
             <div className="space-y-0 divide-y divide-border">
               {race.candidates.map((c, i) => {
                 const colors = partyColor(c.party)
@@ -539,23 +551,25 @@ function ResultsInner() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
                           <span className="font-bold text-[14px] text-foreground leading-tight">{c.name}</span>
-                          <span
-                            className="text-[20px] font-black leading-none shrink-0"
-                            style={{ color: colors.ring }}
-                          >
-                            {c.percent}%
-                          </span>
+                          <div className="text-right shrink-0">
+                            <span
+                              className="text-[20px] font-black leading-none block"
+                              style={{ color: colors.ring }}
+                            >
+                              {c.percent}%
+                            </span>
+                            <span className="text-[11px] text-muted-foreground tabular-nums font-semibold">
+                              {c.count.toLocaleString()} votes
+                            </span>
+                          </div>
                         </div>
-                        <div className="flex items-center justify-between mt-0.5">
+                        <div className="mt-0.5">
                           <span className="text-[12px] text-muted-foreground">{c.party}</span>
-                          <span className="text-[12px] text-muted-foreground tabular-nums">
-                            {c.count.toLocaleString()} resp.
-                          </span>
                         </div>
                       </div>
                     </div>
                     {/* Progress bar */}
-                    <div className="h-[6px] rounded-full bg-muted overflow-hidden">
+                    <div className="h-2 rounded-full bg-muted overflow-hidden">
                       <motion.div
                         className="h-full rounded-full"
                         style={{ backgroundColor: colors.ring }}
@@ -567,6 +581,14 @@ function ResultsInner() {
                   </div>
                 )
               })}
+            </div>
+
+            {/* Disclaimer */}
+            <div className="mt-4 flex gap-2 items-start bg-primary/8 rounded-2xl px-3.5 py-3">
+              <Info size={13} className="text-primary shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                Results represent voluntary selections by app participants and are not official election results.
+              </p>
             </div>
           </div>
 
