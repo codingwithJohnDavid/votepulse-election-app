@@ -49,6 +49,18 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
   const { ring, bg, badge } = partyColor(candidate.party)
   const partyLabel = candidate.party === 'Democrat' ? 'DEM' : candidate.party === 'Republican' ? 'REP' : 'IND'
 
+  const PARTY_GLOW: Record<string, { border: string; glow: string }> = {
+    Democrat:    { border: 'rgba(56, 120, 220, 0.35)',  glow: 'rgba(56, 120, 220, 0.12)' },
+    Republican:  { border: 'rgba(220, 60, 60, 0.35)',   glow: 'rgba(220, 60, 60, 0.12)'  },
+    Independent: { border: 'rgba(148, 60, 210, 0.35)',  glow: 'rgba(148, 60, 210, 0.12)' },
+  }
+  const pc = PARTY_GLOW[candidate.party] ?? PARTY_GLOW.Independent
+  const cardStyle = {
+    background: '#ffffff',
+    border: `1.5px solid ${pc.border}`,
+    boxShadow: `0 4px 20px ${pc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
+  }
+
   async function fetchAIBio() {
     if (aiBio || loadingBio) return
     setLoadingBio(true)
@@ -82,7 +94,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
     <PageShell>
       <div className="flex flex-col min-h-svh bg-background">
         {/* ── Header bar ── */}
-        <header className="bg-card px-5 pt-14 pb-4 border-b border-border flex items-center gap-2">
+        <header className="bg-background px-5 pt-6 pb-4 flex items-center gap-2">
           <Link
             href="/candidates"
             className="flex items-center gap-1 text-primary font-semibold text-sm -ml-1 px-1 py-0.5 rounded-xl hover:bg-brand-subtle transition-colors"
@@ -101,7 +113,8 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="mx-5 mt-5 bg-card rounded-3xl border border-border p-5 flex flex-col items-center text-center"
+            className="mx-5 mt-5 rounded-3xl p-5 flex flex-col items-center text-center"
+            style={cardStyle}
           >
             <div
               className="w-20 h-20 rounded-full overflow-hidden mb-3"
@@ -140,7 +153,8 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.08 }}
-            className="mx-5 mt-4 bg-card rounded-3xl border border-border p-5"
+            className="mx-5 mt-4 rounded-3xl p-5"
+            style={cardStyle}
           >
             <h2 className="font-black text-[14px] text-foreground mb-3">About</h2>
 
@@ -195,7 +209,8 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.12 }}
-            className="mx-5 mt-4 bg-card rounded-3xl border border-border p-5"
+            className="mx-5 mt-4 rounded-3xl p-5"
+            style={cardStyle}
           >
             <h2 className="font-black text-[14px] text-foreground mb-3">Key Issues</h2>
 
@@ -268,7 +283,8 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.16 }}
-              className="mx-5 mt-4 bg-card rounded-3xl border border-border overflow-hidden"
+              className="mx-5 mt-4 rounded-3xl overflow-hidden"
+              style={cardStyle}
             >
               <div className="flex items-center gap-2 px-5 pt-5 pb-3">
                 <DollarSign size={14} className="text-muted-foreground" aria-hidden="true" />
@@ -302,7 +318,8 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            className="mx-5 mt-4 bg-card rounded-3xl border border-border overflow-hidden"
+            className="mx-5 mt-4 rounded-3xl overflow-hidden"
+            style={cardStyle}
           >
             <h2 className="font-black text-[14px] text-foreground px-5 pt-5 pb-3">Links</h2>
 
@@ -344,16 +361,7 @@ export default function CandidateDetailPage({ params }: { params: Promise<{ id: 
             )}
           </motion.div>
 
-          {/* ── Vote CTA ── */}
-          <div className="mx-5 mt-4">
-            <Link
-              href={`/vote?state=${candidate.stateCode}`}
-              className="flex items-center justify-center gap-2 w-full py-3.5 rounded-3xl font-bold text-sm text-white transition-opacity hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, oklch(0.38 0.20 285) 0%, oklch(0.52 0.17 265) 100%)' }}
-            >
-              Vote in {candidate.state}
-            </Link>
-          </div>
+
         </div>
 
         <FloatingHomeButton />

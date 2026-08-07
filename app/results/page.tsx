@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PieChart, Pie, Cell } from 'recharts'
 import { ChevronDown, Lock, Share2, Info, BarChart3, CheckCircle2, ChevronRight } from 'lucide-react'
 import FloatingHomeButton from '@/components/floating-home-button'
 import PageShell from '@/components/page-shell'
@@ -160,8 +159,15 @@ function YourBallot({ picks }: { picks: BallotPick[] }) {
   if (picks.length === 0) return null
 
   return (
-    <div className="mx-5 mb-3 bg-card rounded-3xl overflow-hidden shadow-sm">
-      <div className="px-5 pt-5 pb-4 border-b border-border">
+    <div
+      className="mx-5 mb-3 rounded-3xl overflow-hidden"
+      style={{
+        background: '#ffffff',
+        border: '1.5px solid rgba(16, 185, 129, 0.35)',
+        boxShadow: '0 4px 20px rgba(16, 185, 129, 0.12), 0 1px 4px rgba(0,0,0,0.04)',
+      }}
+    >
+      <div className="px-5 pt-5 pb-4 border-b border-border/50">
         <div className="flex items-center gap-2 mb-0.5">
           <CheckCircle2 size={16} className="text-emerald-500" aria-hidden="true" />
           <h2 className="font-black text-[17px] text-foreground">Your Ballot</h2>
@@ -351,14 +357,24 @@ function ResultsInner() {
     ? activeState.name
     : (stateCode ?? activeState.name)
 
+  // Purple glow style used for generic cards (donut, demographics, share)
+  const purpleCard = {
+    background: '#ffffff',
+    border: '1.5px solid rgba(148, 60, 210, 0.30)',
+    boxShadow: '0 4px 20px rgba(148, 60, 210, 0.10), 0 1px 4px rgba(0,0,0,0.04)',
+  }
+
   return (
     <PageShell>
-      <div className="flex flex-col min-h-svh bg-[#f0f0f5]">
+      <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}
-        <header className="bg-card px-5 pt-14 pb-4 border-b border-border">
-          <h1 className="text-2xl font-black text-foreground mb-1">Live Results</h1>
-          <p className="text-sm text-muted-foreground">{stateName} · 2026 Midterms</p>
+        <header className="bg-background px-5 pt-6 pb-4 flex flex-col items-center text-center">
+          <h1 className="text-[22px] font-black text-foreground mb-0.5">Live Results</h1>
+          <div className="inline-flex items-center gap-1.5 bg-muted/60 border border-border rounded-full px-3 py-1.5 mt-1">
+            <span className="text-foreground text-xs font-semibold">{stateName}</span>
+            <span className="text-xs text-muted-foreground">· 2026 Midterms</span>
+          </div>
         </header>
 
         <div className="flex-1 overflow-y-auto pb-24">
@@ -386,34 +402,35 @@ function ResultsInner() {
           {/* ── Race toggle — dynamic for all races in active state ── */}
           {stateRaces.length > 0 && race && (<>
           <div className="px-5 pt-5 pb-3">
-            <div className="flex gap-2 overflow-x-auto scrollbar-none">
+            <div className="flex gap-2">
               {stateRaces.map((r) => (
                 <button
                   key={r.raceId}
                   type="button"
                   onClick={() => setActiveRace(r)}
                   className={cn(
-                    'shrink-0 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200',
+                    'flex-1 py-2 rounded-full text-sm font-bold transition-all duration-200 text-center',
                     activeRace?.raceId === r.raceId
                       ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'bg-card text-muted-foreground border border-border hover:border-primary/40'
+                      : 'bg-white text-muted-foreground border border-border/60 hover:border-primary/40'
                   )}
                 >
-                  {r.raceLabel}
+                  {r.raceLabel.replace(/\s*–\s*District\s*\d+/i, '')}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* ── Donut card ── */}
-          <AnimatePresence mode="wait">
+          {/* ── DONUT REMOVED ── */}
+          {false && <AnimatePresence mode="wait">
             <motion.div
               key={race.raceId}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="mx-5 mb-3 bg-card rounded-3xl px-3 py-4 shadow-sm"
+              className="mx-5 mb-3 rounded-3xl px-3 py-4"
+              style={purpleCard}
             >
               {/* Flanking stats + donut */}
               <div className="flex items-center justify-between gap-1">
@@ -498,11 +515,26 @@ function ResultsInner() {
                 </p>
               </div>
             </motion.div>
-          </AnimatePresence>
+          </AnimatePresence>}
 
           {/* ── Results by Candidate ── */}
-          <div className="mx-5 mb-3 bg-card rounded-3xl px-5 py-5 shadow-sm">
+          <div className="mx-5 mb-3 rounded-3xl px-5 py-5" style={purpleCard}>
+
+            {/* Title */}
             <h2 className="font-black text-[17px] text-foreground mb-4">Results by Candidate</h2>
+
+            {/* Total votes — centered pill */}
+            <div className="flex justify-center mb-5">
+              <div className="inline-flex flex-col items-center bg-primary/8 rounded-2xl px-8 py-3 gap-0.5">
+                <span className="text-[32px] font-black text-foreground leading-none tabular-nums">
+                  {race.totalResponses.toLocaleString()}
+                </span>
+                <span className="text-[11px] font-bold tracking-widest text-primary uppercase">
+                  Total Votes
+                </span>
+              </div>
+            </div>
+
             <div className="space-y-0 divide-y divide-border">
               {race.candidates.map((c, i) => {
                 const colors = partyColor(c.party)
@@ -521,23 +553,25 @@ function ResultsInner() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
                           <span className="font-bold text-[14px] text-foreground leading-tight">{c.name}</span>
-                          <span
-                            className="text-[20px] font-black leading-none shrink-0"
-                            style={{ color: colors.ring }}
-                          >
-                            {c.percent}%
-                          </span>
+                          <div className="text-right shrink-0">
+                            <span
+                              className="text-[20px] font-black leading-none block"
+                              style={{ color: colors.ring }}
+                            >
+                              {c.percent}%
+                            </span>
+                            <span className="text-[11px] text-muted-foreground tabular-nums font-semibold">
+                              {c.count.toLocaleString()} votes
+                            </span>
+                          </div>
                         </div>
-                        <div className="flex items-center justify-between mt-0.5">
+                        <div className="mt-0.5">
                           <span className="text-[12px] text-muted-foreground">{c.party}</span>
-                          <span className="text-[12px] text-muted-foreground tabular-nums">
-                            {c.count.toLocaleString()} resp.
-                          </span>
                         </div>
                       </div>
                     </div>
                     {/* Progress bar */}
-                    <div className="h-[6px] rounded-full bg-muted overflow-hidden">
+                    <div className="h-2 rounded-full bg-muted overflow-hidden">
                       <motion.div
                         className="h-full rounded-full"
                         style={{ backgroundColor: colors.ring }}
@@ -550,10 +584,18 @@ function ResultsInner() {
                 )
               })}
             </div>
+
+            {/* Disclaimer */}
+            <div className="mt-4 flex gap-2 items-start bg-primary/8 rounded-2xl px-3.5 py-3">
+              <Info size={13} className="text-primary shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                Results represent voluntary selections by app participants and are not official election results.
+              </p>
+            </div>
           </div>
 
           {/* ── Demographics accordion ── */}
-          <div className="mx-5 mb-3 bg-card rounded-3xl px-5 shadow-sm">
+          <div className="mx-5 mb-3 rounded-3xl px-5" style={purpleCard}>
             <div className="pt-5 pb-3 border-b border-border">
               <h2 className="font-black text-[17px] text-foreground">Results by Demographics</h2>
               <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
@@ -565,21 +607,44 @@ function ResultsInner() {
             ))}
           </div>
 
-          {/* ── Share nudge ── */}
-          <div
-            className="mx-5 mt-1 mb-2 p-4 rounded-3xl overflow-hidden relative"
-            style={{ background: 'linear-gradient(135deg, oklch(0.40 0.19 285) 0%, oklch(0.55 0.16 265) 100%)' }}
-          >
-            <p className="text-sm font-black text-white mb-1">Your voice was counted.</p>
-            <p className="text-xs text-white/75 leading-relaxed mb-3">
-              Share VotePulse with a friend and help grow the data set.
-            </p>
+          {/* ── Share row ── */}
+          <div className="mx-5 mt-2 mb-2 flex items-center justify-center gap-3">
+            <span className="text-xs text-muted-foreground font-semibold">Share results</span>
+
+            {/* X / Twitter */}
+            <a
+              href={`https://twitter.com/intent/tweet?text=Check out the live election results on VotePulse!&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Share on X"
+              className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:border-primary/50 hover:bg-primary/5 transition-colors"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-foreground" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+
+            {/* Facebook */}
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Share on Facebook"
+              className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:border-primary/50 hover:bg-primary/5 transition-colors"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-foreground" aria-hidden="true">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </a>
+
+            {/* Native share */}
             <button
               type="button"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white text-primary text-xs font-bold hover:opacity-90 transition-opacity"
+              onClick={handleShare}
+              aria-label="Share via system share"
+              className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:border-primary/50 hover:bg-primary/5 transition-colors"
             >
-              <Share2 size={12} aria-hidden="true" />
-              Share VotePulse
+              <Share2 size={15} className="text-foreground" aria-hidden="true" />
             </button>
           </div>
           {/* end stateRaces.length > 0 */}
