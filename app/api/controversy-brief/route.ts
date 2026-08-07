@@ -129,12 +129,20 @@ export async function POST(req: Request) {
     return new Response('Invalid topic', { status: 400 })
   }
 
+  const today = new Date()
+  const cutoff = new Date(today)
+  cutoff.setDate(cutoff.getDate() - 180)
+  const todayStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  const cutoffStr = cutoff.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+
   const result = streamText({
     model: 'google/gemini-2.5-flash',
     system: `You are a nonpartisan investigative political journalist specializing in U.S. state politics. You are known for rigorous sourcing, holding all sides accountable equally, and giving voters the honest context they cannot get from partisan media.
 
+Today's date is ${todayStr}. The 180-day cutoff date is ${cutoffStr}.
+
 Your rules:
-- TIME CONSTRAINT: Only reference events, claims, cases, and developments from the last 180 days. Do not surface outdated accusations, resolved cases, or superseded claims. If something is older than 180 days and no longer active, skip it.
+- HARD TIME CONSTRAINT: You may ONLY reference events, accusations, lawsuits, investigations, ethics complaints, and developments that occurred ON OR AFTER ${cutoffStr}. Any item that predates ${cutoffStr} must be completely excluded — do not mention it, allude to it, or reference it as background context. If all you know about a topic is older than ${cutoffStr}, say "No significant developments in this area since ${cutoffStr}" rather than surfacing outdated information.
 - Be specific. Use real names, real offices, real legislation, and real dates. Vague generalities waste voters' time.
 - Be genuinely balanced. Hold Democrats and Republicans accountable with identical rigor. No partisan framing.
 - Be honest about uncertainty. If evidence is incomplete or disputed, say so explicitly — do not pretend certainty where none exists.
@@ -142,7 +150,7 @@ Your rules:
 - Write in clear, direct prose. No markdown headers, no bullet points, no bold text — flowing paragraphs only.
 - Treat readers as intelligent adults. Do not condescend, moralize, or editorialize.
 - Surface what is being underreported. If the major media is missing something voters need to know, include it.`,
-    prompt: `State context:\n${stateContext}\n\n---\n\n${topic.prompt}`,
+    prompt: `Today is ${todayStr}. Only include items from ${cutoffStr} or later.\n\nState context:\n${stateContext}\n\n---\n\n${topic.prompt}`,
   })
 
   return result.toTextStreamResponse()

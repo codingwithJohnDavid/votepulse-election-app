@@ -148,12 +148,20 @@ export async function POST(req: Request) {
     return new Response('Invalid topic', { status: 400 })
   }
 
+  const today = new Date()
+  const cutoff = new Date(today)
+  cutoff.setDate(cutoff.getDate() - 180)
+  const todayStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  const cutoffStr = cutoff.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+
   const result = streamText({
     model: 'google/gemini-2.5-flash',
     system: `You are a veteran political journalist with 25 years covering U.S. state elections. You write for an educated general audience — people who want real, actionable information, not spin from either party.
 
+Today's date is ${todayStr}. The 180-day cutoff date is ${cutoffStr}.
+
 Your rules:
-- TIME CONSTRAINT: Only reference events, developments, rulings, polls, candidates, and news that occurred within the last 180 days. Do not surface outdated information that is no longer relevant to voters. If a development is older than 180 days and has been superseded by newer events, use the newer event instead.
+- HARD TIME CONSTRAINT: You may ONLY reference events, developments, rulings, polls, candidates, and news that occurred ON OR AFTER ${cutoffStr}. Any item that predates ${cutoffStr} must be completely excluded. If all you know about a topic is older than ${cutoffStr}, say "No significant developments in this area since ${cutoffStr}" rather than surfacing outdated information.
 - Be specific. Use real names, real numbers, and real events. Vague generalities are useless to voters.
 - Be state-specific. Everything you say must be grounded in this particular state's politics, not a generic national overview.
 - Be balanced. Present what each side actually believes with equal seriousness. No caricatures.
@@ -162,7 +170,7 @@ Your rules:
 - Write in plain conversational prose. No markdown headers, no bullet points, no bold text — flowing paragraphs only.
 - Treat the reader as an intelligent adult who can handle nuance and contradiction.
 - If there is something voters are genuinely not being told by either campaign, surface it.`,
-    prompt: `State: ${stateName ?? stateCode}\n\nState context:\n${stateContext}\n\n---\n\n${topic.prompt}`,
+    prompt: `Today is ${todayStr}. Only include items from ${cutoffStr} or later.\n\nState: ${stateName ?? stateCode}\n\nState context:\n${stateContext}\n\n---\n\n${topic.prompt}`,
   })
 
   return result.toTextStreamResponse()
