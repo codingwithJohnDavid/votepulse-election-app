@@ -1,12 +1,11 @@
 import { streamText } from 'ai'
-import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { createGateway } from '@ai-sdk/gateway'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.API_KEY,
-})
+// Use AI_GATEWAY_API_KEY (injected by v0 proxy in sandbox, set via Vercel AI Gateway integration on deployment)
+const gateway = createGateway()
 
 const TOPICS: Record<string, { label: string; prompt: string }> = {
   policy: {
@@ -28,21 +27,26 @@ const TOPICS: Record<string, { label: string; prompt: string }> = {
 }
 
 export async function POST(req: Request) {
-  const { stateCode, stateName, topicKey } = await req.json()
+  try {
+    const { stateCode, stateName, topicKey } = await req.json()
 
-  const topic = TOPICS[topicKey]
-  if (!topic) {
-    return new Response(JSON.stringify({ error: 'Invalid topic' }), { status: 400 })
-  }
+    const topic = TOPICS[topicKey]
+    if (!topic) {
+      return new Response(JSON.stringify({ error: 'Invalid topic' }), { status: 400 })
+    }
 
-  const result = streamText({
-    model: google('gemini-2.5-flash'),
-    prompt: `You are a nonpartisan political analyst. Write a concise 3-paragraph news briefing about ${topic.prompt} in ${stateName} (${stateCode}). 
+    const result = await streamText({
+      model: gateway('google/gemini-2.5-flash'),
+      prompt: `You are a nonpartisan political analyst. Write a concise 3-paragraph news briefing about ${topic.prompt} in ${stateName} (${stateCode}). 
     
-    Focus on factual, current information. Be balanced and objective. Each paragraph should cover a distinct aspect.
-    Format as plain prose — no headers, bullets, or markdown. Keep total length under 300 words.`,
-    maxTokens: 500,
-  })
+Focus on factual, current information. Be balanced and objective. Each paragraph should cover a distinct aspect.
+Format as plain prose — no headers, bullets, or markdown. Keep total length under 300 words.`,
+      maxTokens: 500,
+    })
 
-  return result.toTextStreamResponse()
+    return result.toTextStreamResponse()
+  } catch (error) {
+    console.error('[v0] news-brief error:', error)
+    return new Response(JSON.stringify({ error: String(error) }), { status: 500 })
+  }
 }
