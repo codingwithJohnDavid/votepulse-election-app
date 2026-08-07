@@ -402,14 +402,14 @@ function ResultsInner() {
           {/* ── Race toggle — dynamic for all races in active state ── */}
           {stateRaces.length > 0 && race && (<>
           <div className="px-5 pt-5 pb-3">
-            <div className="flex gap-2 overflow-x-auto scrollbar-none">
+            <div className="flex gap-2">
               {stateRaces.map((r) => (
                 <button
                   key={r.raceId}
                   type="button"
                   onClick={() => setActiveRace(r)}
                   className={cn(
-                    'shrink-0 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200',
+                    'flex-1 py-2 rounded-full text-sm font-bold transition-all duration-200 text-center',
                     activeRace?.raceId === r.raceId
                       ? 'bg-primary text-primary-foreground shadow-sm'
                       : 'bg-white text-muted-foreground border border-border/60 hover:border-primary/40'
