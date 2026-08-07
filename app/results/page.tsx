@@ -415,7 +415,7 @@ function ResultsInner() {
                       : 'bg-white text-muted-foreground border border-border/60 hover:border-primary/40'
                   )}
                 >
-                  {r.raceLabel}
+                  {r.raceLabel.replace(/\s*–\s*District\s*\d+/i, '')}
                 </button>
               ))}
             </div>
