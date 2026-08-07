@@ -494,7 +494,7 @@ export const CANDIDATES: Candidate[] = [
   },
 ]
 
-// ─── Races per state ─────────────────────────────────────────────────────────
+// ─── Races per state ──────────────────────────��──────────────────────────────
 
 export const RACES_BY_STATE: Record<string, Race[]> = {
   FL: [
@@ -1350,7 +1350,7 @@ export const RACE_RESULTS: RaceResult[] = [
 
 CANDIDATES.push(
   {
-    candidateId: 'az-sen-1', name: 'Ruben Gallego', lastName: 'Gallego', party: 'Democrat' as const,
+    id: 'az-sen-1', name: 'Ruben Gallego', party: 'Democrat' as const,
     office: 'U.S. Senate', state: 'Arizona', stateCode: 'AZ',
     bio: 'Ruben Gallego is the incumbent U.S. Senator from Arizona, elected in 2024. A Marine Corps veteran and former U.S. Representative, Gallego has focused on veterans\' affairs, border security from a humanitarian angle, and expanding access to healthcare. He is seeking his first full Senate term in 2026.',
     keyIssues: ['Veterans healthcare & benefits', 'Border policy reform', 'Water rights & drought management', 'Expanding Medicare', 'Tribal nation sovereignty'],
@@ -1358,7 +1358,7 @@ CANDIDATES.push(
     website: 'https://rubengallego.com', twitter: '@RubenGallego', instagram: '@rubengallego', imageUrl: '',
   },
   {
-    candidateId: 'az-sen-2', name: 'Kari Lake', lastName: 'Lake', party: 'Republican' as const,
+    id: 'az-sen-2', name: 'Kari Lake', party: 'Republican' as const,
     office: 'U.S. Senate', state: 'Arizona', stateCode: 'AZ',
     bio: 'Kari Lake is a former Phoenix TV news anchor and 2022 Republican gubernatorial nominee. A prominent Trump ally, Lake ran for Senate in 2024 and has announced she will run again in 2026, focusing on election integrity, border security, and opposing federal overreach.',
     keyIssues: ['Border security & immigration enforcement', 'Election integrity', 'Second Amendment rights', 'Reducing federal spending', 'Energy independence'],
@@ -1366,7 +1366,7 @@ CANDIDATES.push(
     website: 'https://karilake.com', twitter: '@KariLake', instagram: '@karilake', imageUrl: '',
   },
   {
-    candidateId: 'az-gov-1', name: 'Katie Hobbs', lastName: 'Hobbs', party: 'Democrat' as const,
+    id: 'az-gov-1', name: 'Katie Hobbs', party: 'Democrat' as const,
     office: 'Governor', state: 'Arizona', stateCode: 'AZ',
     bio: 'Katie Hobbs is the incumbent Governor of Arizona, elected in 2022 in one of the narrowest gubernatorial races in state history. A former state legislator and Secretary of State, Hobbs has prioritized water conservation, education funding, and reproductive rights. She is running for re-election in 2026.',
     keyIssues: ['Water conservation & Colorado River', 'Reproductive rights', 'Education funding', 'Housing affordability', 'Economic development'],
@@ -1374,7 +1374,7 @@ CANDIDATES.push(
     website: 'https://katiehobbs.com', twitter: '@katiehobbs', instagram: '@katiehobbs', imageUrl: '',
   },
   {
-    candidateId: 'az-gov-2', name: 'Abe Hamadeh', lastName: 'Hamadeh', party: 'Republican' as const,
+    id: 'az-gov-2', name: 'Abe Hamadeh', party: 'Republican' as const,
     office: 'Governor', state: 'Arizona', stateCode: 'AZ',
     bio: 'Abe Hamadeh is an Arizona attorney and former Republican nominee for state Attorney General in 2022, losing by fewer than 300 votes. A strong Trump endorsee, Hamadeh has declared his candidacy for Governor in 2026, running on border enforcement, election security, and reducing government regulation.',
     keyIssues: ['Border enforcement', 'Election security', 'Reducing regulation & taxes', 'Public safety', 'Parental rights in education'],
@@ -1385,46 +1385,43 @@ CANDIDATES.push(
 
 PROPOSITIONS.push(
   {
-    propId: 'az-prop-1', stateCode: 'AZ',
+    id: 'az-prop-1', stateCode: 'AZ',
+    state: 'Arizona',
+    number: 'Proposition 140',
     title: 'Proposition 140 — Open Primary Elections',
     summary: 'Establishes a single open primary where all candidates compete together, with the top finishers advancing to the general election regardless of party. Aims to give Arizona\'s 36% of independent voters a meaningful primary vote.',
-    category: 'Voting & Elections',
-    forArgument: 'Opens democracy to independent voters, reduces extremism by forcing candidates to appeal to a broader electorate, and gives every registered voter equal standing in the primary.',
-    againstArgument: 'Weakens political parties\' right to nominate their own candidates, risks advancing two candidates from the same party to the general election, and may dilute minority-party representation.',
+    category: 'Election Administration',
+    proArgument: 'Opens democracy to independent voters, reduces extremism by forcing candidates to appeal to a broader electorate, and gives every registered voter equal standing in the primary.',
+    conArgument: 'Weakens political parties\' right to nominate their own candidates, risks advancing two candidates from the same party to the general election, and may dilute minority-party representation.',
     fiscalImpact: 'Estimated $1–3 million in one-time implementation costs absorbed by the Secretary of State\'s office.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'az-prop-2', stateCode: 'AZ',
+    id: 'az-prop-2', stateCode: 'AZ',
+    state: 'Arizona',
+    number: 'Proposition 141',
     title: 'Proposition 141 — Water Infrastructure Bond',
     summary: 'Authorizes $1 billion in general obligation bonds to fund water infrastructure projects including new storage facilities, pipeline repairs, and drought contingency programs to address Arizona\'s long-term water crisis.',
     category: 'Environment',
-    forArgument: 'Arizona faces an existential water shortage. This investment secures long-term supply for future generations, protects agricultural communities, and funds infrastructure that private markets will not build.',
-    againstArgument: 'Adds $1 billion to state debt with interest costs exceeding $400 million over the bond\'s life. The state should fund water projects through existing revenues rather than borrowing.',
+    proArgument: 'Arizona faces an existential water shortage. This investment secures long-term supply for future generations, protects agricultural communities, and funds infrastructure that private markets will not build.',
+    conArgument: 'Adds $1 billion to state debt with interest costs exceeding $400 million over the bond\'s life. The state should fund water projects through existing revenues rather than borrowing.',
     fiscalImpact: 'Net cost estimated at $1.4 billion over 20 years including interest, repaid through a property tax levy.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'az-prop-3', stateCode: 'AZ',
+    id: 'az-prop-3', stateCode: 'AZ',
+    state: 'Arizona',
+    number: 'Proposition 142',
     title: 'Proposition 142 — Minimum Wage Increase',
     summary: 'Gradually increases Arizona\'s minimum wage from $14.70 to $18.00 per hour by 2028, with annual cost-of-living adjustments thereafter, covering all workers including tipped employees.',
     category: 'Economy',
-    forArgument: 'Low-wage workers have lost purchasing power as housing costs soared. Raising wages boosts consumer spending, reduces reliance on government assistance, and closes the gap between working and poverty.',
-    againstArgument: 'Small businesses — particularly restaurants and retailers — face higher labor costs that lead to layoffs, reduced hours, and price increases that hurt the workers the measure aims to help.',
+    proArgument: 'Low-wage workers have lost purchasing power as housing costs soared. Raising wages boosts consumer spending, reduces reliance on government assistance, and closes the gap between working and poverty.',
+    conArgument: 'Small businesses — particularly restaurants and retailers — face higher labor costs that lead to layoffs, reduced hours, and price increases that hurt the workers the measure aims to help.',
     fiscalImpact: 'Increases wages for an estimated 380,000 Arizona workers. State and local governments would face $120 million in increased payroll costs.',
-    status: 'On Ballot' as const,
   }
 )
 
 RACES_BY_STATE['AZ'] = [
-  { raceId: 'az-gov', raceLabel: 'Governor', stateCode: 'AZ', office: 'Governor', candidates: [
-    { candidateId: 'az-gov-1', name: 'Katie Hobbs', lastName: 'Hobbs', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'az-gov-2', name: 'Abe Hamadeh', lastName: 'Hamadeh', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
-  { raceId: 'az-sen', raceLabel: 'U.S. Senate', stateCode: 'AZ', office: 'Senate', candidates: [
-    { candidateId: 'az-sen-1', name: 'Ruben Gallego', lastName: 'Gallego', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'az-sen-2', name: 'Kari Lake', lastName: 'Lake', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
+  { id: 'az-gov', label: 'Governor', stateCode: 'AZ', office: 'Governor' },
+  { id: 'az-sen', label: 'U.S. Senate', stateCode: 'AZ', office: 'U.S. Senate' },
 ]
 
 RACE_RESULTS.push(
@@ -1512,7 +1509,7 @@ RACE_RESULTS.push(
 
 CANDIDATES.push(
   {
-    candidateId: 'ga-gov-1', name: 'Brian Kemp', lastName: 'Kemp', party: 'Republican' as const,
+    id: 'ga-gov-1', name: 'Brian Kemp', party: 'Republican' as const,
     office: 'Governor', state: 'Georgia', stateCode: 'GA',
     bio: 'Brian Kemp is the incumbent Governor of Georgia, serving since 2019. He won re-election in 2022 by 8 points despite Trump\'s opposition, focusing on economic development, job creation, and fiscal conservatism while navigating tensions within the GOP over his refusal to overturn the 2020 election results.',
     keyIssues: ['Economic development & job creation', 'Public safety & law enforcement', 'Infrastructure investment', 'Workforce development', 'Fiscal conservatism & tax cuts'],
@@ -1520,7 +1517,7 @@ CANDIDATES.push(
     website: 'https://briankemp.com', twitter: '@BrianKempGA', instagram: '@briankempga', imageUrl: '',
   },
   {
-    candidateId: 'ga-gov-2', name: 'Stacey Abrams', lastName: 'Abrams', party: 'Democrat' as const,
+    id: 'ga-gov-2', name: 'Stacey Abrams', party: 'Democrat' as const,
     office: 'Governor', state: 'Georgia', stateCode: 'GA',
     bio: 'Stacey Abrams is a former Georgia state House Minority Leader, voting rights advocate, and two-time gubernatorial candidate. Founder of Fair Fight Action, she is credited with transforming Georgia into a competitive state. Abrams has signaled potential interest in a 2026 campaign.',
     keyIssues: ['Voting rights & access', 'Expanding Medicaid', 'Education investment', 'Reproductive rights', 'Economic equity & workers\' rights'],
@@ -1528,7 +1525,7 @@ CANDIDATES.push(
     website: 'https://staceyabrams.com', twitter: '@staceyabrams', instagram: '@staceyabrams', imageUrl: '',
   },
   {
-    candidateId: 'ga-sen-1', name: 'Jon Ossoff', lastName: 'Ossoff', party: 'Democrat' as const,
+    id: 'ga-sen-1', name: 'Jon Ossoff', party: 'Democrat' as const,
     office: 'U.S. Senate', state: 'Georgia', stateCode: 'GA',
     bio: 'Jon Ossoff is the incumbent U.S. Senator from Georgia, elected in the landmark January 2021 runoff election that flipped the Senate to Democratic control. A documentary filmmaker and former investigative journalist, Ossoff has focused on government accountability, veterans\' healthcare, and fighting corruption. He is up for re-election in 2026.',
     keyIssues: ['Government accountability & anti-corruption', 'Veterans\' healthcare', 'Small business support', 'Criminal justice reform', 'Infrastructure & broadband access'],
@@ -1536,7 +1533,7 @@ CANDIDATES.push(
     website: 'https://ossoff.senate.gov', twitter: '@ossoff', instagram: '@jonossoff', imageUrl: '',
   },
   {
-    candidateId: 'ga-sen-2', name: 'Marjorie Taylor Greene', lastName: 'Greene', party: 'Republican' as const,
+    id: 'ga-sen-2', name: 'Marjorie Taylor Greene', party: 'Republican' as const,
     office: 'U.S. Senate', state: 'Georgia', stateCode: 'GA',
     bio: 'Marjorie Taylor Greene is the U.S. Representative for Georgia\'s 14th Congressional District. A prominent Trump ally, she has announced a 2026 Senate run against Jon Ossoff, running on border security, America First foreign policy, and cutting federal spending.',
     keyIssues: ['Border security & immigration enforcement', 'America First foreign policy', 'Second Amendment rights', 'Opposing federal spending', 'Cultural conservatism'],
@@ -1547,36 +1544,32 @@ CANDIDATES.push(
 
 PROPOSITIONS.push(
   {
-    propId: 'ga-prop-1', stateCode: 'GA',
+    id: 'ga-prop-1', stateCode: 'GA',
+    state: 'Georgia',
+    number: 'S.R. 756',
     title: 'Amendment 1 — Georgia Tax Court',
     summary: 'Establishes a state Tax Court as a court of record to hear state tax disputes, replacing the current administrative process. Judges would be appointed by the Governor and confirmed by the Senate.',
-    category: 'Government & Taxes',
-    forArgument: 'Creates a specialized court with judges who understand complex tax law, provides taxpayers with a neutral judicial forum independent of the agencies that assessed the tax, and streamlines dispute resolution.',
-    againstArgument: 'Adds a new layer of government bureaucracy, may favor wealthy corporations with resources to litigate, and could reduce state revenue by making it easier to challenge assessments.',
+    category: 'Government Reform',
+    proArgument: 'Creates a specialized court with judges who understand complex tax law, provides taxpayers with a neutral judicial forum independent of the agencies that assessed the tax, and streamlines dispute resolution.',
+    conArgument: 'Adds a new layer of government bureaucracy, may favor wealthy corporations with resources to litigate, and could reduce state revenue by making it easier to challenge assessments.',
     fiscalImpact: 'Estimated $4–6 million annually for court operations, offset by reduced administrative costs at the Department of Revenue.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'ga-prop-2', stateCode: 'GA',
+    id: 'ga-prop-2', stateCode: 'GA',
+    state: 'Georgia',
+    number: 'S.R. 757',
     title: 'Referendum A — Homestead Tax Exemption Expansion',
     summary: 'Expands the existing homestead property tax exemption, capping annual assessment increases at 3% for homeowners who have owned their primary residence for more than 5 years.',
     category: 'Economy',
-    forArgument: 'Protects long-term Georgia homeowners from being priced out of their homes by rapid property value increases, provides relief to fixed-income seniors, and encourages neighborhood stability.',
-    againstArgument: 'Reduces funding available for schools and local governments, shifts the tax burden toward renters and newer homeowners, and may slow housing turnover in already tight markets.',
+    proArgument: 'Protects long-term Georgia homeowners from being priced out of their homes by rapid property value increases, provides relief to fixed-income seniors, and encourages neighborhood stability.',
+    conArgument: 'Reduces funding available for schools and local governments, shifts the tax burden toward renters and newer homeowners, and may slow housing turnover in already tight markets.',
     fiscalImpact: 'Reduces local property tax revenue by an estimated $800 million annually statewide, requiring compensating adjustments from the General Assembly.',
-    status: 'On Ballot' as const,
   }
 )
 
 RACES_BY_STATE['GA'] = [
-  { raceId: 'ga-gov', raceLabel: 'Governor', stateCode: 'GA', office: 'Governor', candidates: [
-    { candidateId: 'ga-gov-1', name: 'Brian Kemp', lastName: 'Kemp', party: 'Republican' as const, count: 0, percent: 0 },
-    { candidateId: 'ga-gov-2', name: 'Stacey Abrams', lastName: 'Abrams', party: 'Democrat' as const, count: 0, percent: 0 },
-  ]},
-  { raceId: 'ga-sen', raceLabel: 'U.S. Senate', stateCode: 'GA', office: 'Senate', candidates: [
-    { candidateId: 'ga-sen-1', name: 'Jon Ossoff', lastName: 'Ossoff', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'ga-sen-2', name: 'Marjorie Taylor Greene', lastName: 'Greene', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
+  { id: 'ga-gov', label: 'Governor', stateCode: 'GA', office: 'Governor' },
+  { id: 'ga-sen', label: 'U.S. Senate', stateCode: 'GA', office: 'U.S. Senate' },
 ]
 
 RACE_RESULTS.push(
@@ -1664,7 +1657,7 @@ RACE_RESULTS.push(
 
 CANDIDATES.push(
   {
-    candidateId: 'mi-gov-2', name: 'Tudor Dixon', lastName: 'Dixon', party: 'Republican' as const,
+    id: 'mi-gov-2', name: 'Tudor Dixon', party: 'Republican' as const,
     office: 'Governor', state: 'Michigan', stateCode: 'MI',
     bio: 'Tudor Dixon is a conservative commentator, businesswoman, and the 2022 Republican gubernatorial nominee in Michigan, losing to Gretchen Whitmer by 10 points. Dixon has signaled interest in running again in 2026 as Whitmer is term-limited out, running on education parental rights, reversing clean energy mandates, and border security.',
     keyIssues: ['Parental rights in education', 'Reversing clean energy mandates', 'Reducing business regulation', 'Public safety & crime', 'Election integrity'],
@@ -1672,7 +1665,7 @@ CANDIDATES.push(
     website: 'https://tudordixon.com', twitter: '@TudorDixon', instagram: '@tudordixon', imageUrl: '',
   },
   {
-    candidateId: 'mi-gov-1', name: 'Garlin Gilchrist', lastName: 'Gilchrist', party: 'Democrat' as const,
+    id: 'mi-gov-1', name: 'Garlin Gilchrist', party: 'Democrat' as const,
     office: 'Governor', state: 'Michigan', stateCode: 'MI',
     bio: 'Garlin Gilchrist is the Lieutenant Governor of Michigan under Gretchen Whitmer and is widely seen as the leading Democratic candidate for Governor in 2026 as Whitmer is term-limited. A former technology executive and Detroit native, Gilchrist has focused on economic development, clean energy jobs, and closing the racial wealth gap.',
     keyIssues: ['Clean energy jobs & economic development', 'Closing racial wealth gaps', 'Education investment', 'Reproductive rights', 'Infrastructure modernization'],
@@ -1680,7 +1673,7 @@ CANDIDATES.push(
     website: 'https://garlingilchrist.com', twitter: '@GarlinGilchrist', instagram: '@garlingilchrist', imageUrl: '',
   },
   {
-    candidateId: 'mi-sen-1', name: 'Gary Peters', lastName: 'Peters', party: 'Democrat' as const,
+    id: 'mi-sen-1', name: 'Gary Peters', party: 'Democrat' as const,
     office: 'U.S. Senate', state: 'Michigan', stateCode: 'MI',
     bio: 'Gary Peters is the incumbent U.S. Senator from Michigan, first elected in 2014 and re-elected in 2020. Chair of the Senate Homeland Security Committee, Peters has focused on Great Lakes protection, automotive industry support, cybersecurity, and veterans\' healthcare. He is seeking a third term in 2026.',
     keyIssues: ['Great Lakes protection', 'Automotive industry & manufacturing jobs', 'Cybersecurity & national security', 'Veterans\' healthcare', 'Bipartisan infrastructure investment'],
@@ -1688,7 +1681,7 @@ CANDIDATES.push(
     website: 'https://peters.senate.gov', twitter: '@SenGaryPeters', instagram: '@sengpeters', imageUrl: '',
   },
   {
-    candidateId: 'mi-sen-2', name: 'Mike Rogers', lastName: 'Rogers', party: 'Republican' as const,
+    id: 'mi-sen-2', name: 'Mike Rogers', party: 'Republican' as const,
     office: 'U.S. Senate', state: 'Michigan', stateCode: 'MI',
     bio: 'Mike Rogers is a former U.S. Representative and former chair of the House Intelligence Committee. A former FBI agent known as a national security hawk, Rogers ran for Senate in 2024 and is expected to run again in 2026, focusing on China competition, border security, and cutting federal spending.',
     keyIssues: ['China & national security threats', 'Border security', 'Cutting federal spending', 'Law enforcement support', 'Second Amendment rights'],
@@ -1699,46 +1692,43 @@ CANDIDATES.push(
 
 PROPOSITIONS.push(
   {
-    propId: 'mi-prop-1', stateCode: 'MI',
+    id: 'mi-prop-1', stateCode: 'MI',
+    state: 'Michigan',
+    number: 'Proposal 1',
     title: 'Proposal 1 — Repeal of Clean Energy Mandate',
     summary: 'A citizen-initiated petition to repeal Michigan\'s 2023 Clean Energy and Jobs Act, which requires utilities to generate 100% clean energy by 2040. Opponents of the mandate gathered enough signatures to place a repeal on the 2026 ballot.',
     category: 'Environment',
-    forArgument: 'The 100% clean energy mandate will raise electricity rates for Michigan families, threatens grid reliability, and was passed without sufficient study of economic impacts on the automotive and manufacturing sectors.',
-    againstArgument: 'Michigan\'s clean energy transition will create tens of thousands of jobs, reduce long-term energy costs, protect the Great Lakes, and position Michigan as a leader in the emerging clean economy.',
+    proArgument: 'The 100% clean energy mandate will raise electricity rates for Michigan families, threatens grid reliability, and was passed without sufficient study of economic impacts on the automotive and manufacturing sectors.',
+    conArgument: 'Michigan\'s clean energy transition will create tens of thousands of jobs, reduce long-term energy costs, protect the Great Lakes, and position Michigan as a leader in the emerging clean economy.',
     fiscalImpact: 'Repeal could save utilities $2–4 billion in compliance costs over 15 years, but would forfeit an estimated $10 billion in federal clean energy investment tied to the mandate.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'mi-prop-2', stateCode: 'MI',
+    id: 'mi-prop-2', stateCode: 'MI',
+    state: 'Michigan',
+    number: 'Proposal 2',
     title: 'Proposal 2 — Paid Family and Medical Leave',
     summary: 'Expands Michigan\'s existing paid sick leave law to create a statewide paid family and medical leave program providing up to 15 weeks of paid leave, funded through a 1.1% payroll tax split between employers and employees.',
     category: 'Healthcare',
-    forArgument: 'Michigan is one of only 11 states without paid family leave. Paid leave improves child health outcomes, supports working mothers, reduces employee turnover, and keeps Michigan competitive with neighboring states.',
-    againstArgument: 'A 1.1% payroll tax increases costs for small businesses already struggling with inflation, may deter hiring, and creates a new government bureaucracy when private employers should set their own leave policies.',
+    proArgument: 'Michigan is one of only 11 states without paid family leave. Paid leave improves child health outcomes, supports working mothers, reduces employee turnover, and keeps Michigan competitive with neighboring states.',
+    conArgument: 'A 1.1% payroll tax increases costs for small businesses already struggling with inflation, may deter hiring, and creates a new government bureaucracy when private employers should set their own leave policies.',
     fiscalImpact: 'Raises approximately $1.2 billion annually from the payroll tax. Benefits would be paid to an estimated 400,000 Michigan workers per year.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'mi-prop-3', stateCode: 'MI',
+    id: 'mi-prop-3', stateCode: 'MI',
+    state: 'Michigan',
+    number: 'Proposal 3',
     title: 'Proposal 3 — Recreational Cannabis Tax Restructuring',
     summary: 'Restructures the 10% excise tax on recreational cannabis sales, directing a larger portion to roads and bridges rather than schools and municipalities, and reduces licensing fees for small cannabis businesses.',
     category: 'Economy',
-    forArgument: 'Roads are Michigan\'s most visible infrastructure crisis. Cannabis tax revenue should fund road repair, and small business relief will diversify the cannabis market away from large corporations.',
-    againstArgument: 'Schools and municipalities depend on existing cannabis tax revenue and should not see it redirected. Roads already have dedicated funding streams.',
+    proArgument: 'Roads are Michigan\'s most visible infrastructure crisis. Cannabis tax revenue should fund road repair, and small business relief will diversify the cannabis market away from large corporations.',
+    conArgument: 'Schools and municipalities depend on existing cannabis tax revenue and should not see it redirected. Roads already have dedicated funding streams.',
     fiscalImpact: 'Redirects approximately $80 million annually from school and municipal funds to road funding. Licensing fee reductions reduce state revenue by an estimated $12 million annually.',
-    status: 'On Ballot' as const,
   }
 )
 
 RACES_BY_STATE['MI'] = [
-  { raceId: 'mi-gov', raceLabel: 'Governor', stateCode: 'MI', office: 'Governor', candidates: [
-    { candidateId: 'mi-gov-1', name: 'Garlin Gilchrist', lastName: 'Gilchrist', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'mi-gov-2', name: 'Tudor Dixon', lastName: 'Dixon', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
-  { raceId: 'mi-sen', raceLabel: 'U.S. Senate', stateCode: 'MI', office: 'Senate', candidates: [
-    { candidateId: 'mi-sen-1', name: 'Gary Peters', lastName: 'Peters', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'mi-sen-2', name: 'Mike Rogers', lastName: 'Rogers', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
+  { id: 'mi-gov', label: 'Governor', stateCode: 'MI', office: 'Governor' },
+  { id: 'mi-sen', label: 'U.S. Senate', stateCode: 'MI', office: 'U.S. Senate' },
 ]
 
 RACE_RESULTS.push(
@@ -1830,7 +1820,7 @@ RACE_RESULTS.push(
 
 CANDIDATES.push(
   {
-    candidateId: 'nv-gov-1', name: 'Joe Lombardo', lastName: 'Lombardo', party: 'Republican' as const,
+    id: 'nv-gov-1', name: 'Joe Lombardo', party: 'Republican' as const,
     office: 'Governor', state: 'Nevada', stateCode: 'NV',
     bio: 'Joe Lombardo is the incumbent Governor of Nevada, elected in 2022 after serving as Clark County Sheriff. A former Las Vegas Metropolitan Police officer, Lombardo has governed as a moderate Republican, vetoing several Democratic bills while supporting some bipartisan measures. He is running for re-election in 2026.',
     keyIssues: ['Public safety & law enforcement', 'Economic development & tourism', 'Education reform', 'Water conservation', 'Reducing government spending'],
@@ -1838,7 +1828,7 @@ CANDIDATES.push(
     website: 'https://joelombardo.com', twitter: '@JoeLombardoNV', instagram: '@joelombardo', imageUrl: '',
   },
   {
-    candidateId: 'nv-gov-2', name: 'Steven Horsford', lastName: 'Horsford', party: 'Democrat' as const,
+    id: 'nv-gov-2', name: 'Steven Horsford', party: 'Democrat' as const,
     office: 'Governor', state: 'Nevada', stateCode: 'NV',
     bio: 'Steven Horsford is a U.S. Representative for Nevada\'s 4th Congressional District and former Nevada State Senate Majority Leader. A labor leader and longtime Nevada political figure, Horsford has announced a 2026 gubernatorial run focusing on workers\' rights, healthcare access, and diversifying Nevada\'s economy beyond gaming and tourism.',
     keyIssues: ['Workers\' rights & labor protections', 'Healthcare access & affordability', 'Economic diversification', 'Education funding', 'Voting rights'],
@@ -1846,7 +1836,7 @@ CANDIDATES.push(
     website: 'https://stevenhorsford.com', twitter: '@StevenHorsford', instagram: '@stevenhorsford', imageUrl: '',
   },
   {
-    candidateId: 'nv-sen-1', name: 'Jacky Rosen', lastName: 'Rosen', party: 'Democrat' as const,
+    id: 'nv-sen-1', name: 'Jacky Rosen', party: 'Democrat' as const,
     office: 'U.S. Senate', state: 'Nevada', stateCode: 'NV',
     bio: 'Jacky Rosen is the incumbent U.S. Senator from Nevada, first elected in 2018. A former computer programmer and synagogue president, Rosen has focused on bipartisan legislation on veterans\' healthcare, workforce development, and technology policy. She is seeking a second term in 2026 in what is expected to be a competitive race.',
     keyIssues: ['Bipartisan workforce & tech policy', 'Veterans\' healthcare', 'Reproductive rights', 'Water conservation & Colorado River', 'Healthcare costs'],
@@ -1854,7 +1844,7 @@ CANDIDATES.push(
     website: 'https://rosen.senate.gov', twitter: '@SenJackyRosen', instagram: '@senjackyrosen', imageUrl: '',
   },
   {
-    candidateId: 'nv-sen-2', name: 'Sam Brown', lastName: 'Brown', party: 'Republican' as const,
+    id: 'nv-sen-2', name: 'Sam Brown', party: 'Republican' as const,
     office: 'U.S. Senate', state: 'Nevada', stateCode: 'NV',
     bio: 'Sam Brown is an Army veteran severely wounded in Afghanistan and the 2024 Republican nominee for U.S. Senate in Nevada, losing narrowly to Jon Tester\'s margin-equivalent. He has announced another Senate run in 2026 targeting Jacky Rosen, running on border security, veterans\' issues, and fiscal conservatism.',
     keyIssues: ['Border security', 'Veterans\' issues & benefits', 'Fiscal conservatism & spending cuts', 'Second Amendment rights', 'Energy independence'],
@@ -1865,46 +1855,43 @@ CANDIDATES.push(
 
 PROPOSITIONS.push(
   {
-    propId: 'nv-prop-1', stateCode: 'NV',
+    id: 'nv-prop-1', stateCode: 'NV',
+    state: 'Nevada',
+    number: 'Question 6',
     title: 'Question 1 — Ranked-Choice Voting',
     summary: 'Adopts ranked-choice voting for all statewide primary elections, allowing voters to rank candidates in order of preference. The measure was previously approved by voters in 2022 and must pass again in 2026 to take effect under Nevada\'s constitutional amendment process.',
-    category: 'Voting & Elections',
-    forArgument: 'Ranked-choice voting eliminates the spoiler effect, ensures winners have broader support, reduces negative campaigning, and gives independent and third-party candidates a fair chance without wasting votes.',
-    againstArgument: 'The system is confusing for voters, slows counting, risks more ballots being thrown out as "exhausted," and has been rejected or repealed in several states after proving more complex than promised.',
+    category: 'Election Administration',
+    proArgument: 'Ranked-choice voting eliminates the spoiler effect, ensures winners have broader support, reduces negative campaigning, and gives independent and third-party candidates a fair chance without wasting votes.',
+    conArgument: 'The system is confusing for voters, slows counting, risks more ballots being thrown out as "exhausted," and has been rejected or repealed in several states after proving more complex than promised.',
     fiscalImpact: 'One-time implementation costs estimated at $3–5 million for new voting equipment and voter education campaigns statewide.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'nv-prop-2', stateCode: 'NV',
+    id: 'nv-prop-2', stateCode: 'NV',
+    state: 'Nevada',
+    number: 'Question 3',
     title: 'Question 2 — Minimum Wage Constitutional Amendment',
     summary: 'Enshrines a $16 per hour minimum wage in the Nevada Constitution and eliminates the current two-tiered system where employers offering health insurance can pay a lower wage. Removes the legislature\'s ability to lower the minimum wage.',
     category: 'Economy',
-    forArgument: 'Locking the minimum wage in the Constitution protects workers from future rollbacks, eliminates the unfair two-tiered system, and ensures Nevada\'s base wage keeps pace with the cost of living in Las Vegas and Reno.',
-    againstArgument: 'Constitutional entrenchment prevents future legislatures from adjusting wages based on economic conditions, could hurt small businesses and tip workers, and removes flexibility during economic downturns.',
+    proArgument: 'Locking the minimum wage in the Constitution protects workers from future rollbacks, eliminates the unfair two-tiered system, and ensures Nevada\'s base wage keeps pace with the cost of living in Las Vegas and Reno.',
+    conArgument: 'Constitutional entrenchment prevents future legislatures from adjusting wages based on economic conditions, could hurt small businesses and tip workers, and removes flexibility during economic downturns.',
     fiscalImpact: 'Raises wages for approximately 200,000 Nevada workers. Increases state payroll costs by an estimated $40 million annually for public employees.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'nv-prop-3', stateCode: 'NV',
+    id: 'nv-prop-3', stateCode: 'NV',
+    state: 'Nevada',
+    number: 'Question 8',
     title: 'Question 3 — Electric Utility Restructuring',
     summary: 'Opens Nevada\'s electricity market to competition, ending NV Energy\'s regulated monopoly and allowing consumers to choose their electricity provider. Requires the legislature to pass enabling legislation by 2028.',
     category: 'Environment',
-    forArgument: 'Competition lowers electricity prices, encourages clean energy investment, and gives Nevada businesses and homeowners more choices. NV Energy\'s monopoly has kept rates artificially high.',
-    againstArgument: 'Deregulation has failed in states like California, leading to higher prices and grid instability. NV Energy\'s regulated model provides reliable service and predictable rates essential for Nevada\'s desert climate.',
+    proArgument: 'Competition lowers electricity prices, encourages clean energy investment, and gives Nevada businesses and homeowners more choices. NV Energy\'s monopoly has kept rates artificially high.',
+    conArgument: 'Deregulation has failed in states like California, leading to higher prices and grid instability. NV Energy\'s regulated model provides reliable service and predictable rates essential for Nevada\'s desert climate.',
     fiscalImpact: 'Difficult to quantify. Could reduce or increase electricity costs for consumers depending on competitive market outcomes. Requires significant investment in grid infrastructure for transition.',
-    status: 'On Ballot' as const,
   }
 )
 
 RACES_BY_STATE['NV'] = [
-  { raceId: 'nv-gov', raceLabel: 'Governor', stateCode: 'NV', office: 'Governor', candidates: [
-    { candidateId: 'nv-gov-1', name: 'Joe Lombardo', lastName: 'Lombardo', party: 'Republican' as const, count: 0, percent: 0 },
-    { candidateId: 'nv-gov-2', name: 'Steven Horsford', lastName: 'Horsford', party: 'Democrat' as const, count: 0, percent: 0 },
-  ]},
-  { raceId: 'nv-sen', raceLabel: 'U.S. Senate', stateCode: 'NV', office: 'Senate', candidates: [
-    { candidateId: 'nv-sen-1', name: 'Jacky Rosen', lastName: 'Rosen', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'nv-sen-2', name: 'Sam Brown', lastName: 'Brown', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
+  { id: 'nv-gov', label: 'Governor', stateCode: 'NV', office: 'Governor' },
+  { id: 'nv-sen', label: 'U.S. Senate', stateCode: 'NV', office: 'U.S. Senate' },
 ]
 
 RACE_RESULTS.push(
@@ -1992,7 +1979,7 @@ RACE_RESULTS.push(
 
 CANDIDATES.push(
   {
-    candidateId: 'nc-gov-1', name: 'Josh Stein', lastName: 'Stein', party: 'Democrat' as const,
+    id: 'nc-gov-1', name: 'Josh Stein', party: 'Democrat' as const,
     office: 'Governor', state: 'North Carolina', stateCode: 'NC',
     bio: 'Josh Stein is the incumbent Governor of North Carolina, elected in 2024, succeeding term-limited Roy Cooper. A former state Attorney General known for leading major consumer protection and opioid lawsuits, Stein has focused on hurricane recovery from Helene, education investment, and healthcare access. He is seeking his first full term in 2028, but is a key figure in 2026 down-ballot races.',
     keyIssues: ['Hurricane Helene recovery & infrastructure', 'Education funding', 'Healthcare access & Medicaid expansion', 'Economic development', 'Consumer & voter protections'],
@@ -2000,7 +1987,7 @@ CANDIDATES.push(
     website: 'https://joshstein.com', twitter: '@JoshSteinNC', instagram: '@joshsteinNC', imageUrl: '',
   },
   {
-    candidateId: 'nc-sen-1', name: 'Thom Tillis', lastName: 'Tillis', party: 'Republican' as const,
+    id: 'nc-sen-1', name: 'Thom Tillis', party: 'Republican' as const,
     office: 'U.S. Senate', state: 'North Carolina', stateCode: 'NC',
     bio: 'Thom Tillis is the incumbent U.S. Senator from North Carolina, first elected in 2014 and re-elected in 2020. A former state House Speaker, Tillis has focused on military affairs, cybersecurity, and immigration reform. He is up for re-election in 2026 and faces both a primary challenge and a potentially competitive general election.',
     keyIssues: ['Military & veterans\' support (Fort Liberty)', 'Cybersecurity & tech policy', 'Immigration reform', 'Fiscal conservatism', 'Economic development & jobs'],
@@ -2008,7 +1995,7 @@ CANDIDATES.push(
     website: 'https://tillis.senate.gov', twitter: '@SenThomTillis', instagram: '@sentillis', imageUrl: '',
   },
   {
-    candidateId: 'nc-sen-2', name: 'Jeff Jackson', lastName: 'Jackson', party: 'Democrat' as const,
+    id: 'nc-sen-2', name: 'Jeff Jackson', party: 'Democrat' as const,
     office: 'U.S. Senate', state: 'North Carolina', stateCode: 'NC',
     bio: 'Jeff Jackson is a former U.S. Representative and Army National Guard JAG officer who became nationally known for his direct, unscripted TikTok videos about Congress. He lost the 2024 Attorney General race narrowly to Dan Bishop and has announced a 2026 Senate challenge to Thom Tillis, focusing on affordability, veterans\' issues, and institutional reform.',
     keyIssues: ['Economic affordability & housing costs', 'Veterans\' issues', 'Institutional reform & anti-corruption', 'Healthcare access', 'Public safety'],
@@ -2019,32 +2006,31 @@ CANDIDATES.push(
 
 PROPOSITIONS.push(
   {
-    propId: 'nc-prop-1', stateCode: 'NC',
+    id: 'nc-prop-1', stateCode: 'NC',
+    state: 'North Carolina',
+    number: 'Amendment 1',
     title: 'Constitutional Amendment — Voter ID Strengthening',
     summary: 'Strengthens North Carolina\'s existing voter ID requirement by specifying acceptable forms of photo identification and limiting judicial authority to issue broad injunctions blocking the law. Follows years of legal challenges to the state\'s voter ID law.',
-    category: 'Voting & Elections',
-    forArgument: 'Clarifies and strengthens an existing voter ID requirement that has already been upheld by courts, ensures election integrity, and limits judicial overreach that has blocked the will of voters who passed the original amendment.',
-    againstArgument: 'The measure targets minority voters who are disproportionately less likely to have qualifying ID, restricts judicial review of discriminatory laws, and solves a voter fraud problem that does not exist at meaningful scale.',
+    category: 'Election Administration',
+    proArgument: 'Clarifies and strengthens an existing voter ID requirement that has already been upheld by courts, ensures election integrity, and limits judicial overreach that has blocked the will of voters who passed the original amendment.',
+    conArgument: 'The measure targets minority voters who are disproportionately less likely to have qualifying ID, restricts judicial review of discriminatory laws, and solves a voter fraud problem that does not exist at meaningful scale.',
     fiscalImpact: 'Minimal incremental costs — existing ID infrastructure is already funded. Some costs for expanded free ID distribution to voters without qualifying documents.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'nc-prop-2', stateCode: 'NC',
+    id: 'nc-prop-2', stateCode: 'NC',
+    state: 'North Carolina',
+    number: 'Bond Referendum',
     title: 'Amendment — Hurricane Helene Recovery Bond',
     summary: 'Authorizes $2.5 billion in general obligation bonds for western North Carolina infrastructure recovery following Hurricane Helene, funding road reconstruction, bridge replacement, broadband expansion, and community rebuilding in the most severely impacted counties.',
     category: 'Environment',
-    forArgument: 'Helene caused catastrophic, multi-generational damage to western NC communities. Federal aid alone is insufficient. This bond provides the capital needed to rebuild roads, bridges, and economies in a region that cannot wait.',
-    againstArgument: 'Adds $2.5 billion to state debt when NC already has strong reserves. The legislature should use existing surplus funds rather than borrowing, and federal FEMA reimbursements should be awaited before issuing bonds.',
+    proArgument: 'Helene caused catastrophic, multi-generational damage to western NC communities. Federal aid alone is insufficient. This bond provides the capital needed to rebuild roads, bridges, and economies in a region that cannot wait.',
+    conArgument: 'Adds $2.5 billion to state debt when NC already has strong reserves. The legislature should use existing surplus funds rather than borrowing, and federal FEMA reimbursements should be awaited before issuing bonds.',
     fiscalImpact: 'Net cost estimated at $3.5 billion over 20 years including interest. Repaid through general fund revenues and expected federal reimbursements of 50–75% of eligible costs.',
-    status: 'On Ballot' as const,
   }
 )
 
 RACES_BY_STATE['NC'] = [
-  { raceId: 'nc-sen', raceLabel: 'U.S. Senate', stateCode: 'NC', office: 'Senate', candidates: [
-    { candidateId: 'nc-sen-1', name: 'Thom Tillis', lastName: 'Tillis', party: 'Republican' as const, count: 0, percent: 0 },
-    { candidateId: 'nc-sen-2', name: 'Jeff Jackson', lastName: 'Jackson', party: 'Democrat' as const, count: 0, percent: 0 },
-  ]},
+  { id: 'nc-sen', label: 'U.S. Senate', stateCode: 'NC', office: 'U.S. Senate' },
 ]
 
 RACE_RESULTS.push(
@@ -2093,7 +2079,7 @@ RACE_RESULTS.push(
 
 CANDIDATES.push(
   {
-    candidateId: 'pa-gov-1', name: 'Josh Shapiro', lastName: 'Shapiro', party: 'Democrat' as const,
+    id: 'pa-gov-1', name: 'Josh Shapiro', party: 'Democrat' as const,
     office: 'Governor', state: 'Pennsylvania', stateCode: 'PA',
     bio: 'Josh Shapiro is the incumbent Governor of Pennsylvania, elected in 2022 by 14 points. A former state Attorney General, Shapiro has governed as a pragmatic centrist, winning plaudits for emergency infrastructure repair and bipartisan dealmaking. He is running for re-election in 2026 and is considered one of the most popular governors in the country.',
     keyIssues: ['Infrastructure & transportation', 'Economic development & job creation', 'Education funding equity', 'Public safety', 'Energy transition & natural gas policy'],
@@ -2101,7 +2087,7 @@ CANDIDATES.push(
     website: 'https://joshshapiro.org', twitter: '@JoshShapiroPA', instagram: '@joshshapiropa', imageUrl: '',
   },
   {
-    candidateId: 'pa-gov-2', name: 'Dave McCormick', lastName: 'McCormick', party: 'Republican' as const,
+    id: 'pa-gov-2', name: 'Dave McCormick', party: 'Republican' as const,
     office: 'Governor', state: 'Pennsylvania', stateCode: 'PA',
     bio: 'Dave McCormick is a former hedge fund CEO and U.S. Senate candidate who narrowly lost the 2022 Republican primary to Dr. Oz. He won the 2024 Senate race against Bob Casey and has signaled interest in the 2026 Governor\'s race if he does not run for re-election. A West Point graduate and former Treasury official, McCormick focuses on economic growth and China competitiveness.',
     keyIssues: ['Economic growth & competitiveness', 'China & national security', 'Energy development', 'Reducing regulation', 'Fiscal conservatism'],
@@ -2109,7 +2095,7 @@ CANDIDATES.push(
     website: 'https://davemccormick.com', twitter: '@DaveMcCormickPA', instagram: '@davemccormickpa', imageUrl: '',
   },
   {
-    candidateId: 'pa-sen-1', name: 'Dave McCormick', lastName: 'McCormick', party: 'Republican' as const,
+    id: 'pa-sen-1', name: 'Dave McCormick', party: 'Republican' as const,
     office: 'U.S. Senate', state: 'Pennsylvania', stateCode: 'PA',
     bio: 'Dave McCormick is the incumbent U.S. Senator from Pennsylvania, elected in 2024 defeating incumbent Bob Casey. A former hedge fund CEO and West Point graduate, McCormick focuses on economic competitiveness, energy development, and countering China. His 2026 re-election timeline depends on whether he pursues the Governor\'s race instead.',
     keyIssues: ['Economic competitiveness vs. China', 'Energy development & natural gas', 'Fiscal conservatism', 'National security', 'Veterans\' support'],
@@ -2117,7 +2103,7 @@ CANDIDATES.push(
     website: 'https://davemccormick.com', twitter: '@DaveMcCormickPA', instagram: '@davemccormickpa', imageUrl: '',
   },
   {
-    candidateId: 'pa-sen-2', name: 'John Fetterman', lastName: 'Fetterman', party: 'Democrat' as const,
+    id: 'pa-sen-2', name: 'John Fetterman', party: 'Democrat' as const,
     office: 'U.S. Senate', state: 'Pennsylvania', stateCode: 'PA',
     bio: 'John Fetterman is the incumbent U.S. Senator from Pennsylvania, elected in 2022 after serving as Lieutenant Governor. Known for his unconventional style and working-class appeal, Fetterman has surprised many by staking out centrist and hawkish positions on Israel and border security. He is not up for re-election until 2028 but remains a major figure in Pennsylvania politics.',
     keyIssues: ['Working-class economic issues', 'Border security (centrist position)', 'Steel & manufacturing jobs', 'Criminal justice reform', 'Mental health advocacy'],
@@ -2128,42 +2114,42 @@ CANDIDATES.push(
 
 PROPOSITIONS.push(
   {
-    propId: 'pa-prop-1', stateCode: 'PA',
+    id: 'pa-prop-1', stateCode: 'PA',
+    state: 'Pennsylvania',
+    number: 'Amendment 1',
     title: 'Constitutional Amendment — Election Audits',
     summary: 'Requires annual post-election audits of all elections using risk-limiting audit methodology and mandates public disclosure of all audit results within 45 days of any election.',
-    category: 'Voting & Elections',
-    forArgument: 'Strengthens public confidence in election results, uses gold-standard risk-limiting audit methodology endorsed by election security experts, and ensures transparency that benefits voters of all parties.',
-    againstArgument: 'Pennsylvania already conducts post-election audits; this amendment adds costly bureaucratic mandates without evidence of existing problems and could be used to cast doubt on legitimate results.',
+    category: 'Election Administration',
+    proArgument: 'Strengthens public confidence in election results, uses gold-standard risk-limiting audit methodology endorsed by election security experts, and ensures transparency that benefits voters of all parties.',
+    conArgument: 'Pennsylvania already conducts post-election audits; this amendment adds costly bureaucratic mandates without evidence of existing problems and could be used to cast doubt on legitimate results.',
     fiscalImpact: 'Estimated $8–12 million annually in additional county-level audit costs, partially offset by federal HAVA election security grants.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'pa-prop-2', stateCode: 'PA',
+    id: 'pa-prop-2', stateCode: 'PA',
+    state: 'Pennsylvania',
+    number: 'Amendment 2',
     title: 'Referendum — Minimum Wage Increase to $15',
     summary: 'Raises Pennsylvania\'s minimum wage from the federal floor of $7.25 — the lowest in any state that follows the federal minimum — to $15 per hour by 2027, with annual indexing to inflation thereafter.',
     category: 'Economy',
-    forArgument: 'Pennsylvania is the only large state still at the $7.25 federal minimum. A $15 minimum wage would raise pay for 1.5 million workers, reduce reliance on public benefits, and boost local consumer spending.',
-    againstArgument: 'A $15 minimum wage would double labor costs overnight for rural Pennsylvania businesses, lead to job losses and automation, and impose urban wage standards on small towns where $15 is far above market rates.',
+    proArgument: 'Pennsylvania is the only large state still at the $7.25 federal minimum. A $15 minimum wage would raise pay for 1.5 million workers, reduce reliance on public benefits, and boost local consumer spending.',
+    conArgument: 'A $15 minimum wage would double labor costs overnight for rural Pennsylvania businesses, lead to job losses and automation, and impose urban wage standards on small towns where $15 is far above market rates.',
     fiscalImpact: 'Raises wages for approximately 1.5 million Pennsylvania workers. State government would face $280 million in increased payroll costs for employees at or near the minimum.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'pa-prop-3', stateCode: 'PA',
+    id: 'pa-prop-3', stateCode: 'PA',
+    state: 'Pennsylvania',
+    number: 'Amendment 3',
     title: 'Amendment — Medical Marijuana Expansion',
     summary: 'Expands Pennsylvania\'s existing medical marijuana program by adding additional qualifying conditions, allowing home cultivation of up to 6 plants for registered patients, and establishing a pathway to adult-use recreational cannabis by 2028.',
     category: 'Healthcare',
-    forArgument: 'Pennsylvania is surrounded by states with legal recreational cannabis, losing tax revenue and driving residents across state lines. Expansion relieves patients of costly dispensary dependence and creates a new tax revenue stream.',
-    againstArgument: 'Home cultivation is impossible to regulate or tax, accelerates normalization of drug use among youth, and the medical program should remain medical — recreational cannabis should be a separate legislative decision.',
+    proArgument: 'Pennsylvania is surrounded by states with legal recreational cannabis, losing tax revenue and driving residents across state lines. Expansion relieves patients of costly dispensary dependence and creates a new tax revenue stream.',
+    conArgument: 'Home cultivation is impossible to regulate or tax, accelerates normalization of drug use among youth, and the medical program should remain medical — recreational cannabis should be a separate legislative decision.',
     fiscalImpact: 'Medical expansion is revenue-neutral. Recreational cannabis pathway could generate $300–500 million annually in new tax revenue if fully implemented by 2028.',
-    status: 'On Ballot' as const,
   }
 )
 
 RACES_BY_STATE['PA'] = [
-  { raceId: 'pa-gov', raceLabel: 'Governor', stateCode: 'PA', office: 'Governor', candidates: [
-    { candidateId: 'pa-gov-1', name: 'Josh Shapiro', lastName: 'Shapiro', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'pa-gov-2', name: 'Dave McCormick', lastName: 'McCormick', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
+  { id: 'pa-gov', label: 'Governor', stateCode: 'PA', office: 'Governor' },
 ]
 
 RACE_RESULTS.push(
@@ -2212,7 +2198,7 @@ RACE_RESULTS.push(
 
 CANDIDATES.push(
   {
-    candidateId: 'wi-gov-1', name: 'Tony Evers', lastName: 'Evers', party: 'Democrat' as const,
+    id: 'wi-gov-1', name: 'Tony Evers', party: 'Democrat' as const,
     office: 'Governor', state: 'Wisconsin', stateCode: 'WI',
     bio: 'Tony Evers is the incumbent Governor of Wisconsin, first elected in 2018 and re-elected in 2022. A former state Superintendent of Public Instruction, Evers has vetoed hundreds of Republican bills from a gerrymandered legislature, protecting Medicaid expansion, abortion access, and education funding. He is running for a third term in 2026.',
     keyIssues: ['Education funding & public schools', 'Reproductive rights & abortion', 'Expanding Medicaid & healthcare access', 'Protecting voting rights', 'Economic development'],
@@ -2220,7 +2206,7 @@ CANDIDATES.push(
     website: 'https://tonyevers.com', twitter: '@GovEvers', instagram: '@tonyeversWI', imageUrl: '',
   },
   {
-    candidateId: 'wi-gov-2', name: 'Scott Walker', lastName: 'Walker', party: 'Republican' as const,
+    id: 'wi-gov-2', name: 'Scott Walker', party: 'Republican' as const,
     office: 'Governor', state: 'Wisconsin', stateCode: 'WI',
     bio: 'Scott Walker is the former Governor of Wisconsin who served three terms from 2011 to 2019, best known for Act 10, which severely curtailed public employee union bargaining rights. Walker has signaled potential interest in a political comeback in 2026 to reclaim the governorship from Tony Evers, running on fiscal conservatism and reversing Evers\' education and healthcare policies.',
     keyIssues: ['Fiscal conservatism & tax cuts', 'Reversing Act 10 rollbacks', 'Education reform & school choice', 'Reducing government spending', 'Business-friendly policies'],
@@ -2228,7 +2214,7 @@ CANDIDATES.push(
     website: 'https://scottwalker.com', twitter: '@ScottWalker', instagram: '@scottwalker', imageUrl: '',
   },
   {
-    candidateId: 'wi-sen-1', name: 'Tammy Baldwin', lastName: 'Baldwin', party: 'Democrat' as const,
+    id: 'wi-sen-1', name: 'Tammy Baldwin', party: 'Democrat' as const,
     office: 'U.S. Senate', state: 'Wisconsin', stateCode: 'WI',
     bio: 'Tammy Baldwin is the incumbent U.S. Senator from Wisconsin, first elected in 2012 and re-elected in 2018 and 2024. The first openly gay person elected to the Senate, Baldwin has focused on manufacturing jobs, prescription drug costs, and veterans\' healthcare. She is not up until 2030.',
     keyIssues: ['Manufacturing jobs & trade policy', 'Prescription drug pricing', 'Veterans\' healthcare', 'LGBTQ+ equality', 'Campaign finance reform'],
@@ -2236,7 +2222,7 @@ CANDIDATES.push(
     website: 'https://baldwin.senate.gov', twitter: '@SenatorBaldwin', instagram: '@senatorbaldwin', imageUrl: '',
   },
   {
-    candidateId: 'wi-sen-2', name: 'Eric Hovde', lastName: 'Hovde', party: 'Republican' as const,
+    id: 'wi-sen-2', name: 'Eric Hovde', party: 'Republican' as const,
     office: 'U.S. Senate', state: 'Wisconsin', stateCode: 'WI',
     bio: 'Eric Hovde is a Wisconsin banker and businessman who narrowly lost the 2024 Senate race to Tammy Baldwin. He has signaled interest in running again for Wisconsin\'s other Senate seat in 2026, focusing on border security, fiscal conservatism, and reducing federal spending.',
     keyIssues: ['Border security & immigration', 'Fiscal conservatism & debt reduction', 'Reducing federal regulation', 'Second Amendment rights', 'Energy independence'],
@@ -2247,42 +2233,42 @@ CANDIDATES.push(
 
 PROPOSITIONS.push(
   {
-    propId: 'wi-prop-1', stateCode: 'WI',
+    id: 'wi-prop-1', stateCode: 'WI',
+    state: 'Wisconsin',
+    number: 'Referendum 1',
     title: 'Referendum — Abortion Rights Constitutional Amendment',
     summary: 'Enshrines the right to abortion up to 22 weeks of pregnancy in the Wisconsin Constitution, effectively rendering Wisconsin\'s 1849 near-total abortion ban unenforceable. Requires a simple majority of voters to pass.',
     category: 'Healthcare',
-    forArgument: 'Wisconsin\'s 173-year-old criminal abortion ban, briefly enforced after Dobbs, has created a medical crisis. Voters deserve a direct say on whether Wisconsin becomes a state that prosecutes doctors for performing abortions.',
-    againstArgument: 'Abortion ends a human life and should not be treated as a constitutional right. The legislature, not voters via referendum, should set abortion policy through a deliberative democratic process.',
+    proArgument: 'Wisconsin\'s 173-year-old criminal abortion ban, briefly enforced after Dobbs, has created a medical crisis. Voters deserve a direct say on whether Wisconsin becomes a state that prosecutes doctors for performing abortions.',
+    conArgument: 'Abortion ends a human life and should not be treated as a constitutional right. The legislature, not voters via referendum, should set abortion policy through a deliberative democratic process.',
     fiscalImpact: 'No direct fiscal impact. Would end ongoing litigation costs related to the 1849 ban. Could increase Medicaid abortion coverage costs if associated provisions are enacted.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'wi-prop-2', stateCode: 'WI',
+    id: 'wi-prop-2', stateCode: 'WI',
+    state: 'Wisconsin',
+    number: 'Referendum 2',
     title: 'Advisory Referendum — Gerrymandering Reform',
     summary: 'A non-binding advisory referendum asking Wisconsin voters whether they support replacing the current partisan legislative map-drawing process with an independent nonpartisan redistricting commission.',
-    category: 'Voting & Elections',
-    forArgument: 'Wisconsin has among the most extreme partisan gerrymanders in the country. An independent commission, as used in Michigan and Arizona, produces fairer maps that better reflect the will of voters.',
-    againstArgument: 'Advisory referenda are non-binding and waste money without changing law. The redistricting process already follows constitutional guidelines and the legislature should not cede its authority to unelected commissioners.',
+    category: 'Election Administration',
+    proArgument: 'Wisconsin has among the most extreme partisan gerrymanders in the country. An independent commission, as used in Michigan and Arizona, produces fairer maps that better reflect the will of voters.',
+    conArgument: 'Advisory referenda are non-binding and waste money without changing law. The redistricting process already follows constitutional guidelines and the legislature should not cede its authority to unelected commissioners.',
     fiscalImpact: 'Advisory referenda cost approximately $2 million to administer. Non-binding — no direct policy or fiscal impact.',
-    status: 'On Ballot' as const,
   },
   {
-    propId: 'wi-prop-3', stateCode: 'WI',
+    id: 'wi-prop-3', stateCode: 'WI',
+    state: 'Wisconsin',
+    number: 'Referendum 3',
     title: 'Referendum — Property Tax Relief for Seniors',
     summary: 'Freezes property tax assessments for Wisconsin homeowners age 65 and older who have lived in their home for at least 10 years and whose income falls below 150% of the state median, providing permanent property tax relief for senior residents.',
     category: 'Economy',
-    forArgument: 'Fixed-income seniors in Wisconsin are being taxed out of their homes as property values surge. This targeted relief allows older Wisconsinites to remain in communities they have lived in for decades.',
-    againstArgument: 'The program shifts the property tax burden to younger homeowners and renters, reduces funding for local schools and services, and the income threshold is too high — covering affluent seniors who don\'t need relief.',
+    proArgument: 'Fixed-income seniors in Wisconsin are being taxed out of their homes as property values surge. This targeted relief allows older Wisconsinites to remain in communities they have lived in for decades.',
+    conArgument: 'The program shifts the property tax burden to younger homeowners and renters, reduces funding for local schools and services, and the income threshold is too high — covering affluent seniors who don\'t need relief.',
     fiscalImpact: 'Reduces local property tax revenue by an estimated $380 million annually, requiring compensating increases for other property owners or cuts to local services.',
-    status: 'On Ballot' as const,
   }
 )
 
 RACES_BY_STATE['WI'] = [
-  { raceId: 'wi-gov', raceLabel: 'Governor', stateCode: 'WI', office: 'Governor', candidates: [
-    { candidateId: 'wi-gov-1', name: 'Tony Evers', lastName: 'Evers', party: 'Democrat' as const, count: 0, percent: 0 },
-    { candidateId: 'wi-gov-2', name: 'Scott Walker', lastName: 'Walker', party: 'Republican' as const, count: 0, percent: 0 },
-  ]},
+  { id: 'wi-gov', label: 'Governor', stateCode: 'WI', office: 'Governor' },
 ]
 
 RACE_RESULTS.push(
