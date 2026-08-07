@@ -369,7 +369,7 @@ function ResultsInner() {
       <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}
-        <header className="bg-background px-5 pt-6 pb-4">
+        <header className="bg-background px-5 pt-6 pb-4 flex flex-col items-center text-center">
           <h1 className="text-[22px] font-black text-foreground mb-0.5">Live Results</h1>
           <div className="inline-flex items-center gap-1.5 bg-muted/60 border border-border rounded-full px-3 py-1.5 mt-1">
             <span className="text-foreground text-xs font-semibold">{stateName}</span>
