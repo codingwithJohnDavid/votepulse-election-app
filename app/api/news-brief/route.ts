@@ -3,7 +3,7 @@ import { streamText } from 'ai'
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-// Ensure the AI Gateway picks up the API key from the project env var
+// Bridge project API_KEY into the name the Vercel AI Gateway expects
 process.env.AI_GATEWAY_API_KEY = process.env.AI_GATEWAY_API_KEY ?? process.env.API_KEY
 
 const STATE_CONTEXT: Record<string, string> = {
