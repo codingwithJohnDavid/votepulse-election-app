@@ -1,240 +1,53 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Flame, ChevronLeft, Sparkles, Loader2, ShieldCheck, ShieldAlert, MessageSquareWarning, Clock } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Flame } from 'lucide-react'
 import PageShell from '@/components/page-shell'
 import FloatingHomeButton from '@/components/floating-home-button'
-import { useActiveState } from '@/lib/state-context'
-
-const TOPICS = [
-  {
-    key: 'fact_check',
-    label: 'Fact Check & Context',
-    sub: 'What is actually true?',
-    Icon: ShieldCheck,
-    iconBg: 'oklch(0.93 0.06 160)',
-    iconColor: 'oklch(0.40 0.16 160)',
-    border: 'rgba(20, 160, 110, 0.40)',
-    glow: 'rgba(20, 160, 110, 0.15)',
-  },
-  {
-    key: 'accusations',
-    label: 'Accusations',
-    sub: 'Allegations, lawsuits & investigations',
-    Icon: ShieldAlert,
-    iconBg: 'oklch(0.93 0.05 290)',
-    iconColor: 'oklch(0.44 0.16 290)',
-    border: 'rgba(150, 50, 200, 0.40)',
-    glow: 'rgba(150, 50, 200, 0.15)',
-  },
-  {
-    key: 'public_criticism',
-    label: 'Public Criticism',
-    sub: 'Who is under fire and why',
-    Icon: MessageSquareWarning,
-    iconBg: 'oklch(0.93 0.06 25)',
-    iconColor: 'oklch(0.46 0.20 25)',
-    border: 'rgba(230, 50, 40, 0.40)',
-    glow: 'rgba(230, 50, 40, 0.15)',
-  },
-  {
-    key: 'past_actions',
-    label: 'Past Actions',
-    sub: 'Their record vs. what they claim',
-    Icon: Clock,
-    iconBg: 'oklch(0.93 0.05 50)',
-    iconColor: 'oklch(0.44 0.16 50)',
-    border: 'rgba(200, 130, 20, 0.40)',
-    glow: 'rgba(200, 130, 20, 0.15)',
-  },
-]
 
 export default function ControversiesPage() {
-  const { activeState } = useActiveState()
-  const [activeTopic, setActiveTopic] = useState<typeof TOPICS[0] | null>(null)
-  const [briefing, setBriefing] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  async function fetchBriefing(topic: typeof TOPICS[0]) {
-    setActiveTopic(topic)
-    setBriefing('')
-    setLoading(true)
-
-    try {
-      const res = await fetch('/api/controversy-brief', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ stateCode: activeState.code, topicKey: topic.key }),
-      })
-
-      if (!res.ok || !res.body) throw new Error('Failed')
-
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-      let text = ''
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        text += decoder.decode(value, { stream: true })
-        setBriefing(text)
-      }
-    } catch {
-      setBriefing('Unable to load briefing right now. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <PageShell>
-      <div className="flex flex-col min-h-svh" style={{ background: '#ffffff' }}>
-        <AnimatePresence mode="wait">
-          {!activeTopic ? (
+      <div className="flex flex-col min-h-svh items-center justify-center px-8 text-center" style={{ background: '#ffffff' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-col items-center gap-5"
+        >
+          {/* Icon */}
+          <div
+            className="w-20 h-20 rounded-3xl flex items-center justify-center"
+            style={{
+              background: '#ffffff',
+              border: '1.5px solid rgba(230, 50, 40, 0.35)',
+              boxShadow: '0 4px 24px rgba(230, 50, 40, 0.14), 0 1px 4px rgba(0,0,0,0.04)',
+            }}
+          >
+            <Flame size={36} style={{ color: 'oklch(0.46 0.20 25)' }} aria-hidden="true" />
+          </div>
 
-            // ── Topic Grid ──────────────────────────────────────────────────
-            <motion.div
-              key="grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <header className="px-5 pt-14 pb-4 flex flex-col items-center text-center">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center mb-3"
-                  style={{ backgroundColor: 'oklch(0.93 0.06 25)' }}
-                >
-                  <Flame size={22} style={{ color: 'oklch(0.46 0.20 25)' }} aria-hidden="true" />
-                </div>
-                <h1 className="text-[28px] font-black text-foreground leading-tight">Controversies</h1>
-                <p className="text-[14px] text-muted-foreground mt-0.5">
-                  AI briefings for {activeState.name}
-                </p>
-              </header>
+          {/* Text */}
+          <div>
+            <h1 className="text-[26px] font-black text-foreground leading-tight mb-2">Coming Soon</h1>
+            <p className="text-[15px] font-bold text-foreground mb-1">AI Controversy Radar</p>
+            <p className="text-[13px] text-muted-foreground leading-relaxed max-w-[280px]">
+              We&apos;re fine-tuning this feature to ensure accurate, balanced, and up-to-date coverage for every state. Check back soon.
+            </p>
+          </div>
 
-              <main className="px-4 pb-28">
-                <div className="grid grid-cols-2 gap-3">
-                  {TOPICS.map((topic, i) => {
-                    const { Icon } = topic
-                    const isOddLast = TOPICS.length % 2 !== 0 && i === TOPICS.length - 1
-                    return (
-                      <motion.button
-                        key={topic.key}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.22, delay: i * 0.05 }}
-                        onClick={() => fetchBriefing(topic)}
-                        className={`flex flex-col items-center justify-center gap-3 p-4 rounded-3xl transition-all active:scale-[0.97] min-h-[150px] text-left ${isOddLast ? 'col-span-2 flex-row min-h-[72px]' : ''}`}
-                        style={{
-                          background: '#ffffff',
-                          border: `1.5px solid ${topic.border}`,
-                          boxShadow: `0 4px 16px ${topic.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
-                        }}
-                      >
-                        <div
-                          className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                          style={{ backgroundColor: topic.iconBg }}
-                        >
-                          <Icon size={22} style={{ color: topic.iconColor }} aria-hidden="true" />
-                        </div>
-                        <div className={`flex flex-col ${isOddLast ? 'items-start flex-1' : 'items-center text-center'}`}>
-                          <p className="font-bold text-[13px] text-foreground leading-tight">{topic.label}</p>
-                          <p className="text-[11px] text-muted-foreground mt-0.5">{topic.sub}</p>
-                        </div>
-                      </motion.button>
-                    )
-                  })}
-                </div>
-              </main>
-            </motion.div>
-
-          ) : (
-
-            // ── Briefing View ────────────────────────────────────────────────
-            <motion.div
-              key="briefing"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.22 }}
-              className="flex flex-col min-h-svh"
-            >
-              <header className="px-4 pt-14 pb-4 flex items-center gap-3">
-                <button
-                  onClick={() => { setActiveTopic(null); setBriefing('') }}
-                  className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: 'rgba(0,0,0,0.05)' }}
-                  aria-label="Back to topics"
-                >
-                  <ChevronLeft size={20} className="text-foreground" />
-                </button>
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: activeTopic.iconBg }}
-                  >
-                    <activeTopic.Icon size={18} style={{ color: activeTopic.iconColor }} aria-hidden="true" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-bold text-[15px] text-foreground leading-tight truncate">{activeTopic.label}</p>
-                    <p className="text-[11px] text-muted-foreground">{activeState.name}</p>
-                  </div>
-                </div>
-              </header>
-
-              <main className="flex-1 px-5 pb-28">
-                {loading && !briefing ? (
-                  <div className="flex flex-col items-center justify-center py-20 gap-4">
-                    <div
-                      className="w-14 h-14 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: activeTopic.iconBg }}
-                    >
-                      <Sparkles size={24} style={{ color: activeTopic.iconColor }} />
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                      <Loader2 size={14} className="animate-spin" />
-                      <span>Generating briefing...</span>
-                    </div>
-                  </div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex flex-col gap-4"
-                  >
-                    <div
-                      className="p-4 rounded-3xl"
-                      style={{
-                        background: '#ffffff',
-                        border: `1.5px solid ${activeTopic.border}`,
-                        boxShadow: `0 4px 20px ${activeTopic.glow}`,
-                      }}
-                    >
-                      <p className="text-[14px] text-foreground leading-relaxed whitespace-pre-wrap">
-                        {briefing}
-                        {loading && (
-                          <span className="inline-block w-1.5 h-4 bg-foreground/40 ml-0.5 animate-pulse rounded-sm" />
-                        )}
-                      </p>
-                    </div>
-
-                    {!loading && briefing && (
-                      <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-[11px] text-muted-foreground text-center px-4"
-                      >
-                        AI-generated briefing based on political knowledge up to training cutoff. Always verify with current sources.
-                      </motion.p>
-                    )}
-                  </motion.div>
-                )}
-              </main>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          {/* Status pill */}
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+            style={{
+              background: 'rgba(230, 50, 40, 0.07)',
+              border: '1px solid rgba(230, 50, 40, 0.20)',
+            }}
+          >
+            <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+            <span className="text-[12px] font-semibold text-foreground">In development</span>
+          </div>
+        </motion.div>
 
         <FloatingHomeButton />
       </div>

@@ -144,7 +144,7 @@ Today's date is ${todayStr}. The 180-day cutoff date is ${cutoffStr}.
 Your rules:
 - HARD TIME CONSTRAINT: You may ONLY reference events, accusations, lawsuits, investigations, ethics complaints, and developments that occurred ON OR AFTER ${cutoffStr}. Any item that predates ${cutoffStr} must be completely excluded — do not mention it, allude to it, or reference it as background context. If all you know about a topic is older than ${cutoffStr}, say "No significant developments in this area since ${cutoffStr}" rather than surfacing outdated information.
 - Be specific. Use real names, real offices, real legislation, and real dates. Vague generalities waste voters' time.
-- Be genuinely balanced. Hold Democrats and Republicans accountable with identical rigor. No partisan framing.
+- STRICT BALANCE REQUIREMENT: You must cover both Democratic and Republican candidates, officials, and parties with identical scrutiny. If you cover one party's candidate, you must cover the opposing party's candidate with equal depth. Do not let any single individual dominate the briefing. If a briefing covers only one party's issues, it is wrong and must be rewritten. No candidate or official should appear more than once per briefing unless the opposing candidate receives equivalent coverage.
 - Be honest about uncertainty. If evidence is incomplete or disputed, say so explicitly — do not pretend certainty where none exists.
 - Be concise but complete. 5 to 7 short paragraphs. Every sentence must serve the voter.
 - Write in clear, direct prose. No markdown headers, no bullet points, no bold text — flowing paragraphs only.
