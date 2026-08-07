@@ -7,7 +7,7 @@ import { Search, X } from 'lucide-react'
 import PageShell from '@/components/page-shell'
 import FloatingHomeButton from '@/components/floating-home-button'
 import { cn } from '@/lib/utils'
-import { US_STATES, RACES_BY_STATE } from '@/lib/mock-data'
+import { US_STATES, RACES_BY_STATE, PROPOSITIONS } from '@/lib/mock-data'
 import { useActiveState } from '@/lib/state-context'
 import { STATE_SHAPES } from '@/lib/state-shapes'
 import { useFloatingAction } from '@/lib/floating-action-context'
@@ -190,6 +190,7 @@ export default function StateSelectionPage() {
   filteredRef.current = filtered
 
   const getRaceCount = (code: string) => RACES_BY_STATE[code]?.length ?? 0
+  const getPropCount = (code: string) => PROPOSITIONS.filter((p) => p.stateCode === code).length
 
   // ── Scroll to index ────────────────────────────────────────────────────────
   const scrollToIndex = useCallback((index: number, animated = true) => {
@@ -436,6 +437,7 @@ export default function StateSelectionPage() {
               code={selected}
               name={US_STATES.find((s) => s.code === selected)?.name ?? ''}
               raceCount={getRaceCount(selected)}
+              propCount={getPropCount(selected)}
             />
           )}
         </div>
@@ -450,8 +452,7 @@ export default function StateSelectionPage() {
 }
 
 // ── Selected state info strip ──────────────────────────────────────────────────
-function SelectedStateInfo({ code, name, raceCount }: { code: string; name: string; raceCount: number }) {
-  const hasRaces = raceCount > 0
+function SelectedStateInfo({ code, name, raceCount, propCount }: { code: string; name: string; raceCount: number; propCount: number }) {
   const lc = getLeanColors(code)
   return (
     <motion.div
@@ -459,21 +460,48 @@ function SelectedStateInfo({ code, name, raceCount }: { code: string; name: stri
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4 flex items-center justify-between"
+      className="mx-6 mt-4 mb-2 rounded-2xl px-5 py-4"
       style={{
         background: '#ffffff',
         border: `1.5px solid ${lc.border}`,
         boxShadow: `0 4px 20px ${lc.glow}, 0 1px 4px rgba(0,0,0,0.04)`,
       }}
     >
-      <div>
+      {/* State name row */}
+      <div className="flex items-center justify-between mb-3">
         <p className="text-foreground font-black text-[17px] leading-tight">{name}</p>
-        <p className="text-muted-foreground text-[12px] font-medium mt-0.5">
-          {hasRaces ? `${raceCount} active race${raceCount !== 1 ? 's' : ''} on your ballot` : 'No active races yet'}
-        </p>
+        <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center shrink-0">
+          <span className="text-foreground text-[11px] font-black">{code}</span>
+        </div>
       </div>
-      <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center shrink-0">
-        <span className="text-foreground text-[11px] font-black">{code}</span>
+
+      {/* Stats row */}
+      <div className="flex gap-3">
+        {/* Active Races */}
+        <div
+          className="flex-1 rounded-xl px-3 py-2.5"
+          style={{ background: lc.bg }}
+        >
+          <p className="text-foreground font-black text-[22px] leading-none tabular-nums">
+            {raceCount}
+          </p>
+          <p className="text-muted-foreground text-[11px] font-semibold mt-0.5 uppercase tracking-wide">
+            Active Race{raceCount !== 1 ? 's' : ''}
+          </p>
+        </div>
+
+        {/* Propositions */}
+        <div
+          className="flex-1 rounded-xl px-3 py-2.5"
+          style={{ background: lc.bg }}
+        >
+          <p className="text-foreground font-black text-[22px] leading-none tabular-nums">
+            {propCount}
+          </p>
+          <p className="text-muted-foreground text-[11px] font-semibold mt-0.5 uppercase tracking-wide">
+            Proposition{propCount !== 1 ? 's' : ''}
+          </p>
+        </div>
       </div>
     </motion.div>
   )
