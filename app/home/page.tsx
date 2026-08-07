@@ -31,7 +31,7 @@ const TILES = [
   },
   {
     href: '/propositions',
-    label: 'AI Proposition Summary',
+    label: 'AI Proposition Brief',
     sub: '3 in your state',
     Icon: FileText,
     iconBg: 'oklch(0.94 0.06 60)',
