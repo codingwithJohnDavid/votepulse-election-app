@@ -1,73 +1,60 @@
-export default function BallotBoxIcon({ size = 120 }: { size?: number }) {
-  // Isometric cube: viewed from slightly above-left
-  // Top face vertices:    TL(32,36) TR(68,36) BR(68,52) BL(32,52) — flat top
-  // Left face:            TL(18,46) TR(32,36) BR(32,80) BL(18,70)
-  // Right face:           TL(32,36) TR(68,36) BR(68,80) BL(32,80) -- front
-  // Star center:          (50, 26) — sits centered on top face
-
+export default function BallotBoxIcon({ size = 120, color = '#6d28d9' }: { size?: number; color?: string }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 100 100"
+      viewBox="0 0 100 120"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
       <defs>
-        <filter id="bbShadow" x="-20%" y="-10%" width="150%" height="150%">
-          <feDropShadow dx="0" dy="6" stdDeviation="6" floodColor="rgba(30,20,80,0.6)" />
+        <filter id="boxShadow" x="-15%" y="-5%" width="140%" height="130%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="rgba(0,0,0,0.25)" />
         </filter>
-        <filter id="bbGlow" x="-150%" y="-150%" width="400%" height="400%">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <filter id="bbStarSharp" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="1.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+        {/* Subtle gradient for box depth */}
+        <linearGradient id="frontFace" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.95" />
+          <stop offset="100%" stopColor={color} stopOpacity="0.75" />
+        </linearGradient>
+        <linearGradient id="topFace" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="1" />
+          <stop offset="100%" stopColor={color} stopOpacity="0.85" />
+        </linearGradient>
+        <linearGradient id="sideFace" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor={color} stopOpacity="0.6" />
+          <stop offset="100%" stopColor={color} stopOpacity="0.45" />
+        </linearGradient>
       </defs>
 
-      <g filter="url(#bbShadow)">
-        {/* Top face — lightest indigo-blue */}
-        <path d="M22 44 L50 30 L78 44 L50 58 Z" fill="#6b7db3" />
+      {/* ── SPARKLE — two 4-point stars, matching reference image ── */}
+      {/* Large 4-point star — centered slightly left */}
+      <path
+        d="M38 4 L40.2 14.8 L51 17 L40.2 19.2 L38 30 L35.8 19.2 L25 17 L35.8 14.8 Z"
+        fill={color}
+      />
+      {/* Small 4-point star — top right of large star */}
+      <path
+        d="M58 2 L59.2 8.8 L66 10 L59.2 11.2 L58 18 L56.8 11.2 L50 10 L56.8 8.8 Z"
+        fill={color}
+      />
 
-        {/* Left face — medium indigo */}
-        <path d="M22 44 L50 58 L50 86 L22 72 Z" fill="#4a5483" />
+      {/* ── 3D BALLOT BOX — front-facing, slight top/side depth ── */}
+      <g filter="url(#boxShadow)">
+        {/* Top face */}
+        <path d="M15 42 L20 36 L80 36 L85 42 Z" fill="url(#topFace)" />
 
-        {/* Right face — darkest for depth */}
-        <path d="M50 58 L78 44 L78 72 L50 86 Z" fill="#343860" />
+        {/* Right side face */}
+        <path d="M85 42 L80 36 L80 96 L85 102 Z" fill="url(#sideFace)" />
 
-        {/* Slot on top face */}
-        <path d="M38 44 L62 38 L62 41 L38 47 Z" fill="#252849" opacity="0.9" />
-      </g>
+        {/* Main front face */}
+        <rect x="15" y="42" width="70" height="60" rx="2" fill="url(#frontFace)" />
 
-      {/* Outer soft blue halo */}
-      <circle cx="50" cy="26" r="14" fill="#818cf8" opacity="0.18" filter="url(#bbGlow)" />
+        {/* Lid separator line */}
+        <rect x="15" y="54" width="70" height="3" fill={color} opacity="0.4" />
 
-      {/* Sharp 4-point sparkle star */}
-      <g filter="url(#bbStarSharp)">
-        {/* Soft mid glow */}
-        <circle cx="50" cy="26" r="6" fill="#c7d2fe" opacity="0.35" />
-        {/* Main star — bright white-blue */}
-        <path
-          d="M50 14 L51.8 24.2 L62 26 L51.8 27.8 L50 38 L48.2 27.8 L38 26 L48.2 24.2 Z"
-          fill="white"
-        />
-        {/* Inner indigo tint matching reference */}
-        <path
-          d="M50 19 L51.1 24.6 L57 26 L51.1 27.4 L50 33 L48.9 27.4 L43 26 L48.9 24.6 Z"
-          fill="#a5b4fc"
-          opacity="0.75"
-        />
-        {/* Bright center */}
-        <circle cx="50" cy="26" r="2" fill="white" />
+        {/* Slot on lid — centered */}
+        <rect x="36" y="44" width="28" height="6" rx="3" fill="rgba(0,0,0,0.35)" />
       </g>
     </svg>
   )
