@@ -4,134 +4,142 @@ export const runtime = 'edge'
 export const maxDuration = 30
 
 const STATE_CONTEXT: Record<string, string> = {
-  CA: `California — Democratic supermajority state, 39 million residents. Governor Gavin Newsom (D). Key fault lines: homelessness crisis in LA and SF, crime and shoplifting surge, high taxes driving business and residents out, water policy, public school decline, immigration, housing crisis, and Newsom's national political ambitions vs. his record at home.`,
+  CA: `California — Democratic supermajority state, 39 million residents. Governor Gavin Newsom (D). Key political figures: AG Rob Bonta, Lt. Gov. Eleni Kounalakis. Current fault lines: homelessness and fentanyl crisis in LA and SF, shoplifting and retail crime surge after Prop 47, high cost of living driving out-migration, water and wildfire policy failures, housing shortage, Newsom's national political ambitions, public school performance decline, and immigration enforcement conflict with federal policy.`,
 
-  FL: `Florida — Republican-dominated state, 22 million residents. Governor Ron DeSantis (R). Key fault lines: DeSantis vs. Disney corporate war, 6-week abortion ban with no rape/incest exceptions, "Don't Say Gay" education law, book banning in schools, soaring homeowners insurance crisis, immigration policy, and DeSantis's failed 2024 presidential run.`,
+  FL: `Florida — Republican-dominated state, 22 million residents. Governor Ron DeSantis (R). Key figures: AG Ashley Moody, CFO Jimmy Patronis. Current fault lines: DeSantis's post-presidential-run political standing, 6-week abortion ban enforcement, education culture war legislation, skyrocketing homeowners insurance market collapse, immigration enforcement operations, property insurance fraud, and the 2026 governor's race taking shape.`,
 
-  TX: `Texas — Solidly Republican state, 30 million residents. Governor Greg Abbott (R). Key fault lines: Abbott's Operation Lone Star border policy, abortion ban with no exceptions, ERCOT power grid failure killing hundreds, trans youth healthcare ban, gun laws after mass shootings in Uvalde and El Paso, AG Ken Paxton's impeachment trial, and the Ted Cruz vs. Colin Allred Senate race.`,
+  TX: `Texas — Solidly Republican state, 30 million residents. Governor Greg Abbott (R). Key figures: AG Ken Paxton, Lt. Gov. Dan Patrick. Current fault lines: border and immigration enforcement operations, abortion ban with medical exception fights, ERCOT power grid reliability after 2021 failure, school voucher program battles, AG Paxton's post-impeachment political rehabilitation, gun policy after Uvalde, and the 2026 Senate race.`,
 
-  NY: `New York — Democratic-dominated state, 20 million residents. Governor Kathy Hochul (D). Key fault lines: the migrant shelter crisis overwhelming NYC, rising subway crime and violent attacks, congestion pricing reversal, housing density battles in suburbs, Hochul's perceived weakness, the Adams federal indictment, and progressive vs. moderate Democrats tearing the party apart.`,
+  NY: `New York — Democratic-dominated state, 20 million residents. Governor Kathy Hochul (D). Key figures: Mayor Eric Adams (federal indictment), AG Letitia James. Current fault lines: migrant crisis overwhelming city shelters, NYC subway crime and safety, Adams corruption case outcome, Hochul's congestion pricing reversal, housing density battles, progressive vs. moderate Democratic civil war, and the 2026 governor's primary.`,
+
+  AZ: `Arizona — Battleground state, 7.5 million residents. Governor Katie Hobbs (D), facing a Republican-controlled legislature. Key figures: AG Kris Mayes, Senators Mark Kelly and Kyrsten Sinema. Current fault lines: water scarcity and Colorado River compact, border and migration policy, abortion rights after the 1864 law revival, election integrity disputes, copper mining on sacred land, and 2026 Senate and governor's races already in motion.`,
+
+  GA: `Georgia — Competitive state, 11 million residents. Governor Brian Kemp (R). Key figures: AG Chris Carr, Secretary of State Brad Raffensperger, Senator Jon Ossoff (D) up for re-election. Current fault lines: the 2020 election interference prosecution of Trump and co-defendants in Fulton County, voting rights and election law battles, economic development vs. environmental concerns, abortion access after the heartbeat bill, and the 2026 Senate race.`,
+
+  PA: `Pennsylvania — Critical battleground state, 13 million residents. Governor Josh Shapiro (D), divided legislature. Key figures: AG Michelle Henry. Current fault lines: Shapiro's vice-presidential-run fallout and national ambitions, Philadelphia crime and gun violence, school funding equity lawsuit outcomes, natural gas fracking policy, election administration disputes, and the 2026 Senate race to replace Bob Casey.`,
+
+  OH: `Ohio — Lean-Republican state, 12 million residents. Governor Mike DeWine (R). Key figures: AG Dave Yost, Senator Sherrod Brown (D). Current fault lines: the East Palestine train derailment accountability, reproductive rights after voters enshrined abortion access in the constitution, prescription drug pricing, rural economic decline, and Senator Brown's 2026 re-election fight in a state Trump won twice.`,
+
+  MI: `Michigan — Democratic trifecta state, 10 million residents. Governor Gretchen Whitmer (D). Key figures: AG Dana Nessel, Secretary of State Jocelyn Benson. Current fault lines: Whitmer's 2028 presidential positioning, auto industry transition to EVs and UAW labor tensions, Arab-American voter anger over Gaza policy, abortion rights implementation after Prop 3 passed, education funding, and water quality policy.`,
+
+  NV: `Nevada — Competitive swing state, 3.2 million residents. Governor Joe Lombardo (R), Democratic-controlled legislature. Current fault lines: housing affordability and homelessness in Las Vegas, water rights and Colorado River allocation, gaming industry regulation and expansion, immigration and sanctuary city tensions, Lombardo's vetoes vs. legislative agenda, and the 2026 Senate race.`,
 }
 
-const CONTROVERSIES: Record<string, { label: string; sub: string; prompt: string; iconBg: string; iconColor: string; border: string; glow: string }> = {
-  hot_fight: {
-    label: 'The Hottest Fight',
-    sub: 'The #1 battle right now',
-    iconBg: 'oklch(0.93 0.06 25)',
-    iconColor: 'oklch(0.46 0.20 25)',
-    border: 'rgba(230, 50, 40, 0.40)',
-    glow: 'rgba(230, 50, 40, 0.15)',
-    prompt: `What is the single most explosive political controversy in this state right now?
-- Name it directly — do not be vague.
-- What exactly are the two sides fighting about, in plain language?
-- Who are the key players on each side — name them?
-- Why does this particular fight matter to ordinary residents?
-- How is this likely to end — who has the upper hand?
-Do not hedge. Pick the one controversy that has the most heat and break it down like a political insider.`,
+const CONTROVERSIES: Record<string, {
+  label: string
+  sub: string
+  prompt: string
+  iconBg: string
+  iconColor: string
+  border: string
+  glow: string
+}> = {
+  fact_check: {
+    label: 'Fact Check & Context',
+    sub: 'What is actually true?',
+    iconBg: 'oklch(0.93 0.06 160)',
+    iconColor: 'oklch(0.40 0.16 160)',
+    border: 'rgba(20, 160, 110, 0.40)',
+    glow: 'rgba(20, 160, 110, 0.15)',
+    prompt: `Identify the three to five most significant election claims currently circulating in this state — from candidates, campaigns, advocacy groups, or media — and evaluate each one honestly.
+
+For each claim, answer all of the following:
+- State the claim in plain language exactly as it is being made. Who is making it and against whom?
+- What does the available evidence actually show? Cite specific data, studies, court records, or official reports.
+- Is the claim supported, partially true, missing critical context, misleading, or false?
+- What do independent experts, fact-checkers, or nonpartisan analysts say about it?
+- What crucial context is being left out that changes how the claim should be understood?
+- Has the claim caused real-world harm to voters' understanding of the issues?
+
+Only cover claims from the last 180 days. Do not cover claims that have already been resolved or retracted. Prioritize claims that are actively influencing how voters understand the election. Be ruthlessly fair — fact-check both parties equally with no favoritism.`,
   },
 
-  scandal: {
-    label: 'Scandals & Corruption',
-    sub: 'Who got caught doing what',
+  accusations: {
+    label: 'Accusations',
+    sub: 'Allegations, lawsuits & investigations',
     iconBg: 'oklch(0.93 0.05 290)',
     iconColor: 'oklch(0.44 0.16 290)',
     border: 'rgba(150, 50, 200, 0.40)',
     glow: 'rgba(150, 50, 200, 0.15)',
-    prompt: `What are the most significant political scandals and corruption cases in this state right now?
-- Who is accused of what, specifically?
-- Is it a criminal case, ethics violation, or political controversy?
-- What happened as a result — did anyone resign, get indicted, or face consequences?
-- How has this damaged or changed the political landscape?
-- Are there ongoing investigations voters should know about?
-Be specific with names, charges, and outcomes. Voters deserve to know who is in trouble and why.`,
+    prompt: `Identify the most serious accusations, legal cases, ethics complaints, and formal investigations involving candidates or elected officials in this state within the last 180 days.
+
+For each accusation, answer all of the following:
+- What exactly is the accusation? Describe it with full factual specificity — not vague characterizations.
+- Who made the accusation and in what formal or public venue — lawsuit, ethics board, press conference, investigation?
+- What concrete evidence has been publicly presented to support it? What evidence is still missing or disputed?
+- Has the accused candidate or official formally responded? What did they say, specifically?
+- What is the current legal or procedural status — ongoing investigation, dismissed, indicted, under appeal?
+- What consequences could the accused face if the accusations are proven true?
+- How has this accusation affected the race — have polls shifted, donors pulled out, or endorsements been withdrawn?
+
+Prioritize active cases with real stakes. Do not include accusations that have been fully dismissed or resolved. Include lawsuits, ethics complaints, federal or state investigations, and credible public accusations with documented evidence.`,
   },
 
-  vs_fight: {
-    label: 'Republicans vs Democrats',
-    sub: 'The core disagreement',
-    iconBg: 'oklch(0.93 0.04 220)',
-    iconColor: 'oklch(0.42 0.14 220)',
-    border: 'rgba(40, 120, 220, 0.40)',
-    glow: 'rgba(40, 120, 220, 0.15)',
-    prompt: `What is the defining battle between Republicans and Democrats in this state — the one that captures their core disagreement?
-- What specific policy or law are they fighting over?
-- What does each side say — quote their actual arguments, not paraphrases?
-- Who has been winning this fight legislatively, legally, and in public opinion?
-- How has this fight affected real people's lives in this state?
-- Is there any chance of compromise, or is this a permanent divide?
-Write this like a referee calling a boxing match — fair to both sides but honest about who is landing the harder punches.`,
+  public_criticism: {
+    label: 'Public Criticism',
+    sub: 'Who is under fire and why',
+    iconBg: 'oklch(0.94 0.06 25)',
+    iconColor: 'oklch(0.46 0.20 25)',
+    border: 'rgba(230, 50, 40, 0.40)',
+    glow: 'rgba(230, 50, 40, 0.15)',
+    prompt: `Identify the most significant public criticism facing the major candidates and elected officials in this state from the last 180 days. This is not about legal cases — it is about criticism from peers, institutions, and the public.
+
+For each major criticism, answer all of the following:
+- Who is being criticized and for what specific action, statement, vote, or policy?
+- Who is doing the criticizing — an opposing candidate, a party leader, a newspaper editorial board, an advocacy group, community organizations, or members of their own party?
+- What specifically are they saying? Quote the criticism directly if possible.
+- Is the criticism fair, and what is the evidence on both sides?
+- How has the candidate or official responded to the criticism?
+- Has the criticism gained traction — is it changing public opinion, generating media coverage, or influencing the race?
+- Is there criticism coming from within their own party or coalition? That is often the most damaging.
+
+Include criticism from all directions — left, right, and nonpartisan. Give particular weight to criticism from unexpected sources, such as former allies or members of the same party.`,
   },
 
-  media_war: {
-    label: 'Media War',
-    sub: 'What they say about each other',
-    iconBg: 'oklch(0.93 0.05 160)',
-    iconColor: 'oklch(0.42 0.14 160)',
-    border: 'rgba(20, 160, 110, 0.40)',
-    glow: 'rgba(20, 160, 110, 0.15)',
-    prompt: `What are Republicans and Democrats in this state saying about each other in the press and on social media right now?
-- What is the harshest thing Republicans are saying about the Democratic leadership — and is it fair?
-- What is the harshest thing Democrats are saying about the Republican leadership — and is it fair?
-- Which political attacks have landed and actually changed public opinion?
-- Which attacks have backfired?
-- Who controls the narrative in this state's media environment — left-leaning outlets, right-leaning outlets, or neither?
-Be blunt and specific. Tell voters what the actual attacks are, word for word if possible.`,
-  },
+  past_actions: {
+    label: 'Past Actions',
+    sub: "Their record vs. what they claim",
+    iconBg: 'oklch(0.93 0.05 50)',
+    iconColor: 'oklch(0.44 0.16 50)',
+    border: 'rgba(200, 130, 20, 0.40)',
+    glow: 'rgba(200, 130, 20, 0.15)',
+    prompt: `Examine the actual record of the major candidates in this state — what they have done in office or in their careers — and compare it to what they are currently claiming on the campaign trail.
 
-  social_divide: {
-    label: 'Social Divides',
-    sub: 'Race, class & culture wars',
-    iconBg: 'oklch(0.93 0.05 60)',
-    iconColor: 'oklch(0.44 0.14 60)',
-    border: 'rgba(180, 140, 20, 0.40)',
-    glow: 'rgba(180, 140, 20, 0.15)',
-    prompt: `What are the deepest social and cultural controversies dividing this state's residents right now?
-- What is the most divisive social or cultural issue — race, immigration, education, religion, LGBTQ rights, or something else?
-- How does this divide break down — is it urban vs. rural, white vs. minority, young vs. old?
-- What specific laws or policies have been passed or proposed that sparked outrage on one side?
-- Who are the loudest voices on each side, and what are they saying?
-- Is this divide getting wider or narrowing?
-Do not sanitize this. Tell voters what the real cultural fault lines are and who is on each side.`,
-  },
+For each major candidate worth covering, answer all of the following:
+- What are the three most important votes, decisions, or actions they have taken in their political or professional career that voters may not fully understand?
+- Where does their actual record contradict or complicate what they are currently saying on the campaign trail?
+- What did they say or do five to ten years ago that conflicts with their current positions — and have they explained the change?
+- What legislation or policy did they author, support, or block that had direct consequences for residents of this state?
+- Are there patterns in their record — recurring votes, donor relationships, or policy positions — that tell a deeper story about who they actually are?
+- What do their opponents say about their record, and is that criticism accurate?
 
-  broken_promise: {
-    label: 'Broken Promises',
-    sub: 'What they said vs. what happened',
-    iconBg: 'oklch(0.94 0.06 38)',
-    iconColor: 'oklch(0.46 0.17 38)',
-    border: 'rgba(225, 110, 20, 0.40)',
-    glow: 'rgba(225, 110, 20, 0.15)',
-    prompt: `What major promises have politicians in this state made to voters that they have failed to keep?
-- What did the governor or key legislators specifically promise — use their actual words if possible?
-- What actually happened, and how far did the result fall short?
-- How are voters and the opposing party calling them out on this?
-- Which broken promise has caused the most political damage?
-- Is there any politician who has actually delivered on what they promised?
-Be tough here. Politicians get held accountable by informed voters. Name who promised what, when, and whether they delivered.`,
+Focus on documented actions — votes, signed legislation, public statements on record, court filings, donor disclosures, and official decisions. Do not speculate. The goal is to give voters the context they need to evaluate claims against documented reality.`,
   },
 }
 
 export async function POST(req: Request) {
   const { stateCode, topicKey } = await req.json()
 
-  const stateContext = STATE_CONTEXT[stateCode]
+  const stateContext = STATE_CONTEXT[stateCode] ?? `${stateCode} — a U.S. state with active races in the 2026 election cycle. Provide a thorough, state-specific briefing based on the best available political information for this state.`
   const topic = CONTROVERSIES[topicKey]
 
-  if (!stateContext || !topic) {
-    return new Response('Invalid state or topic', { status: 400 })
+  if (!topic) {
+    return new Response('Invalid topic', { status: 400 })
   }
 
   const result = streamText({
     model: 'google/gemini-2.5-flash',
-    system: `You are an investigative political journalist who covers U.S. state politics. You are known for calling out hypocrisy on both sides, naming names, and refusing to sanitize uncomfortable political realities.
+    system: `You are a nonpartisan investigative political journalist specializing in U.S. state politics. You are known for rigorous sourcing, holding all sides accountable equally, and giving voters the honest context they cannot get from partisan media.
 
 Your rules:
-- Be specific. Name the actual politicians, laws, events, and dates. Never be vague or generic.
-- Be genuinely balanced — hold both parties accountable equally.
-- Be concise but complete. 4 to 6 paragraphs. No fluff or filler.
-- Write in direct, punchy prose. No markdown headers, no bullet points, no bold text.
-- Do not moralize or editorialize. Report what is happening and let voters decide.
-- If a controversy has a clear villain or clear failure, say so — but back it up with facts.`,
+- TIME CONSTRAINT: Only reference events, claims, cases, and developments from the last 180 days. Do not surface outdated accusations, resolved cases, or superseded claims. If something is older than 180 days and no longer active, skip it.
+- Be specific. Use real names, real offices, real legislation, and real dates. Vague generalities waste voters' time.
+- Be genuinely balanced. Hold Democrats and Republicans accountable with identical rigor. No partisan framing.
+- Be honest about uncertainty. If evidence is incomplete or disputed, say so explicitly — do not pretend certainty where none exists.
+- Be concise but complete. 5 to 7 short paragraphs. Every sentence must serve the voter.
+- Write in clear, direct prose. No markdown headers, no bullet points, no bold text — flowing paragraphs only.
+- Treat readers as intelligent adults. Do not condescend, moralize, or editorialize.
+- Surface what is being underreported. If the major media is missing something voters need to know, include it.`,
     prompt: `State context:\n${stateContext}\n\n---\n\n${topic.prompt}`,
   })
 

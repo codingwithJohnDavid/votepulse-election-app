@@ -2,26 +2,26 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Flame, ChevronLeft, Sparkles, Loader2, Zap, ShieldAlert, Swords, Tv, Users, AlertTriangle } from 'lucide-react'
+import { Flame, ChevronLeft, Sparkles, Loader2, ShieldCheck, ShieldAlert, MessageSquareWarning, Clock } from 'lucide-react'
 import PageShell from '@/components/page-shell'
 import FloatingHomeButton from '@/components/floating-home-button'
 import { useActiveState } from '@/lib/state-context'
 
 const TOPICS = [
   {
-    key: 'hot_fight',
-    label: 'The Hottest Fight',
-    sub: 'The #1 battle right now',
-    Icon: Zap,
-    iconBg: 'oklch(0.93 0.06 25)',
-    iconColor: 'oklch(0.46 0.20 25)',
-    border: 'rgba(230, 50, 40, 0.40)',
-    glow: 'rgba(230, 50, 40, 0.15)',
+    key: 'fact_check',
+    label: 'Fact Check & Context',
+    sub: 'What is actually true?',
+    Icon: ShieldCheck,
+    iconBg: 'oklch(0.93 0.06 160)',
+    iconColor: 'oklch(0.40 0.16 160)',
+    border: 'rgba(20, 160, 110, 0.40)',
+    glow: 'rgba(20, 160, 110, 0.15)',
   },
   {
-    key: 'scandal',
-    label: 'Scandals & Corruption',
-    sub: 'Who got caught doing what',
+    key: 'accusations',
+    label: 'Accusations',
+    sub: 'Allegations, lawsuits & investigations',
     Icon: ShieldAlert,
     iconBg: 'oklch(0.93 0.05 290)',
     iconColor: 'oklch(0.44 0.16 290)',
@@ -29,44 +29,24 @@ const TOPICS = [
     glow: 'rgba(150, 50, 200, 0.15)',
   },
   {
-    key: 'vs_fight',
-    label: 'Republicans vs Democrats',
-    sub: 'The core disagreement',
-    Icon: Swords,
-    iconBg: 'oklch(0.93 0.04 220)',
-    iconColor: 'oklch(0.42 0.14 220)',
-    border: 'rgba(40, 120, 220, 0.40)',
-    glow: 'rgba(40, 120, 220, 0.15)',
+    key: 'public_criticism',
+    label: 'Public Criticism',
+    sub: 'Who is under fire and why',
+    Icon: MessageSquareWarning,
+    iconBg: 'oklch(0.93 0.06 25)',
+    iconColor: 'oklch(0.46 0.20 25)',
+    border: 'rgba(230, 50, 40, 0.40)',
+    glow: 'rgba(230, 50, 40, 0.15)',
   },
   {
-    key: 'media_war',
-    label: 'Media War',
-    sub: 'What they say about each other',
-    Icon: Tv,
-    iconBg: 'oklch(0.93 0.05 160)',
-    iconColor: 'oklch(0.42 0.14 160)',
-    border: 'rgba(20, 160, 110, 0.40)',
-    glow: 'rgba(20, 160, 110, 0.15)',
-  },
-  {
-    key: 'social_divide',
-    label: 'Social Divides',
-    sub: 'Race, class & culture wars',
-    Icon: Users,
-    iconBg: 'oklch(0.93 0.05 60)',
-    iconColor: 'oklch(0.44 0.14 60)',
-    border: 'rgba(180, 140, 20, 0.40)',
-    glow: 'rgba(180, 140, 20, 0.15)',
-  },
-  {
-    key: 'broken_promise',
-    label: 'Broken Promises',
-    sub: 'Said vs. what happened',
-    Icon: AlertTriangle,
-    iconBg: 'oklch(0.94 0.06 38)',
-    iconColor: 'oklch(0.46 0.17 38)',
-    border: 'rgba(225, 110, 20, 0.40)',
-    glow: 'rgba(225, 110, 20, 0.15)',
+    key: 'past_actions',
+    label: 'Past Actions',
+    sub: 'Their record vs. what they claim',
+    Icon: Clock,
+    iconBg: 'oklch(0.93 0.05 50)',
+    iconColor: 'oklch(0.44 0.16 50)',
+    border: 'rgba(200, 130, 20, 0.40)',
+    glow: 'rgba(200, 130, 20, 0.15)',
   },
 ]
 
