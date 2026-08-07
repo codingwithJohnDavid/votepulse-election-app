@@ -107,7 +107,7 @@ export default function HomePage() {
             Hi, {firstName}
           </h1>
           <p className="text-[14px] text-muted-foreground mt-0.5">
-            Welcome to VotePulse.
+            Welcome to VoterAI.
           </p>
 
           {/* State chip */}

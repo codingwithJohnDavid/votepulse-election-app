@@ -272,7 +272,7 @@ function ResultsInner() {
   const handleShare = useCallback(async () => {
     try {
       if (navigator.share) {
-        await navigator.share({ title: 'VotePulse Results', url: window.location.href })
+        await navigator.share({ title: 'VoterAI Results', url: window.location.href })
       } else {
         await navigator.clipboard.writeText(window.location.href)
       }
@@ -613,7 +613,7 @@ function ResultsInner() {
 
             {/* X / Twitter */}
             <a
-              href={`https://twitter.com/intent/tweet?text=Check out the live election results on VotePulse!&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+              href={`https://twitter.com/intent/tweet?text=Check out the live election results on VoterAI!&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Share on X"

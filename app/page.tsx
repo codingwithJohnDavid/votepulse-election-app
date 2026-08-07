@@ -117,7 +117,7 @@ export default function LandingPage() {
             transition={{ duration: 0.4, delay: 0.15 }}
           >
             <h1 className="text-[28px] font-black text-foreground leading-tight">
-              VotePulse
+              VoterAI
             </h1>
             <p className="text-[14px] text-muted-foreground mt-1 text-balance max-w-[240px] mx-auto">
               Your personal political analyst, powered by AI.

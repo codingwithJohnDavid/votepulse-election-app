@@ -8,7 +8,7 @@ import { FloatingActionProvider } from '@/lib/floating-action-context'
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 export const metadata: Metadata = {
-  title: 'VotePulse — Your Voice, Your Vote',
+  title: 'VoterAI — Your Voice, Your Vote',
   description:
     'Discover candidates, explore issues, and see how America is voting in real time. A civic participation app built for the midterm elections.',
   generator: 'v0.app',

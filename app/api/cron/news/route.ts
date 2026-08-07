@@ -82,7 +82,7 @@ export async function GET(request: Request) {
     try {
       const rssUrl = `https://news.google.com/rss/search?q=${state.query}&hl=en-US&gl=US&ceid=US:en`
       const res = await fetch(rssUrl, {
-        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; VotePulse/1.0)' },
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; VoterAI/1.0)' },
         next: { revalidate: 0 },
       })
 

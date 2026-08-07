@@ -185,7 +185,7 @@ export default function DemographicsPage() {
             <div>
               <p className="text-sm font-bold text-amber-800">Age Restriction</p>
               <p className="text-xs text-amber-700 leading-relaxed mt-0.5">
-                VotePulse is available to users 18 and older. You can still explore candidate information.
+                VoterAI is available to users 18 and older. You can still explore candidate information.
               </p>
             </div>
           </div>
