@@ -160,8 +160,15 @@ function YourBallot({ picks }: { picks: BallotPick[] }) {
   if (picks.length === 0) return null
 
   return (
-    <div className="mx-5 mb-3 bg-card rounded-3xl overflow-hidden shadow-sm">
-      <div className="px-5 pt-5 pb-4 border-b border-border">
+    <div
+      className="mx-5 mb-3 rounded-3xl overflow-hidden"
+      style={{
+        background: '#ffffff',
+        border: '1.5px solid rgba(16, 185, 129, 0.35)',
+        boxShadow: '0 4px 20px rgba(16, 185, 129, 0.12), 0 1px 4px rgba(0,0,0,0.04)',
+      }}
+    >
+      <div className="px-5 pt-5 pb-4 border-b border-border/50">
         <div className="flex items-center gap-2 mb-0.5">
           <CheckCircle2 size={16} className="text-emerald-500" aria-hidden="true" />
           <h2 className="font-black text-[17px] text-foreground">Your Ballot</h2>
@@ -351,14 +358,24 @@ function ResultsInner() {
     ? activeState.name
     : (stateCode ?? activeState.name)
 
+  // Purple glow style used for generic cards (donut, demographics, share)
+  const purpleCard = {
+    background: '#ffffff',
+    border: '1.5px solid rgba(148, 60, 210, 0.30)',
+    boxShadow: '0 4px 20px rgba(148, 60, 210, 0.10), 0 1px 4px rgba(0,0,0,0.04)',
+  }
+
   return (
     <PageShell>
-      <div className="flex flex-col min-h-svh bg-[#f0f0f5]">
+      <div className="flex flex-col min-h-svh bg-background">
 
         {/* ── Header ── */}
-        <header className="bg-card px-5 pt-14 pb-4 border-b border-border">
-          <h1 className="text-2xl font-black text-foreground mb-1">Live Results</h1>
-          <p className="text-sm text-muted-foreground">{stateName} · 2026 Midterms</p>
+        <header className="bg-background px-5 pt-6 pb-4">
+          <h1 className="text-[22px] font-black text-foreground mb-0.5">Live Results</h1>
+          <div className="inline-flex items-center gap-1.5 bg-muted/60 border border-border rounded-full px-3 py-1.5 mt-1">
+            <span className="text-foreground text-xs font-semibold">{stateName}</span>
+            <span className="text-xs text-muted-foreground">· 2026 Midterms</span>
+          </div>
         </header>
 
         <div className="flex-1 overflow-y-auto pb-24">
@@ -396,7 +413,7 @@ function ResultsInner() {
                     'shrink-0 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200',
                     activeRace?.raceId === r.raceId
                       ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'bg-card text-muted-foreground border border-border hover:border-primary/40'
+                      : 'bg-white text-muted-foreground border border-border/60 hover:border-primary/40'
                   )}
                 >
                   {r.raceLabel}
@@ -413,7 +430,8 @@ function ResultsInner() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="mx-5 mb-3 bg-card rounded-3xl px-3 py-4 shadow-sm"
+              className="mx-5 mb-3 rounded-3xl px-3 py-4"
+              style={purpleCard}
             >
               {/* Flanking stats + donut */}
               <div className="flex items-center justify-between gap-1">
@@ -501,7 +519,7 @@ function ResultsInner() {
           </AnimatePresence>
 
           {/* ── Results by Candidate ── */}
-          <div className="mx-5 mb-3 bg-card rounded-3xl px-5 py-5 shadow-sm">
+          <div className="mx-5 mb-3 rounded-3xl px-5 py-5" style={purpleCard}>
             <h2 className="font-black text-[17px] text-foreground mb-4">Results by Candidate</h2>
             <div className="space-y-0 divide-y divide-border">
               {race.candidates.map((c, i) => {
@@ -553,7 +571,7 @@ function ResultsInner() {
           </div>
 
           {/* ── Demographics accordion ── */}
-          <div className="mx-5 mb-3 bg-card rounded-3xl px-5 shadow-sm">
+          <div className="mx-5 mb-3 rounded-3xl px-5" style={purpleCard}>
             <div className="pt-5 pb-3 border-b border-border">
               <h2 className="font-black text-[17px] text-foreground">Results by Demographics</h2>
               <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
