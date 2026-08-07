@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import PageShell from '@/components/page-shell'
-import FloatingHomeButton from '@/components/floating-home-button'
 import { cn } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 
@@ -43,28 +43,52 @@ export default function SignInPage() {
 
   return (
     <PageShell withNav={false}>
-      <div className="flex flex-col min-h-svh bg-card">
-        {/* Header */}
-        <div
-          className="px-5 pt-14 pb-10"
-          style={{ background: 'linear-gradient(165deg, oklch(0.36 0.22 285) 0%, oklch(0.50 0.18 275) 100%)' }}
-        >
+      <div className="flex flex-col min-h-svh bg-background">
+
+        {/* ── Header ── */}
+        <header className="px-5 pt-12 pb-6 flex flex-col items-center text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm mb-6 transition-colors"
+            className="self-start inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-sm mb-6 transition-colors"
             aria-label="Back to home"
           >
             <ArrowLeft size={16} aria-hidden="true" />
             Back
           </Link>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <h1 className="text-3xl font-black text-white mb-1 tracking-tight">Welcome Back</h1>
-            <p className="text-white/65 text-sm">Your voice is waiting for you.</p>
-          </motion.div>
-        </div>
 
-        {/* Form */}
-        <div className="flex-1 px-5 py-8">
+          <motion.div
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="mb-3"
+          >
+            <Image
+              src="/images/voterai-icon-final.png"
+              alt="VoterAI"
+              width={90}
+              height={90}
+              className="object-contain"
+              priority
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
+            <h1 className="text-[26px] font-black text-foreground tracking-tight">Welcome Back</h1>
+            <p className="text-sm text-muted-foreground mt-1">Your voice is waiting for you.</p>
+          </motion.div>
+        </header>
+
+        {/* ── Form ── */}
+        <motion.div
+          className="flex-1 px-5 pb-10"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+        >
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="email" className="text-sm font-semibold">
@@ -76,7 +100,7 @@ export default function SignInPage() {
                 placeholder="jane@example.com"
                 value={form.email}
                 onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                className="rounded-xl h-12 bg-muted border-0 focus-visible:ring-2 focus-visible:ring-primary text-sm"
+                className="rounded-2xl h-12 bg-muted border-0 focus-visible:ring-2 focus-visible:ring-primary text-sm"
                 autoComplete="email"
               />
             </div>
@@ -97,7 +121,7 @@ export default function SignInPage() {
                   placeholder="••••••••"
                   value={form.password}
                   onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                  className="rounded-xl h-12 bg-muted border-0 focus-visible:ring-2 focus-visible:ring-primary text-sm"
+                  className="rounded-2xl h-12 bg-muted border-0 focus-visible:ring-2 focus-visible:ring-primary text-sm"
                   autoComplete="current-password"
                 />
                 <button
@@ -120,16 +144,20 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-[15px] transition-opacity hover:opacity-90 disabled:opacity-60 active:scale-95"
+              className="mt-2 w-full py-4 rounded-2xl font-bold text-[15px] text-white transition-all hover:opacity-90 disabled:opacity-60 active:scale-[0.98]"
+              style={{
+                background: 'linear-gradient(135deg, oklch(0.40 0.20 280), oklch(0.50 0.18 265))',
+                boxShadow: '0 4px 20px rgba(80, 60, 200, 0.28)',
+              }}
             >
               {loading ? 'Signing in…' : 'Sign In'}
             </button>
           </form>
 
           {/* Divider */}
-          <div className="flex items-center gap-3 my-7">
+          <div className="flex items-center gap-3 my-6">
             <div className="flex-1 h-px bg-border" aria-hidden="true" />
-            <span className="text-xs text-muted-foreground">or continue with</span>
+            <span className="text-xs text-muted-foreground">or</span>
             <div className="flex-1 h-px bg-border" aria-hidden="true" />
           </div>
 
@@ -139,7 +167,7 @@ export default function SignInPage() {
             onClick={() => router.push('/home')}
             className={cn(
               'w-full py-4 rounded-2xl border border-border text-foreground font-semibold text-sm',
-              'transition-colors hover:bg-muted active:scale-95',
+              'transition-colors hover:bg-muted active:scale-[0.98] bg-background',
             )}
           >
             Continue as Guest
@@ -151,9 +179,8 @@ export default function SignInPage() {
               Sign up
             </Link>
           </p>
-        </div>
+        </motion.div>
       </div>
-      <FloatingHomeButton />
     </PageShell>
   )
 }
