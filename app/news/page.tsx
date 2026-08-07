@@ -160,31 +160,32 @@ export default function NewsPage() {
                   })}
                 </div>
 
-                {/* Request a Headline — full width */}
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.22, delay: 0.28 }}
-                  onClick={handleRequestHeadline}
-                  className="w-full flex items-center gap-4 px-5 py-4 rounded-3xl transition-all active:scale-[0.98]"
-                  style={{
-                    background: '#ffffff',
-                    border: '1.5px solid rgba(148, 60, 210, 0.30)',
-                    boxShadow: '0 4px 16px rgba(148, 60, 210, 0.10), 0 1px 4px rgba(0,0,0,0.04)',
-                  }}
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: 'oklch(0.94 0.05 290)' }}
+                {/* Request a Headline — same size as grid tiles */}
+                <div className="grid grid-cols-2 gap-3">
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.22, delay: 0.28 }}
+                    onClick={handleRequestHeadline}
+                    className="flex flex-col items-center justify-center gap-3 p-5 rounded-3xl transition-all active:scale-[0.97] min-h-[150px]"
+                    style={{
+                      background: '#ffffff',
+                      border: '1.5px solid rgba(148, 60, 210, 0.30)',
+                      boxShadow: '0 4px 16px rgba(148, 60, 210, 0.10), 0 1px 4px rgba(0,0,0,0.04)',
+                    }}
                   >
-                    <MessageSquarePlus size={22} style={{ color: 'oklch(0.45 0.18 290)' }} aria-hidden="true" />
-                  </div>
-                  <div className="flex flex-col items-start text-left">
-                    <p className="font-bold text-[14px] text-foreground leading-tight">Request a Headline</p>
-                    <p className="text-[12px] text-muted-foreground mt-0.5">Tell us what you want covered</p>
-                  </div>
-                  <ChevronLeft size={18} className="text-muted-foreground ml-auto rotate-180 shrink-0" aria-hidden="true" />
-                </motion.button>
+                    <div
+                      className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: 'oklch(0.94 0.05 290)' }}
+                    >
+                      <MessageSquarePlus size={22} style={{ color: 'oklch(0.45 0.18 290)' }} aria-hidden="true" />
+                    </div>
+                    <div className="flex flex-col items-center text-center">
+                      <p className="font-bold text-[13px] text-foreground leading-tight">Request a Headline</p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5">Tell us what you want covered</p>
+                    </div>
+                  </motion.button>
+                </div>
               </main>
             </motion.div>
 
