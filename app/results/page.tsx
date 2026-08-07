@@ -520,16 +520,18 @@ function ResultsInner() {
           {/* ── Results by Candidate ── */}
           <div className="mx-5 mb-3 rounded-3xl px-5 py-5" style={purpleCard}>
 
-            {/* Header row with total votes */}
-            <div className="flex items-start justify-between mb-5">
-              <h2 className="font-black text-[17px] text-foreground">Results by Candidate</h2>
-              <div className="text-right">
-                <p className="text-[22px] font-black text-foreground leading-tight tabular-nums">
+            {/* Title */}
+            <h2 className="font-black text-[17px] text-foreground mb-4">Results by Candidate</h2>
+
+            {/* Total votes — centered pill */}
+            <div className="flex justify-center mb-5">
+              <div className="inline-flex flex-col items-center bg-primary/8 rounded-2xl px-8 py-3 gap-0.5">
+                <span className="text-[32px] font-black text-foreground leading-none tabular-nums">
                   {race.totalResponses.toLocaleString()}
-                </p>
-                <p className="text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+                </span>
+                <span className="text-[11px] font-bold tracking-widest text-primary uppercase">
                   Total Votes
-                </p>
+                </span>
               </div>
             </div>
 
