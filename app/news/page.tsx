@@ -62,7 +62,7 @@ export default function NewsPage() {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/news', {
+      const res = await fetch('/api/news-brief', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
