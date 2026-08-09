@@ -46,11 +46,19 @@ export default function LandingPage() {
               <p className="text-[13px] font-bold tracking-[0.18em] text-primary uppercase">
                 VoterAI
               </p>
-              <h1 className="mt-3 text-[30px] font-black text-foreground leading-[1.15] text-balance">
-                Vote. Compare. Understand.
+              <h1 className="mt-3 text-[34px] font-black text-foreground leading-[1.1] text-balance">
+                Know who you&apos;re voting for.{' '}
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{
+                    backgroundImage: 'linear-gradient(135deg, var(--primary), oklch(0.52 0.19 300))',
+                  }}
+                >
+                  Before you vote.
+                </span>
               </h1>
               <p className="mt-3 text-[15px] text-muted-foreground leading-relaxed text-pretty max-w-[300px] mx-auto">
-                Your personal political analyst — cast your ballot, then see how it holds up against real results, real candidates, and real people.
+                Your personal political assistant — cast your ballot, then see how it holds up against real results, real candidates, and real people.
               </p>
             </motion.header>
 
