@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Shield, BarChart3, Users, Vote, Flame, Newspaper, MapPin, ChevronRight, FileText } from 'lucide-react'
 
@@ -95,22 +94,6 @@ export default function LandingPage() {
 
         {/* ── Header ── */}
         <header className="px-5 pt-14 pb-4 flex flex-col items-center text-center">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.45, delay: 0.05 }}
-            className="mb-2"
-          >
-            <Image
-              src="/images/logo.png"
-              alt="VoterAI logo"
-              width={140}
-              height={140}
-              className="object-contain"
-              priority
-            />
-          </motion.div>
-
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}

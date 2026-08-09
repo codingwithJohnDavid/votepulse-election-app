@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, ArrowLeft, Check } from 'lucide-react'
@@ -121,22 +120,6 @@ export default function SignUpPage() {
             <ArrowLeft size={16} aria-hidden="true" />
             Back
           </Link>
-
-          <motion.div
-            initial={{ scale: 0.85, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="mb-3"
-          >
-            <Image
-              src="/images/logo.png"
-              alt="VoterAI"
-              width={90}
-              height={90}
-              className="object-contain"
-              priority
-            />
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
