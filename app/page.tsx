@@ -47,7 +47,7 @@ export default function LandingPage() {
                 VoterAI
               </p>
               <h1 className="mt-3 text-[34px] font-black text-foreground leading-[1.1] text-balance">
-                Know who you&apos;re voting for.{' '}
+                Know what you&apos;re voting for.{' '}
                 <span
                   className="bg-clip-text text-transparent"
                   style={{
