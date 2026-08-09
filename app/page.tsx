@@ -58,7 +58,7 @@ export default function LandingPage() {
                 </span>
               </h1>
               <p className="mt-3 text-[15px] text-muted-foreground leading-relaxed text-pretty max-w-[300px] mx-auto">
-                Your personal political assistant — cast your ballot, then see how it holds up against real results, real candidates, and real people.
+                Your personal political assistant. Record your ballot, then let AI break down every candidate and proposition — and see how your vote holds up against the media&apos;s results.
               </p>
             </motion.header>
 
