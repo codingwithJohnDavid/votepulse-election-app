@@ -175,11 +175,7 @@ export default function LandingPage() {
           >
             <Link
               href="/auth/signup"
-              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-bold text-[15px] text-white transition-all active:scale-[0.98]"
-              style={{
-                background: 'linear-gradient(135deg, oklch(0.40 0.20 280), oklch(0.50 0.18 265))',
-                boxShadow: '0 4px 20px rgba(80, 60, 200, 0.28)',
-              }}
+              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-bold text-[15px] text-primary-foreground bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all active:scale-[0.98]"
             >
               Get Started Free
               <ChevronRight size={16} aria-hidden="true" />

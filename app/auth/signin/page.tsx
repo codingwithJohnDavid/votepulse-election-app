@@ -127,11 +127,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 w-full py-4 rounded-2xl font-bold text-[15px] text-white transition-all hover:opacity-90 disabled:opacity-60 active:scale-[0.98]"
-              style={{
-                background: 'linear-gradient(135deg, oklch(0.40 0.20 280), oklch(0.50 0.18 265))',
-                boxShadow: '0 4px 20px rgba(80, 60, 200, 0.28)',
-              }}
+              className="mt-2 w-full py-4 rounded-2xl font-bold text-[15px] text-primary-foreground bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all disabled:opacity-60 active:scale-[0.98]"
             >
               {loading ? 'Signing in…' : 'Sign In'}
             </button>
