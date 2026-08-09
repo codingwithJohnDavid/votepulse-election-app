@@ -127,7 +127,11 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-2 w-full py-4 rounded-2xl font-bold text-[15px] text-primary-foreground bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all disabled:opacity-60 active:scale-[0.98]"
+              className="mt-2 w-full py-4 rounded-full font-bold text-[15px] text-primary-foreground transition-transform disabled:opacity-60 active:scale-[0.98]"
+              style={{
+                background: 'linear-gradient(135deg, var(--primary), oklch(0.52 0.19 300))',
+                boxShadow: '0 8px 24px -8px var(--primary)',
+              }}
             >
               {loading ? 'Signing in…' : 'Sign In'}
             </button>
@@ -145,8 +149,8 @@ export default function SignInPage() {
             type="button"
             onClick={() => router.push('/home')}
             className={cn(
-              'w-full py-4 rounded-2xl border border-border text-foreground font-semibold text-sm',
-              'transition-colors hover:bg-muted active:scale-[0.98] bg-background',
+              'w-full py-4 rounded-full border border-primary/30 text-primary font-semibold text-sm',
+              'transition-colors hover:bg-primary/5 active:scale-[0.98]',
             )}
           >
             Continue as Guest
